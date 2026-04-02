@@ -1,0 +1,365 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Hero Canvas - GSAP Image Sequence */
+#hero-canvas {
+    display: block;
+    background: #000;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+}
+
+/* Ensure hero section works with ScrollTrigger pin */
+#hero {
+    position: relative;
+    z-index: 1;
+}
+
+/* Studio Work - Remove borders from gallery items */
+.gallery-item {
+    border: none !important;
+}
+
+/* Studio Work - Images fill containers completely */
+.gallery-item img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    object-position: center !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* Vibration animation for error messages */
+@keyframes vibrate {
+    0% {
+        transform: translateX(0);
+    }
+
+    10% {
+        transform: translateX(-2px);
+    }
+
+    20% {
+        transform: translateX(2px);
+    }
+
+    30% {
+        transform: translateX(-2px);
+    }
+
+    40% {
+        transform: translateX(2px);
+    }
+
+    50% {
+        transform: translateX(-2px);
+    }
+
+    60% {
+        transform: translateX(2px);
+    }
+
+    70% {
+        transform: translateX(-2px);
+    }
+
+    80% {
+        transform: translateX(2px);
+    }
+
+    90% {
+        transform: translateX(-1px);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+}
+
+.animate-vibrate {
+    animation: vibrate 0.4s ease-in-out;
+}
+
+:root {
+    font-family: 'Inter', sans-serif;
+    line-height: 1.5;
+    font-weight: 400;
+    color-scheme: light dark;
+    color: #fff;
+    background-color: #000;
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* Scrollbar hiding */
+::-webkit-scrollbar {
+    display: none;
+}
+
+* {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+/* Transitions */
+.transition-wrapper {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+    pointer-events: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Draggable slider cursor */
+.studio-scroll-track {
+    cursor: grab;
+}
+
+.studio-scroll-track:active {
+    cursor: grabbing;
+}
+
+/* Hide default selection when dragging */
+.studio-scroll-track {
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+/* Custom cursor for grab/grabbing */
+.cursor-grab {
+    cursor: grab;
+}
+
+.cursor-grab:active,
+.cursor-grabbing {
+    cursor: grabbing;
+}
+
+.transition-svg {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* Gallery Modal Custom Scrollbar - Premium Style */
+/* Firefox */
+.overflow-y-auto {
+    scrollbar-width: thin;
+    scrollbar-color: #E0A9C5 #1a1a1a;
+}
+
+/* Chrome, Safari, Edge */
+.overflow-y-auto::-webkit-scrollbar {
+    width: 6px;
+}
+
+.overflow-y-auto::-webkit-scrollbar-track {
+    background: #1a1a1a;
+}
+
+.overflow-y-auto::-webkit-scrollbar-thumb {
+    background: #E0A9C5;
+    border-radius: 3px;
+}
+
+.overflow-y-auto::-webkit-scrollbar-thumb:hover {
+    background: #c990ad;
+}
+
+/* Premium smooth scroll with momentum */
+.gallery-scroll-container {
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+    overscroll-behavior: contain;
+    /* Enable momentum scrolling on iOS */
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+}
+
+/* Gallery modal grid container smooth scroll */
+.gallery-modal-scroll {
+    overflow-y: auto;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+    backface-visibility: hidden;
+}
+
+.lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+    overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+    overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+    pointer-events: none;
+}
+
+/* Remove any unwanted dots or markers */
+.tilted-card-container::before,
+.tilted-card-container::after {
+    content: none !important;
+    display: none !important;
+}
+
+/* Scroll snap for mobile/tablet studio work section */
+.scroll-snap-start {
+    scroll-snap-align: start;
+}
+
+/* Scrollbar hide utility */
+.scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+    display: none;
+}
+
+/* Mobile/Tablet studio section - enable native scroll */
+@media (max-width: 768px) {
+    .studio-scroll-track {
+        overflow-x: auto !important;
+        overflow-y: hidden !important;
+        scroll-snap-type: none !important;
+        -webkit-overflow-scrolling: touch;
+        scroll-behavior: auto;
+        height: 100%;
+        /* Remove spring-like bounce at edges */
+        overscroll-behavior: auto !important;
+        /* Add padding-left to match sidebar width so first image is fully visible */
+        padding-left: 66px !important;
+        /* Ensure proper scroll boundaries */
+        scroll-boundary-behavior: auto;
+    }
+
+    .studio-scroll-container {
+        overflow-x: auto !important;
+        overflow-y: hidden !important;
+        height: 100%;
+    }
+
+    #studio-work {
+        overflow: hidden !important;
+        height: 100vh;
+        min-height: 100vh;
+        max-height: 100vh;
+    }
+
+    /* Studio Work - Images fill containers */
+    .gallery-item img {
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover !important;
+        object-position: center !important;
+    }
+
+    /* Ensure first image stays in position when dragged */
+    .gallery-item:first-child {
+        scroll-snap-align: start;
+    }
+}
+
+/* Desktop styles - use native scroll with spring drag */
+@media (min-width: 1024px) {
+    .studio-scroll-track {
+        overflow-x: auto !important;
+        overflow-y: hidden !important;
+        scroll-snap-type: none;
+        -webkit-overflow-scrolling: touch;
+        scroll-behavior: auto;
+        height: 100%;
+        scroll-left: 0 !important;
+        overscroll-behavior: contain;
+        /* Allow first image to start clear of sidebar - matches slider padding + margin */
+        scroll-padding-left: 118px;
+    }
+
+    .studio-scroll-container {
+        overflow-x: auto !important;
+        overflow-y: hidden !important;
+        height: 100%;
+    }
+
+    #studio-work {
+        overflow-x: auto !important;
+        overflow-y: hidden !important;
+        height: 100vh;
+        min-height: 100vh;
+        max-height: 100vh;
+    }
+
+    /* Studio Work - Images fill containers */
+    .gallery-item img {
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover !important;
+        object-position: center !important;
+    }
+}
+
+/* Tablet styles - use native scroll without spring drag */
+@media (min-width: 769px) and (max-width: 1023px) {
+    .studio-scroll-track {
+        overflow-x: auto !important;
+        overflow-y: hidden !important;
+        scroll-snap-type: none !important;
+        -webkit-overflow-scrolling: touch;
+        scroll-behavior: auto;
+        height: 100%;
+        overscroll-behavior: auto !important;
+        /* Allow first image to start clear of sidebar - matches slider padding + margin */
+        padding-left: 90px !important;
+        scroll-boundary-behavior: auto;
+    }
+
+    .studio-scroll-container {
+        overflow-x: auto !important;
+        overflow-y: hidden !important;
+        height: 100%;
+    }
+
+    #studio-work {
+        overflow: hidden !important;
+        height: 100vh;
+        min-height: 100vh;
+        max-height: 100vh;
+    }
+
+    /* Studio Work - Images fill containers */
+    .gallery-item img {
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover !important;
+        object-position: center !important;
+    }
+}

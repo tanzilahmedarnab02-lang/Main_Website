@@ -292,27 +292,25 @@ body {
 /* Desktop styles - use native scroll with spring drag */
 @media (min-width: 1024px) {
     .studio-scroll-track {
-        overflow-x: auto !important;
-        overflow-y: hidden !important;
+        overflow-x: hidden;
+        overflow-y: hidden;
         scroll-snap-type: none;
         -webkit-overflow-scrolling: touch;
         scroll-behavior: auto;
         height: 100%;
-        scroll-left: 0 !important;
         overscroll-behavior: contain;
         /* Allow first image to start clear of sidebar - matches slider padding + margin */
         scroll-padding-left: 118px;
     }
 
     .studio-scroll-container {
-        overflow-x: auto !important;
-        overflow-y: hidden !important;
+        overflow-x: hidden;
+        overflow-y: hidden;
         height: 100%;
     }
 
     #studio-work {
-        overflow-x: auto !important;
-        overflow-y: hidden !important;
+        overflow: hidden;
         height: 100vh;
         min-height: 100vh;
         max-height: 100vh;

@@ -698,138 +698,40 @@ const App: React.FC = () => {
       const isDesktop = window.innerWidth >= 1024;
 
       if (isDesktop) {
-        // Desktop: use native scroll + mouse drag with spring bounce
-        track.style.scrollSnapType = 'none';
+        // Desktop: Use GSAP Draggable with x-transform for buttery smooth performance
+        track.style.overflowX = 'hidden';
         track.style.overflowY = 'hidden';
+        container.style.overflowX = 'hidden';
         container.style.overflowY = 'hidden';
-        container.style.width = '100%';
         track.style.cursor = 'grab';
         track.style.userSelect = 'none';
-        track.style.touchAction = 'pan-x';
+        track.style.touchAction = 'none'; // Prevent browser touch interference
 
-        // Reset scroll position to show first image fully
+        // Reset scroll position to ensure only transform is used
         track.scrollLeft = 0;
 
-        // Add mouse drag functionality with spring momentum
-        const handleMouseDown = (e: MouseEvent) => {
-          isDragging = true;
-          track.style.cursor = 'grabbing';
-          startX = e.pageX - track.offsetLeft;
-          scrollLeft = track.scrollLeft;
-          velocity = 0;
-          lastX = e.pageX;
-          lastTime = Date.now();
-
-          // Stop any momentum when starting to drag
-          if (momentumID) {
-            cancelAnimationFrame(momentumID);
-            momentumID = null;
+        // Initialize Draggable
+        Draggable.create(track, {
+          type: "x",
+          bounds: container,
+          edgeResistance: 0.8,
+          inertia: true, // Will work if InertiaPlugin is available, otherwise ignored
+          cursor: "grab",
+          activeCursor: "grabbing",
+          zIndexBoost: false,
+          force3D: true,
+          allowContextMenu: true,
+          onDragStart: function() {
+            gsap.killTweensOf(track);
+          },
+          snap: {
+            // Optional: Snap to items for a more controlled feel if requested
           }
-        };
+        });
 
-        const handleMouseLeave = () => {
-          if (isDragging) {
-            isDragging = false;
-            track.style.cursor = 'grab';
-            // Apply momentum on leave
-            applyMomentum();
-          }
-        };
-
-        const handleMouseUp = () => {
-          if (isDragging) {
-            isDragging = false;
-            track.style.cursor = 'grab';
-            // Apply momentum on release
-            applyMomentum();
-          }
-        };
-
-        const handleMouseMove = (e: MouseEvent) => {
-          if (!isDragging) return;
-          e.preventDefault();
-          const x = e.pageX - track.offsetLeft;
-          const walk = (x - startX) * 2; // Scroll speed multiplier
-          track.scrollLeft = scrollLeft - walk;
-
-          // Calculate velocity for momentum
-          const now = Date.now();
-          const dt = now - lastTime;
-          if (dt > 0) {
-            velocity = (e.pageX - lastX) / dt;
-          }
-          lastX = e.pageX;
-          lastTime = now;
-        };
-
-        // Spring momentum function - bounces back when at edges
-        const applyMomentum = () => {
-          const maxScroll = track.scrollWidth - track.clientWidth;
-          let currentVelocity = velocity * 15; // Velocity multiplier
-
-          const momentumStep = () => {
-            if (Math.abs(currentVelocity) < 0.5) {
-              // Apply spring bounce at edges
-              if (track.scrollLeft < 0) {
-                // Spring back from left edge
-                currentVelocity = -track.scrollLeft * 0.15;
-                track.scrollLeft += currentVelocity;
-                if (track.scrollLeft >= 0) {
-                  track.scrollLeft = 0;
-                  momentumID = null;
-                  return;
-                }
-              } else if (track.scrollLeft > maxScroll) {
-                // Spring back from right edge
-                currentVelocity = -(track.scrollLeft - maxScroll) * 0.15;
-                track.scrollLeft += currentVelocity;
-                if (track.scrollLeft <= maxScroll) {
-                  track.scrollLeft = maxScroll;
-                  momentumID = null;
-                  return;
-                }
-              } else {
-                momentumID = null;
-                return;
-              }
-            } else {
-              // Apply momentum with decay
-              track.scrollLeft -= currentVelocity;
-              currentVelocity *= 0.95; // Friction
-
-              // Bounce at edges
-              if (track.scrollLeft < 0) {
-                track.scrollLeft = 0;
-                currentVelocity *= -0.3; // Bounce with energy loss
-              } else if (track.scrollLeft > maxScroll) {
-                track.scrollLeft = maxScroll;
-                currentVelocity *= -0.3; // Bounce with energy loss
-              }
-            }
-
-            if (momentumID) {
-              momentumID = requestAnimationFrame(momentumStep);
-            }
-          };
-
-          momentumID = requestAnimationFrame(momentumStep);
-        };
-
-        // Remove old listeners if they exist
-        track.removeEventListener('mousedown', handleMouseDown);
-        track.removeEventListener('mouseleave', handleMouseLeave);
-        track.removeEventListener('mouseup', handleMouseUp);
-        track.removeEventListener('mousemove', handleMouseMove);
-
-        // Add new listeners
-        track.addEventListener('mousedown', handleMouseDown);
-        track.addEventListener('mouseleave', handleMouseLeave);
-        track.addEventListener('mouseup', handleMouseUp);
-        track.addEventListener('mousemove', handleMouseMove);
-
-        console.log('[Studio Work] Desktop: Using native scroll + mouse drag with spring bounce for full visibility', window.innerWidth);
+        console.log('[Studio Work] Desktop: GSAP Draggable initialized with x-transform');
       } else {
-        // Mobile/tablet: use native scroll - both horizontal and vertical
+        // Mobile/tablet: use native scroll with snap
         track.style.scrollSnapType = 'x mandatory';
         track.style.overflowX = 'auto';
         track.style.overflowY = 'auto';
@@ -839,7 +741,7 @@ const App: React.FC = () => {
         track.style.cursor = 'auto';
         track.style.userSelect = 'auto';
 
-        console.log('[Studio Work] Mobile/Tablet: Horizontal + Vertical scroll');
+        console.log('[Studio Work] Mobile/Tablet: Using native horizontal scroll');
       }
     };
 
@@ -847,7 +749,7 @@ const App: React.FC = () => {
     const timer = setTimeout(initSlider, 800);
     window.addEventListener('load', initSlider);
 
-    // Handle resize with debounce to recalculate bounds
+    // Handle resize with debounce
     let resizeTimer: NodeJS.Timeout;
     const handleResize = () => {
       clearTimeout(resizeTimer);
@@ -914,10 +816,9 @@ const App: React.FC = () => {
     // Strict clamping to prevent over-scroll
     targetX = Math.min(0, Math.max(minX, targetX));
 
-    gsap.killTweensOf(track);
     gsap.to(track, {
       x: targetX,
-      duration: 0.5,
+      duration: 0.8, // Increased duration for smoother stop
       ease: 'power3.out',
       force3D: true,
       onUpdate: () => {
@@ -925,13 +826,10 @@ const App: React.FC = () => {
         if (draggable) draggable.update(true);
       },
       onComplete: () => {
-        // Force complete update after animation ends
-        const draggable = Draggable.get(track);
-        if (draggable) {
-          draggable.update(true);
-        }
-        // Force re-render of the track
+        // Force re-render of the track to ensure it's in a clean state
         track.style.transform = `translate3d(${targetX}px, 0px, 0px)`;
+        const draggable = Draggable.get(track);
+        if (draggable) draggable.update(true);
       }
     });
   };
@@ -1168,7 +1066,7 @@ const App: React.FC = () => {
                         <img
                           src={item.image_url}
                           alt={item.title}
-                          className="h-full w-full object-contain grayscale transition-all duration-700 group-hover:grayscale-0 group-hover:scale-105"
+                          className="h-full w-full object-contain grayscale transition-all duration-700 group-hover:grayscale-0 group-hover:scale-105 will-change-transform filter"
                           draggable={false}
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent opacity-80" />

@@ -1,0 +1,65 @@
+version: "2"
+type: frontend
+tech_stack:
+  - TypeScript
+  - React
+  - Vite
+  - GSAP
+  - Framer Motion
+  - Lenis
+  - Supabase
+  - Tailwind CSS
+routes:
+  - path: /
+    file: App.tsx
+    auth_required: false
+    description: Main landing page with all studio content and booking system
+features:
+  - name: Interactive Brand Intro
+    description: Animated "Scribble" intro sequence
+    files:
+      - App.tsx
+      - components/IntroScribble.tsx
+    entry_route: /
+    user_interactions:
+      - View page load animation
+    auth_required: false
+  - name: Services Catalog
+    description: Real-time service listing with categories and pricing
+    files:
+      - App.tsx
+      - services/contentService.ts
+    entry_route: /
+    user_interactions:
+      - View services grid
+      - Filter by category
+    api_calls:
+      - method: GET
+        endpoint: supabase:services
+    auth_required: false
+  - name: Appointment Booking
+    description: Multi-step booking process with service selection and calendar
+    files:
+      - App.tsx
+      - components/TiltedCard.tsx
+    entry_route: /
+    user_interactions:
+      - Click "Book Now"
+      - Select services
+      - Choose date via custom calendar
+      - Enter contact details
+      - Submit booking
+    api_calls:
+      - method: POST
+        endpoint: supabase:appointments
+    auth_required: false
+  - name: Portfolio Studio Work
+    description: Horizontal sliding gallery of studio projects
+    files:
+      - App.tsx
+    entry_route: /
+    user_interactions:
+      - Drag/scroll studio work slider
+      - Click image to open gallery modal
+    auth_required: false
+known_limitations: []

@@ -1,0 +1,551 @@
+[
+  {
+    "id": "TC001",
+    "title": "Brand intro animation reveals interactive landing content",
+    "description": "Verifies the intro animation plays on load and the landing page becomes interactive afterward.",
+    "category": "Interactive Brand Intro",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Wait for the page load animation to complete"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the main landing content is revealed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify primary navigation and call-to-action controls are usable"
+      }
+    ]
+  },
+  {
+    "id": "TC002",
+    "title": "Brand intro fallback shows static hero when animation cannot run",
+    "description": "Verifies an accessible static hero and usable navigation are present when motion is reduced (acting as a safe fallback path).",
+    "category": "Interactive Brand Intro",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Set the system preference to reduced motion"
+      },
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify a static hero section is displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify primary navigation remains usable"
+      }
+    ]
+  },
+  {
+    "id": "TC003",
+    "title": "Brand intro does not block interaction after completion",
+    "description": "Verifies the intro does not leave an overlay that prevents interaction with landing content.",
+    "category": "Interactive Brand Intro",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Wait for the page load animation to complete"
+      },
+      {
+        "type": "action",
+        "description": "Scroll down the landing page"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the page continues to respond to scrolling and interactions"
+      }
+    ]
+  },
+  {
+    "id": "TC004",
+    "title": "Services catalog loads and displays service details",
+    "description": "Verifies the services grid renders with key service information visible.",
+    "category": "Services Catalog",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Scroll to the services section"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify a services grid is displayed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify services show titles, durations, and prices"
+      }
+    ]
+  },
+  {
+    "id": "TC005",
+    "title": "Filter services by category updates the grid",
+    "description": "Verifies category filtering changes the visible set of services.",
+    "category": "Services Catalog",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Scroll to the services section"
+      },
+      {
+        "type": "action",
+        "description": "Select a service category filter"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the services grid updates to show services matching the selected category"
+      }
+    ]
+  },
+  {
+    "id": "TC006",
+    "title": "Changing service category filter is reversible",
+    "description": "Verifies users can switch filters and return to an unfiltered/all-services view.",
+    "category": "Services Catalog",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Scroll to the services section"
+      },
+      {
+        "type": "action",
+        "description": "Select a service category filter"
+      },
+      {
+        "type": "action",
+        "description": "Select the all-categories option"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the services grid shows the full set of services again"
+      }
+    ]
+  },
+  {
+    "id": "TC007",
+    "title": "Initiate booking from a chosen service",
+    "description": "Verifies a user can start booking from the services catalog and reach service selection with the chosen service context.",
+    "category": "Services Catalog",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Scroll to the services section"
+      },
+      {
+        "type": "action",
+        "description": "Initiate booking for a service from the services grid"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the booking flow opens at the service selection step"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the chosen service is selected or reflected in the booking flow"
+      }
+    ]
+  },
+  {
+    "id": "TC008",
+    "title": "Complete booking flow with success confirmation",
+    "description": "Verifies the end-to-end booking flow completes and shows a confirmation.",
+    "category": "Appointment Booking",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Initiate booking"
+      },
+      {
+        "type": "action",
+        "description": "Select one or more services"
+      },
+      {
+        "type": "action",
+        "description": "Choose a valid date via the custom calendar"
+      },
+      {
+        "type": "action",
+        "description": "Fill a valid name into the name field"
+      },
+      {
+        "type": "action",
+        "description": "Fill a valid email into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Select a communication preference"
+      },
+      {
+        "type": "action",
+        "description": "Submit booking"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify a processing state is shown before completion"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify a booking confirmation success state is displayed"
+      }
+    ]
+  },
+  {
+    "id": "TC009",
+    "title": "Booking validation blocks submission when required contact details are missing",
+    "description": "Verifies missing required contact details trigger validation feedback and can be corrected to complete booking.",
+    "category": "Appointment Booking",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Initiate booking"
+      },
+      {
+        "type": "action",
+        "description": "Select one or more services"
+      },
+      {
+        "type": "action",
+        "description": "Choose a valid date via the custom calendar"
+      },
+      {
+        "type": "action",
+        "description": "Submit booking"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify validation feedback highlights missing required fields"
+      },
+      {
+        "type": "action",
+        "description": "Fill a valid name into the name field"
+      },
+      {
+        "type": "action",
+        "description": "Fill a valid email into the email field"
+      },
+      {
+        "type": "action",
+        "description": "Select a communication preference"
+      },
+      {
+        "type": "action",
+        "description": "Submit booking"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify a booking confirmation success state is displayed"
+      }
+    ]
+  },
+  {
+    "id": "TC010",
+    "title": "Booking cannot proceed without selecting a service",
+    "description": "Verifies service selection is required before moving forward in booking.",
+    "category": "Appointment Booking",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Initiate booking"
+      },
+      {
+        "type": "action",
+        "description": "Attempt to continue without selecting any services"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify a validation message indicates a service selection is required"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the user remains on the service selection step"
+      }
+    ]
+  },
+  {
+    "id": "TC011",
+    "title": "Browse portfolio slider and view a project in the gallery modal",
+    "description": "Verifies users can browse the portfolio slider, open a project in the gallery modal, and close it to return to browsing.",
+    "category": "Portfolio Studio Work",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Scroll to the portfolio slider section"
+      },
+      {
+        "type": "action",
+        "description": "Drag/scroll the studio work slider to browse projects"
+      },
+      {
+        "type": "action",
+        "description": "Click an image in the slider to open the gallery modal"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify a full-screen gallery modal is displayed with a project image"
+      },
+      {
+        "type": "action",
+        "description": "Close the gallery modal"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the portfolio slider is visible and can be browsed"
+      }
+    ]
+  },
+  {
+    "id": "TC012",
+    "title": "Lazy-load placeholders and retry when full-size images are slow or fail",
+    "description": "Verifies the gallery experience shows placeholders during image loading and provides a retry path to view the full image.",
+    "category": "Portfolio Studio Work",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Scroll to the portfolio slider section"
+      },
+      {
+        "type": "action",
+        "description": "Click an image in the slider to open the gallery modal"
+      },
+      {
+        "type": "action",
+        "description": "Wait for the full-size image area to begin loading"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify a lazy-loaded placeholder is displayed while the full-size image is not yet available"
+      },
+      {
+        "type": "action",
+        "description": "Use the retry option to attempt loading the full-size image again"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the full-size project image is displayed or the placeholder state remains available for further retry"
+      }
+    ]
+  },
+  {
+    "id": "TC013",
+    "title": "Portfolio slider loads primary content on the landing page",
+    "description": "Verifies the portfolio slider section renders and is interactable after initial page load.",
+    "category": "Portfolio Studio Work",
+    "priority": "High",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Scroll to the portfolio slider section"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify multiple studio work items are displayed in a horizontal slider"
+      },
+      {
+        "type": "action",
+        "description": "Drag/scroll the studio work slider slightly"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify additional studio work items become visible as the slider moves"
+      }
+    ]
+  },
+  {
+    "id": "TC014",
+    "title": "Open and close gallery modal without losing slider context",
+    "description": "Verifies closing the gallery modal returns the user to the portfolio slider browsing context.",
+    "category": "Portfolio Studio Work",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Scroll to the portfolio slider section"
+      },
+      {
+        "type": "action",
+        "description": "Drag/scroll the studio work slider to a different set of projects"
+      },
+      {
+        "type": "action",
+        "description": "Click an image in the currently visible set to open the gallery modal"
+      },
+      {
+        "type": "action",
+        "description": "Close the gallery modal"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the portfolio slider remains visible in the same general browsing position (the previously viewed set is still on screen)"
+      }
+    ]
+  },
+  {
+    "id": "TC015",
+    "title": "Gallery modal displays responsive full-screen media across viewport sizes",
+    "description": "Verifies the gallery modal adapts to viewport changes while keeping the media visible.",
+    "category": "Portfolio Studio Work",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Scroll to the portfolio slider section"
+      },
+      {
+        "type": "action",
+        "description": "Click an image in the slider to open the gallery modal"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the gallery modal content fits within the viewport without requiring horizontal scrolling"
+      },
+      {
+        "type": "action",
+        "description": "Resize the browser to a narrower mobile-like width"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the gallery modal remains full-screen and the image remains visible within the viewport"
+      }
+    ]
+  },
+  {
+    "id": "TC016",
+    "title": "Slider interaction remains functional after closing the modal",
+    "description": "Verifies the slider can still be dragged/scrolled after the gallery modal has been opened and closed.",
+    "category": "Portfolio Studio Work",
+    "priority": "Medium",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Scroll to the portfolio slider section"
+      },
+      {
+        "type": "action",
+        "description": "Click an image in the slider to open the gallery modal"
+      },
+      {
+        "type": "action",
+        "description": "Close the gallery modal"
+      },
+      {
+        "type": "action",
+        "description": "Drag/scroll the studio work slider again"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the slider continues to move and new project items become visible"
+      }
+    ]
+  },
+  {
+    "id": "TC017",
+    "title": "Modal can be dismissed via keyboard escape",
+    "description": "Verifies the gallery modal supports a standard keyboard dismissal interaction.",
+    "category": "Portfolio Studio Work",
+    "priority": "Low",
+    "steps": [
+      {
+        "type": "action",
+        "description": "Navigate to /"
+      },
+      {
+        "type": "action",
+        "description": "Scroll to the portfolio slider section"
+      },
+      {
+        "type": "action",
+        "description": "Click an image in the slider to open the gallery modal"
+      },
+      {
+        "type": "action",
+        "description": "Press Escape"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the gallery modal is closed"
+      },
+      {
+        "type": "assertion",
+        "description": "Verify the portfolio slider is visible for continued browsing"
+      }
+    ]
+  }
+]

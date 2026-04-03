@@ -2,8 +2,8 @@
 
 ## Database Configuration
 
-**Supabase URL:** https://iywdufwzailhmhdwfsws.supabase.co
-**Anon Key:** eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml5d2R1Znd6YWlsaG1oZHdmc3dzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mjk2NjQ1OTUsImV4cCI6MjA4NTI0MDU5NX0.hiGduNml2tMcEolsuz8b9_ULjS_z883vHLBaqpBTeO4
+**Supabase URL:** Set via `VITE_SUPABASE_URL` environment variable
+**Anon Key:** Set via `VITE_SUPABASE_ANON_KEY` environment variable
 
 ## Database Schema (5 Tables)
 
@@ -312,6 +312,9 @@ Edit any text on the website by section:
 
 ## Environment Variables
 ```
-VITE_SUPABASE_URL=https://iywdufwzailhmhdwfsws.supabase.co
-VITE_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml5d2R1Znd6YWlsaG1oZHdmc3dzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mjk2NjQ1OTUsImV4cCI6MjA4NTI0MDU5NX0.hiGduNml2tMcEolsuz8b9_ULjS_z883vHLBaqpBTeO4
+VITE_SUPABASE_URL=<your-supabase-url>
+VITE_SUPABASE_ANON_KEY=<your-supabase-anon-key>
+VITE_GEMINI_API_KEY=<your-gemini-api-key>
 ```
+
+These values should be configured as Netlify environment variables in Site Settings → Build & deploy → Environment variables. Do not commit actual values to the repository.

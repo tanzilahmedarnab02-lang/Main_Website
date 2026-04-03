@@ -8,9 +8,18 @@ pnpm-debug.log*
 lerna-debug.log*
 
 node_modules
+
+# Environment variables
+.env
+.env.local
+.env.*
+!.env.example
+
+# Build artifacts
 dist
 dist-ssr
-*.local
+build
+.netlify
 
 # Editor directories and files
 .vscode/*

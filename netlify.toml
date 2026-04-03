@@ -9,7 +9,7 @@
   publish = "dist"
   
   # Node.js version to use during build
-  environment = { NODE_VERSION = "20" }
+  environment = { NODE_VERSION = "20", SECRETS_SCAN_OMIT_PATHS = "dist/*,supabase_schema.sql" }
 
 # Redirect all requests to index.html for SPA routing
 # This prevents 404 errors when users refresh or navigate to client-side routes

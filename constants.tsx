@@ -40,7 +40,7 @@ export const SITE_CONTENT = {
     status_label: 'IDENTITY REFINEMENT',
     status_value: 'STATUS: OPERATIONAL',
     logo_text: 'YOUR BUSINESS NAME', // Text to display as logo in navigation
-    logo_image: 'https://oqgzypdognvjdscujofz.supabase.co/storage/v1/object/public/about%20section/post-estilobeautysalon-oct-10-2019%20(2).jpeg' // Optional: URL to logo image
+    logo_image: `${import.meta.env.VITE_SUPABASE_URL}/storage/v1/object/public/about%20section/post-estilobeautysalon-oct-10-2019%20(2).jpeg` // Optional: URL to logo image
   },
 
   // Intro Animation

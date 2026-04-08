@@ -4,5 +4,15 @@
   "scope": "codebase",
   "localEndpoint": "http://localhost:3001",
   "loginUser": "tanzil",
-  "loginPassword": "Tanzil@1234#"
+  "loginPassword": "Tanzil@1234#",
+  "executionArgs": {
+    "projectName": "parlour website--template",
+    "projectPath": "f:\\real draft\\parlour\\project 1\\parlour website--template",
+    "testIds": [],
+    "additionalInstruction": "",
+    "serverMode": "development",
+    "envs": {
+      "API_KEY": "sk-user-0Q7JagPEL6axtOzZJhbA1aEqaVsbbxFHfOPUr1zKauln5fg4bCA_hD2RLTQKQInDOXNxQM8i4y4ZsUL-A6joriGXjeoCwYRJBsN_1SWxTyg8Ypp5PJkO642E8nlmoo4U3eY"
+    }
+  }
 }

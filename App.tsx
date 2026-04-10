@@ -1173,7 +1173,6 @@ const App: React.FC = () => {
                                                 />
                                                 <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent opacity-80" />
                                             </div>
-                                            <div className="absolute top-4 left-4 font-mono text-[8px] text-white/30 uppercase tracking-[0.2em] z-20">REF: P-00{index + 1} // ART: {item.category || 'WORK'}</div>
                                             <div className="absolute bottom-8 left-8 right-8 z-20 pointer-events-none">
                                                 <h3 className="text-4xl md:text-5xl font-impact text-white uppercase tracking-tighter leading-none mb-2">{item.title}</h3>
                                                 <div className="w-0 h-[2px] bg-[#E0A9C5] transition-all duration-500 group-hover:w-full" />

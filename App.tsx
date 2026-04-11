@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, lazy, Suspense } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import gsap from 'gsap';
 import { ScrollTrigger, Draggable } from 'gsap/all';
@@ -11,407 +11,21 @@ import FooterTitle from './components/FooterTitle';
 import GradientBlinds from './components/GradientBlinds';
 import HeroSbg from './components/herosbg';
 import TiltedCard from './components/TiltedCard';
+import DynamicMainHeading from './components/DynamicMainHeading';
+import TornEdge from './components/TornEdge';
+import { CalendarIcon } from './components/BookingIcons';
+import DateInput from './components/DateInput';
+import CountUpText from './components/CountUpText';
+
+// Lazy load heavy components
+const SimpleCalendar = lazy(() => import('./components/SimpleCalendar'));
+const ServicePanel = lazy(() => import('./components/ServicePanel'));
 import { AppState } from './types';
 import { SERVICES, SITE_CONTENT, USE_LOCAL_CONTENT_ONLY } from './constants';
 import { getFooterSettings, getBookNowSettings, createAppointmentBooking, getAllSiteContent, getServices, getGallery, BookNowSettings, ServiceItem, GalleryItem } from './services/contentService';
 import { supabase } from './services/supabaseClient';
 
 gsap.registerPlugin(ScrollTrigger, Draggable);
-
-// Helper function to calculate balanced line breaks
-const calculateBalancedLines = (words: string[]): string[][] => {
-    const wordCount = words.length;
-
-    if (wordCount <= 1) {
-        return [words];
-    }
-
-    // Calculate ideal words per line for visual balance
-    const getSplitPoints = (total: number): number[] => {
-        switch (total) {
-            case 1:
-                return [1];
-            case 2:
-                // For 2 words, keep together unless one word is very long
-                return [2];
-            case 3:
-                // 1+2 or 2+1 split
-                return [2];
-            case 4:
-                // 2+2 split
-                return [2];
-            case 5:
-                // 2+3 or 3+2 split (prefer 2+3 for visual balance)
-                return [2];
-            case 6:
-                // 3+3 split
-                return [3];
-            case 7:
-                // 3+4 or 4+3 (prefer 3+4)
-                return [3];
-            case 8:
-                // Can do 4+4 or 2+3+3, prefer 4+4 for cleaner look
-                return [4];
-            default:
-                // For more than 8 words, divide roughly in half
-                return [Math.ceil(total / 2)];
-        }
-    };
-
-    const splitAt = getSplitPoints(wordCount)[0];
-    const firstLine = words.slice(0, splitAt);
-    const secondLine = words.slice(splitAt);
-
-    // Handle edge case: if second line would have too many words (>60% of total), rebalance
-    if (secondLine.length > wordCount * 0.6 && wordCount > 3) {
-        const newSplit = Math.floor(wordCount / 2);
-        return [
-            words.slice(0, newSplit),
-            words.slice(newSplit)
-        ];
-    }
-
-    return [firstLine, secondLine];
-};
-
-// Dynamic Main Heading Component with Balanced Line Breaking
-const DynamicMainHeading = ({ text, className = '' }: { text: string, className?: string }) => {
-    // Ensure text is never undefined or empty
-    const safeText = text || '';
-    if (!safeText.trim()) {
-        return null; // Don't render anything if text is empty
-    }
-
-    const words = safeText.trim().split(/\s+/);
-    const lines = calculateBalancedLines(words);
-
-    return (
-        <motion.h1
-            className={`font-serif text-[clamp(2.5rem,6vw,6rem)] leading-[0.85] tracking-tighter uppercase ${className}`}
-            style={{
-                wordSpacing: 'clamp(0.125rem, 0.5vw, 0.5rem)'
-            }}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{
-                duration: 2,
-                ease: [0.25, 0.1, 0.25, 1] as const
-            }}
-        >
-            {lines.map((lineWords, lineIndex) => (
-                <span
-                    key={lineIndex}
-                    style={{
-                        display: 'block'
-                    }}
-                >
-                    {lineWords.map((word, wordIndex) => (
-                        <React.Fragment key={`${lineIndex}-${wordIndex}`}>
-                            <span
-                                className={lineIndex === 0 ? 'premium-glow-text-white' : 'premium-glow-text'}
-                            >
-                                {word}
-                            </span>
-                            {wordIndex < lineWords.length - 1 && ' '}
-                        </React.Fragment>
-                    ))}
-                </span>
-            ))}
-        </motion.h1>
-    );
-};
-
-const TornEdge = ({ color, position = 'top' }: { color: string, position?: 'top' | 'bottom' }) => (
-    <div className={`absolute left-0 w-full overflow-hidden leading-[0] z-10 ${position === 'top' ? 'top-0 -translate-y-[99%]' : 'bottom-0 translate-y-[99%]'}`}>
-        <svg viewBox="0 0 1200 120" preserveAspectRatio="none" className="relative block w-[calc(100%+1.3px)] h-[40px] md:h-[70px]" style={{ fill: color }}>
-            <path d="M0,0 L30,20 L70,8 L120,25 L170,12 L220,28 L280,10 L340,30 L400,15 L460,32 L520,12 L580,35 L640,15 L700,32 L760,12 L820,35 L880,18 L940,38 L1000,22 L1060,40 L1120,28 L1180,15 L1200,25 V120 H0 Z" />
-        </svg>
-    </div>
-);
-
-const CalendarIcon = () => (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-        <line x1="16" y1="2" x2="16" y2="6"></line>
-        <line x1="8" y1="2" x2="8" y2="6"></line>
-        <line x1="3" y1="10" x2="21" y2="10"></line>
-    </svg>
-);
-
-const DateInput = ({ value, onChange, placeholder, error, triggerKey }: { value: string, onChange: (val: string) => void, placeholder?: string, error?: string, triggerKey?: number }) => {
-    const dayRef = useRef<HTMLInputElement>(null);
-    const monthRef = useRef<HTMLInputElement>(null);
-    const yearRef = useRef<HTMLInputElement>(null);
-
-    // Parse value into segments for display
-    const getDisplayValue = () => {
-        // Extract day, month, year from DD-MM-YYYY format
-        const parts = value.split('-');
-        return { day: parts[0] || '', month: parts[1] || '', year: parts[2] || '' };
-    };
-
-    const { day, month, year } = getDisplayValue();
-
-    return (
-        <div className="relative flex items-center">
-            {/* Day field */}
-            <input
-                ref={dayRef}
-                type="text"
-                value={day}
-                onChange={(e) => {
-                    const num = e.target.value.replace(/[^0-9]/g, '').slice(0, 2);
-                    onChange(`${num}-${month}-${year}`);
-                    // Auto-focus to month when day is filled
-                    if (num.length === 2 && monthRef.current) {
-                        monthRef.current.focus();
-                    }
-                }}
-                onKeyDown={(e) => {
-                    if (e.key === 'Backspace' && day.length === 0 && monthRef.current) {
-                        monthRef.current.focus();
-                    }
-                }}
-                placeholder="DD"
-                maxLength={2}
-                className="bg-transparent font-impact text-2xl text-white outline-none w-11 text-center placeholder-zinc-700"
-            />
-            <span className="font-impact text-2xl text-white mx-[2px]">-</span>
-            {/* Month field */}
-            <input
-                ref={monthRef}
-                type="text"
-                value={month}
-                onChange={(e) => {
-                    const num = e.target.value.replace(/[^0-9]/g, '').slice(0, 2);
-                    onChange(`${day}-${num}-${year}`);
-                    // Auto-focus to year when month is filled
-                    if (num.length === 2 && yearRef.current) {
-                        yearRef.current.focus();
-                    }
-                }}
-                onKeyDown={(e) => {
-                    if (e.key === 'Backspace' && month.length === 0 && dayRef.current) {
-                        dayRef.current.focus();
-                    }
-                }}
-                placeholder="MM"
-                maxLength={2}
-                className="bg-transparent font-impact text-2xl text-white outline-none w-11 text-center placeholder-zinc-700"
-            />
-            <span className="font-impact text-2xl text-white mr-2">-</span>
-            {/* Year field */}
-            <input
-                ref={yearRef}
-                type="text"
-                value={year}
-                onChange={(e) => {
-                    const num = e.target.value.replace(/[^0-9]/g, '').slice(0, 4);
-                    onChange(`${day}-${month}-${num}`);
-                }}
-                onKeyDown={(e) => {
-                    if (e.key === 'Backspace' && year.length === 0 && monthRef.current) {
-                        monthRef.current.focus();
-                    }
-                }}
-                placeholder="YYYY"
-                maxLength={4}
-                className="bg-transparent font-impact text-2xl text-white outline-none w-16 placeholder-zinc-700"
-            />
-            {error && <span key={`date-${triggerKey}`} className="absolute -bottom-5 left-0 font-mono text-sm text-red-500 font-bold animate-vibrate">{error}</span>}
-        </div>
-    );
-};
-
-const ListIcon = () => (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <line x1="8" y1="6" x2="21" y2="6"></line>
-        <line x1="8" y1="12" x2="21" y2="12"></line>
-        <line x1="8" y1="18" x2="21" y2="18"></line>
-        <line x1="3" y1="6" x2="3.01" y2="6"></line>
-        <line x1="3" y1="12" x2="3.01" y2="12"></line>
-        <line x1="3" y1="18" x2="3.01" y2="18"></line>
-    </svg>
-);
-
-const SimpleCalendar = ({ onSelect, selectedDate }: { onSelect: (date: Date) => void, selectedDate: Date | null }) => {
-    const [currentDate, setCurrentDate] = useState(selectedDate || new Date());
-    const [view, setView] = useState<'calendar' | 'picker'>('calendar');
-    const backupDateRef = useRef<Date>(new Date());
-
-    const daysInMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0).getDate();
-    const firstDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1).getDay();
-
-    const days = Array.from({ length: daysInMonth }, (_, i) => i + 1);
-    const padding = Array.from({ length: firstDay }, (_, i) => i);
-
-    const monthNames = ["JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE", "JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER"];
-    const years = Array.from({ length: 15 }, (_, i) => new Date().getFullYear() + i);
-
-    const openPicker = () => {
-        backupDateRef.current = new Date(currentDate);
-        setView('picker');
-    };
-
-    const handleCancel = () => {
-        setCurrentDate(backupDateRef.current);
-        setView('calendar');
-    };
-
-    return (
-        <div className="w-full bg-gradient-to-br from-[#E0A9C5] to-[#C485A8] text-white px-6 pt-4 pb-6 flex flex-col h-auto max-h-[400px] border border-white/10 shadow-2xl">
-            <div className="flex justify-between items-center mb-2 border-b border-white/20 pb-2">
-                <button onClick={() => { if (view === 'picker') return; setCurrentDate(new Date(new Date(currentDate).setMonth(currentDate.getMonth() - 1))) }} className={`text-xl font-bold hover:text-black px-2 transition-opacity ${view === 'picker' ? 'opacity-0 pointer-events-none' : ''}`}>&lt;</button>
-                <button onClick={() => view === 'calendar' ? openPicker() : null} className={`font-impact text-xl tracking-widest hover:text-black transition-colors border-b border-dashed ${view === 'picker' ? 'border-black text-black cursor-default' : 'border-white/30 cursor-pointer'}`}>{monthNames[currentDate.getMonth()]} {currentDate.getFullYear()}</button>
-                <button onClick={() => { if (view === 'picker') return; setCurrentDate(new Date(new Date(currentDate).setMonth(currentDate.getMonth() + 1))) }} className={`text-xl font-bold hover:text-black px-2 transition-opacity ${view === 'picker' ? 'opacity-0 pointer-events-none' : ''}`}>&gt;</button>
-            </div>
-            {view === 'calendar' ? (
-                <>
-                    <div className="grid grid-cols-7 gap-2 text-center font-mono text-[10px] mb-2">{['S', 'M', 'T', 'W', 'T', 'F', 'S'].map(d => <span key={d} className="text-white/60">{d}</span>)}</div>
-                    <div className="grid grid-cols-7 gap-2">
-                        {padding.map(i => <div key={`pad-${i}`} />)}
-                        {days.map(d => {
-                            const date = new Date(currentDate.getFullYear(), currentDate.getMonth(), d);
-                            const isSelected = selectedDate && selectedDate.toDateString() === date.toDateString();
-                            const isToday = new Date().toDateString() === date.toDateString();
-                            return (
-                                <button key={d} onClick={() => onSelect(date)} className={`aspect-square flex items-center justify-center font-mono text-sm border transition-all duration-300 ${isSelected ? 'bg-white border-white text-[#E0A9C5] scale-110 font-bold' : 'border-white/10 hover:border-white text-white bg-black/20 hover:bg-black/40'} ${!isSelected && isToday ? 'underline decoration-[#E0A9C5] underline-offset-4 font-bold' : ''}`}>{d}</button>
-                            )
-                        })}
-                    </div>
-
-                </>
-            ) : (
-                <div className="flex flex-col h-full overflow-hidden">
-                    <div className="flex flex-1 gap-4 overflow-hidden min-h-0 flex-row">
-                        <div className="flex-1 overflow-y-auto border-r border-white/20 pr-2">
-                            {monthNames.map((m, i) => (
-                                <div key={m} onClick={() => { const d = new Date(currentDate); d.setMonth(i); setCurrentDate(d); }} className={`py-3 px-2 font-mono text-xs cursor-pointer hover:text-black mb-1 text-center border border-transparent ${i === currentDate.getMonth() ? 'text-white font-bold border-white/20 bg-white/10' : 'text-white/60'}`}>{m}</div>
-                            ))}
-                        </div>
-                        <div className="flex-1 overflow-y-auto pl-2">
-                            {years.map((y) => (
-                                <div key={y} onClick={() => { const d = new Date(currentDate); d.setFullYear(y); setCurrentDate(d); }} className={`py-3 px-2 font-mono text-xs cursor-pointer hover:text-black mb-1 text-center border border-transparent ${y === currentDate.getFullYear() ? 'text-white font-bold border-white/20 bg-white/10' : 'text-white/60'}`}>{y}</div>
-                            ))}
-                        </div>
-                    </div>
-                    <div className="mt-4 pt-4 border-t border-white/20 flex items-center justify-between">
-                        <button onClick={handleCancel} className="px-4 py-2 font-mono text-[10px] text-white/60 hover:text-white uppercase tracking-widest">[ CANCEL ]</button>
-                        <button onClick={() => setView('calendar')} className="px-4 py-2 font-mono text-[10px] text-[#E0A9C5] bg-white hover:bg-black hover:text-white uppercase tracking-widest font-bold">OK</button>
-                    </div>
-                </div>
-            )}
-        </div>
-    )
-}
-
-const ServicePanel = ({ services, onToggle, selectedIds, onClose }: { services: ServiceItem[], onToggle: (id: string) => void, selectedIds: string[], onClose?: () => void }) => {
-    const [activeCategory, setActiveCategory] = React.useState('ALL');
-    const categories = ['ALL', ...Array.from(new Set(services.map(s => s.category)))];
-
-    // Access Lenis from window or find it globally
-    const stopLenisScroll = () => {
-        const lenis = (window as any).__lenis;
-        if (lenis) lenis.stop();
-    };
-
-    const startLenisScroll = () => {
-        const lenis = (window as any).__lenis;
-        if (lenis) lenis.start();
-    };
-
-    return (
-        <div
-            className="w-full h-[70vh] md:h-[80vh] min-h-[500px] bg-gradient-to-br from-[#E0A9C5] to-[#C485A8] text-white flex flex-col border border-white/10 shadow-2xl overflow-hidden relative"
-            onMouseEnter={() => { document.body.style.overflow = 'hidden'; stopLenisScroll(); }}
-            onMouseLeave={() => { document.body.style.overflow = ''; startLenisScroll(); }}
-            onWheel={(e) => { e.stopPropagation(); e.preventDefault(); }}
-        >
-            {/* Close Button */}
-            {onClose && (
-                <button
-                    onClick={(e) => { e.stopPropagation(); onClose(); }}
-                    className="absolute top-3 right-3 z-10 w-8 h-8 flex items-center justify-center bg-black/30 hover:bg-black/50 text-white font-bold text-lg border border-white/30 hover:border-white transition-all rounded-full"
-                >
-                    ✕
-                </button>
-            )}
-            {/* Category Filter Header */}
-            <div className="flex-none p-4 border-b border-white/10 bg-[#C485A8]">
-                <div className="flex flex-wrap gap-3">
-                    {categories.map((cat) => (
-                        <button
-                            key={cat}
-                            onClick={() => setActiveCategory(cat)}
-                            className={`font-impact text-sm uppercase tracking-widest transition-colors px-2 py-1 ${activeCategory === cat ? 'text-white bg-black/20 border border-white' : 'text-white/50 hover:text-white border border-transparent hover:border-white/20'
-                                }`}
-                        >
-                            {cat}
-                        </button>
-                    ))}
-                </div>
-            </div>
-
-            {/* Scrollable Services List with Custom Scrollbar */}
-            <div className="flex-1 overflow-y-auto p-6 scrollbar-custom" style={{ scrollbarWidth: 'thin', scrollbarColor: 'white transparent' }}>
-                <style>{`
-          .scrollbar-custom::-webkit-scrollbar {
-            width: 10px;
-          }
-          .scrollbar-custom::-webkit-scrollbar-track {
-            background: rgba(255,255,255,0.2);
-            border-radius: 5px;
-          }
-          .scrollbar-custom::-webkit-scrollbar-thumb {
-            background: white;
-            border-radius: 5px;
-          }
-          .scrollbar-custom::-webkit-scrollbar-thumb:hover {
-            background: white;
-          }
-          .scrollbar-custom::-webkit-scrollbar-thumb:active {
-            background: white;
-          }
-        `}</style>
-                <div className="space-y-1">
-                    {services
-                        .filter(s => activeCategory === 'ALL' || s.category === activeCategory)
-                        .map((s) => (
-                            <div
-                                key={s.id}
-                                onClick={(e) => {
-                                    e.stopPropagation();
-                                    onToggle(s.id);
-                                }}
-                                onMouseDown={(e) => e.stopPropagation()}
-                                onTouchStart={(e) => e.stopPropagation()}
-                                className={`cursor-pointer group flex justify-between items-center p-2 md:p-4 transition-all duration-300 border-l-4 mb-1 select-none ${selectedIds.includes(s.id) ? 'bg-black/30 border-white' : 'border-transparent hover:bg-black/10'}`}
-                            >
-                                <div className="flex items-center gap-2 md:gap-4">
-                                    <div className={`w-5 h-5 md:w-6 md:h-6 flex items-center justify-center border transition-colors cursor-pointer pointer-events-none ${selectedIds.includes(s.id) ? 'border-white bg-white' : 'border-white/40'}`}>
-                                        {selectedIds.includes(s.id) && <span className="text-black font-bold text-[10px]">✓</span>}
-                                    </div>
-                                    <div className="flex flex-col">
-                                        <div className="flex items-center gap-1 md:gap-2 mb-0.5">
-                                            <span className={`font-impact text-lg md:text-xl uppercase leading-none ${selectedIds.includes(s.id) ? 'text-white' : 'text-white/80 group-hover:text-white'}`}>{s.title}</span>
-                                            {activeCategory === 'ALL' && <span className="font-mono text-[6px] md:text-[8px] text-white/40 uppercase bg-black/20 px-1 rounded">{s.category}</span>}
-                                        </div>
-                                        <span className="font-mono text-[12px] md:text-[14px] text-white/60 uppercase">{s.duration ? `DURATION: ${s.duration}` : ''}</span>
-                                    </div>
-                                </div>
-                                <div className="flex items-center gap-2 md:gap-4">
-                                    <span className={`font-impact tracking-wide ${selectedIds.includes(s.id) ? 'text-white' : 'text-white/60'} text-xl md:text-3xl pointer-events-none`}>{s.price}</span>
-                                    {selectedIds.includes(s.id) && (
-                                        <div className="w-4 h-4 md:w-5 md:h-5 flex items-center justify-center border border-white text-white font-bold text-[8px] md:text-[10px] pointer-events-none">✕</div>
-                                    )}
-                                </div>
-                            </div>
-                        ))}
-                </div>
-            </div>
-        </div>
-    )
-}
 
 const App: React.FC = () => {
     const [appState, setAppState] = useState<AppState>(AppState.INTRO);
@@ -1173,6 +787,7 @@ const App: React.FC = () => {
                                                     alt={item.title}
                                                     className="h-full w-full object-contain grayscale transition-all duration-700 group-hover:grayscale-0 group-hover:scale-105"
                                                     draggable={false}
+                                                    loading="lazy"
                                                 />
                                                 <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent opacity-80" />
                                             </div>
@@ -1196,8 +811,8 @@ const App: React.FC = () => {
                             </div>
 
                             {/* Overlays - Sidebar and accents moved after slider container for natural stacking */}
-                            <div className="absolute left-0 top-0 h-full w-16 sm:w-24 md:w-32 lg:w-36 xl:w-40 2xl:w-44 border-r border-zinc-800 border-dashed flex flex-col items-center justify-between py-8 z-[55] bg-black">
-                                <div className="flex-1 flex flex-col justify-center gap-1 sm:gap-2 font-impact text-4xl sm:text-5xl md:text-5xl uppercase tracking-tighter leading-none select-none text-center">
+                            <div className="absolute left-0 top-0 h-full w-16 sm:w-24 md:w-32 lg:w-36 xl:w-40 2xl:w-44 border-r border-zinc-800 border-dashed flex flex-col items-center justify-between py-8 z-[70] bg-black">
+                                <div className="flex-1 flex flex-col justify-center gap-1 sm:gap-2 font-impact text-[40px] sm:text-[50px] md:text-[65px] lg:text-[75px] xl:text-[85px] 2xl:text-[95px] uppercase tracking-tighter leading-none select-none text-center">
                                     <span className="text-white relative z-[55]">S</span><span className="text-white relative z-[55]">T</span><span className="text-white relative z-[55]">U</span><span className="text-white relative z-[55]">D</span><span className="text-white relative z-[55]">I</span><span className="text-white relative z-[55]">O</span>
                                     <div className="h-4 sm:h-6 md:h-8" />
                                     <span className="text-[#E0A9C5] relative z-[55]">W</span><span className="text-[#E0A9C5] relative z-[55]">O</span><span className="text-[#E0A9C5] relative z-[55]">R</span><span className="text-[#E0A9C5] relative z-[55]">K</span>
@@ -1229,8 +844,8 @@ const App: React.FC = () => {
 
                                 <motion.div
                                     ref={aboutCardRef}
-                                    initial={{ opacity: 0, y: 400, scale: 0.9 }}
-                                    whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                                    initial={{ opacity: 0, scale: 0.9 }}
+                                    whileInView={{ opacity: 1, scale: 1 }}
                                     transition={{ duration: 1.6, ease: [0.16, 1, 0.3, 1] }}
                                     viewport={{ once: false, amount: 0.2 }}
                                     className="pointer-events-auto absolute right-2 sm:right-6 md:right-10 lg:right-16 top-1/2 -translate-y-1/2 z-[50] flex items-center"
@@ -1448,7 +1063,9 @@ const App: React.FC = () => {
                                                         <AnimatePresence>
                                                             {activePanel === 'calendar' && (
                                                                 <motion.div ref={calendarPanelRef} onClick={(e) => e.stopPropagation()} initial={{ opacity: 0, y: 0 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 0 }} className="absolute top-full left-0 mt-0 z-[100] w-[280px] sm:w-[320px] md:w-[350px] shadow-2xl">
-                                                                    <SimpleCalendar onSelect={(d) => { setSelectedDate(d); const formatted = `${String(d.getDate()).padStart(2, '0')}-${String(d.getMonth() + 1).padStart(2, '0')}-${d.getFullYear()}`; setCustomDateText(formatted); setActivePanel(null); if (errors.date) setErrors(prev => ({ ...prev, date: "" })); }} selectedDate={selectedDate} />
+                                                                    <Suspense fallback={<div className="p-4 bg-zinc-900 border border-zinc-800 text-white font-mono text-xs">LOADING CALENDAR...</div>}>
+                                                                        <SimpleCalendar onSelect={(d) => { setSelectedDate(d); const formatted = `${String(d.getDate()).padStart(2, '0')}-${String(d.getMonth() + 1).padStart(2, '0')}-${d.getFullYear()}`; setCustomDateText(formatted); setActivePanel(null); if (errors.date) setErrors(prev => ({ ...prev, date: "" })); }} selectedDate={selectedDate} />
+                                                                    </Suspense>
                                                                 </motion.div>
                                                             )}
                                                         </AnimatePresence>
@@ -1490,12 +1107,14 @@ const App: React.FC = () => {
                                                         <AnimatePresence>
                                                             {activePanel === 'services' && (
                                                                 <motion.div ref={panelRef} onClick={(e) => e.stopPropagation()} initial={{ opacity: 0, y: 0 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 0 }} className="absolute top-full left-0 mt-4 z-[100] w-[90vw] md:w-[600px] shadow-2xl">
-                                                                    <ServicePanel
-                                                                        services={services}
-                                                                        onToggle={(id) => { toggleService(id); if (errors.services) setErrors(prev => ({ ...prev, services: "" })); }}
-                                                                        selectedIds={selectedServiceIds}
-                                                                        onClose={() => setActivePanel(null)}
-                                                                    />
+                                                                    <Suspense fallback={<div className="p-4 bg-zinc-900 border border-zinc-800 text-white font-mono text-xs">LOADING PROTOCOLS...</div>}>
+                                                                        <ServicePanel
+                                                                            services={services}
+                                                                            onToggle={(id) => { toggleService(id); if (errors.services) setErrors(prev => ({ ...prev, services: "" })); }}
+                                                                            selectedIds={selectedServiceIds}
+                                                                            onClose={() => setActivePanel(null)}
+                                                                        />
+                                                                    </Suspense>
                                                                 </motion.div>
                                                             )}
                                                         </AnimatePresence>
@@ -1626,10 +1245,10 @@ const App: React.FC = () => {
                                         <div className="font-mono text-[10px] md:text-[12px] text-zinc-500 tracking-[0.4em] md:tracking-[0.5em] mb-5 md:mb-8 uppercase lg:pl-6"> {siteContent?.profile?.mission_label || '// THE MISSION ARCHITECTURE'} </div>
                                         <h2 className="text-white font-impact text-[clamp(1.2rem,3.5vw,4rem)] uppercase tracking-tighter leading-tight mb-7 md:mb-12 break-words lg:pl-6 lg:pl-6">{siteContent?.profile?.mission_heading || "WE DON'T PROVIDE SERVICE. WE EXECUTE PROTOCOL. THE PARLOUR IS A CALIBRATION HUB FOR THE AVANT-GARDE."}</h2>
                                         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 md:gap-12 pt-5 md:pt-16 border-t border-zinc-900">
-                                            <div className="flex flex-col"><span className="font-mono text-[10px] md:text-[12px] text-zinc-400 uppercase mb-1 md:mb-2 tracking-widest">{siteContent?.profile?.established_label || 'ESTABLISHED'}</span><span className="font-impact text-2xl md:text-3xl text-white">{siteContent?.profile?.established_value || ''}</span><div className="w-6 md:w-8 h-[1px] bg-[#E0A9C5] mt-2" /></div>
-                                            <div className="flex flex-col"><span className="font-mono text-[10px] md:text-[12px] text-zinc-400 uppercase mb-1 md:mb-2 tracking-widest">{siteContent?.profile?.staff_label || 'STAFF COUNT'}</span><span className="font-impact text-2xl md:text-3xl text-white">{siteContent?.profile?.staff_value || ''}</span><div className="w-6 md:w-8 h-[1px] bg-zinc-800 mt-2" /></div>
-                                            <div className="flex flex-col"><span className="font-mono text-[10px] md:text-[12px] text-zinc-400 uppercase mb-1 md:mb-2 tracking-widest">{siteContent?.profile?.success_label || 'SUCCESS RATE'}</span><span className="font-impact text-2xl md:text-3xl text-white">{siteContent?.profile?.success_value || ''}</span><div className="w-6 md:w-8 h-[1px] bg-[#E0A9C5] mt-2" /></div>
-                                            <div className="flex flex-col"><span className="font-mono text-[10px] md:text-[12px] text-zinc-400 uppercase mb-1 md:mb-2 tracking-widest">{siteContent?.profile?.coordinate_label || 'COORDINATE'}</span><span className="font-impact text-2xl md:text-3xl text-white">{siteContent?.profile?.coordinate_value || ''}</span><div className="w-6 md:w-8 h-[1px] bg-zinc-800 mt-2" /></div>
+                                            <div className="flex flex-col"><span className="font-mono text-[10px] md:text-[12px] text-zinc-400 uppercase mb-1 md:mb-2 tracking-widest">{siteContent?.profile?.established_label || 'ESTABLISHED'}</span><span className="font-impact text-2xl md:text-3xl text-white"><CountUpText value={siteContent?.profile?.established_value || '2009'} /></span><div className="w-6 md:w-8 h-[1px] bg-[#E0A9C5] mt-2" /></div>
+                                            <div className="flex flex-col"><span className="font-mono text-[10px] md:text-[12px] text-zinc-400 uppercase mb-1 md:mb-2 tracking-widest">{siteContent?.profile?.staff_label || 'STAFF COUNT'}</span><span className="font-impact text-2xl md:text-3xl text-white"><CountUpText value={siteContent?.profile?.staff_value || '14'} /></span><div className="w-6 md:w-8 h-[1px] bg-zinc-800 mt-2" /></div>
+                                            <div className="flex flex-col"><span className="font-mono text-[10px] md:text-[12px] text-zinc-400 uppercase mb-1 md:mb-2 tracking-widest">{siteContent?.profile?.success_label || 'SUCCESS RATE'}</span><span className="font-impact text-2xl md:text-3xl text-white"><CountUpText value={siteContent?.profile?.success_value || '96%'} /></span><div className="w-6 md:w-8 h-[1px] bg-[#E0A9C5] mt-2" /></div>
+                                            <div className="flex flex-col"><span className="font-mono text-[10px] md:text-[12px] text-zinc-400 uppercase mb-1 md:mb-2 tracking-widest">{siteContent?.profile?.coordinate_label || 'COORDINATE'}</span><span className="font-impact text-2xl md:text-3xl text-white"><CountUpText value={siteContent?.profile?.coordinate_value || 'D-41'} /></span><div className="w-6 md:w-8 h-[1px] bg-zinc-800 mt-2" /></div>
                                         </div>
                                     </div>
                                 </div>

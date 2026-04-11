@@ -269,7 +269,7 @@ body {
     }
 
     #studio-work {
-        overflow: hidden !important;
+        overflow: visible !important;
         height: 100vh;
         min-height: 100vh;
         max-height: 100vh;
@@ -311,8 +311,7 @@ body {
     }
 
     #studio-work {
-        overflow-x: auto !important;
-        overflow-y: hidden !important;
+        overflow: visible !important;
         height: 100vh;
         min-height: 100vh;
         max-height: 100vh;
@@ -349,7 +348,7 @@ body {
     }
 
     #studio-work {
-        overflow: hidden !important;
+        overflow: visible !important;
         height: 100vh;
         min-height: 100vh;
         max-height: 100vh;
@@ -403,11 +402,11 @@ body {
 
 /* Studio Work Wave Glow (Soft, Light Pink Water-like Ripple) */
 @keyframes waveGlow {
-    0% { box-shadow: 0 0 0px rgba(255, 193, 227, 0); border-color: rgba(63, 63, 70, 1); }
-    25% { box-shadow: 10px 0 25px rgba(255, 193, 227, 0.2); border-color: rgba(255, 193, 227, 0.3); }
-    50% { box-shadow: 0 0 40px rgba(255, 193, 227, 0.35); border-color: rgba(255, 193, 227, 0.5); }
-    75% { box-shadow: -10px 0 25px rgba(255, 193, 227, 0.2); border-color: rgba(255, 193, 227, 0.3); }
-    100% { box-shadow: 0 0 0px rgba(255, 193, 227, 0); border-color: rgba(63, 63, 70, 1); }
+    0% { box-shadow: 0 0 0px rgba(255, 255, 255, 0); border-color: rgba(63, 63, 70, 1); }
+    25% { box-shadow: 10px 0 25px rgba(255, 255, 255, 0.2); border-color: rgba(255, 255, 255, 0.3); }
+    50% { box-shadow: 0 0 40px rgba(255, 255, 255, 0.35); border-color: rgba(255, 255, 255, 0.5); }
+    75% { box-shadow: -10px 0 25px rgba(255, 255, 255, 0.2); border-color: rgba(255, 255, 255, 0.3); }
+    100% { box-shadow: 0 0 0px rgba(255, 255, 255, 0); border-color: rgba(63, 63, 70, 1); }
 }
 
 .studio-glow-pulse {
@@ -416,8 +415,8 @@ body {
 }
 
 .studio-glow-pulse:hover {
-    box-shadow: 0 0 50px rgba(255, 193, 227, 0.6) !important;
-    border-color: rgba(255, 193, 227, 0.9) !important;
+    box-shadow: 0 0 50px rgba(255, 255, 255, 0.6) !important;
+    border-color: rgba(255, 255, 255, 0.9) !important;
     transform: scale(1.02);
 }
 
@@ -458,4 +457,36 @@ body {
     box-shadow: 0 0 50px rgba(37, 211, 102, 1) !important;
     animation: none;
     transform: scale(1.05);
+}
+
+/* Premium Navigation Glow - Static & Constant */
+.nav-glow-throb {
+    box-shadow: 
+        0 4px 20px rgba(255, 255, 255, 0.1),
+        0 0 15px rgba(255, 255, 255, 0.05),
+        0 10px 40px rgba(0, 0, 0, 0.5);
+}
+
+.premium-cross-svg {
+    filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.3));
+}
+
+/* Premium Drawer Throbbing Glow */
+@keyframes drawerGlowThrob {
+    0% { 
+        box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5), inset 0 0 20px rgba(255, 255, 255, 0.02);
+        border-left-color: rgba(255, 255, 255, 0.1);
+    }
+    50% { 
+        box-shadow: -20px 0 60px rgba(255, 255, 255, 0.08), inset 0 0 40px rgba(255, 255, 255, 0.05);
+        border-left-color: rgba(255, 255, 255, 0.25);
+    }
+    100% { 
+        box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5), inset 0 0 20px rgba(255, 255, 255, 0.02);
+        border-left-color: rgba(255, 255, 255, 0.1);
+    }
+}
+
+.drawer-glow-throb {
+    animation: drawerGlowThrob 8s ease-in-out infinite;
 }

@@ -174,7 +174,7 @@ const Navigation: React.FC<NavigationProps> = ({ onMenuStateChange }) => {
         initial={{ y: -50, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 1.5, ease: [0.25, 0.1, 0.25, 1] as const }}
-        className="fixed top-4 md:top-6 left-0 right-0 mx-auto w-[calc(100%-1.5rem)] md:w-[calc(100%-3rem)] lg:w-[calc(100%-4rem)] max-w-[1600px] z-[220] px-5 py-3 md:px-8 md:py-4 flex justify-between items-center pointer-events-none bg-black/40 backdrop-blur-[25px] saturate-[1.5] border border-white/10 rounded-full shadow-[0_10px_40px_rgba(0,0,0,0.5)]">
+        className="fixed top-4 md:top-6 left-0 right-0 mx-auto w-[calc(100%-1.5rem)] md:w-[calc(100%-3rem)] lg:w-[calc(100%-4rem)] max-w-[1600px] z-[200] px-5 py-3 md:px-8 md:py-4 flex justify-between items-center pointer-events-none bg-black/40 backdrop-blur-[25px] saturate-[1.5] border border-white/10 rounded-full shadow-[0_10px_40px_rgba(0,0,0,0.5)] nav-glow-throb">
 
         <div onClick={handleLogoClick} className="pointer-events-auto flex items-center gap-3 cursor-pointer group">
           {siteContent?.header?.logo_image && (
@@ -183,6 +183,7 @@ const Navigation: React.FC<NavigationProps> = ({ onMenuStateChange }) => {
               alt="Logo"
               className="h-6 md:h-8 w-auto object-contain transition-transform duration-500 group-hover:scale-105"
               style={{ background: 'transparent' }}
+              loading="lazy"
             />
           )}
           <div className="flex flex-col gap-0.5">
@@ -217,8 +218,17 @@ const Navigation: React.FC<NavigationProps> = ({ onMenuStateChange }) => {
       {/* GSAP Managed Drawer */}
       <div
         ref={drawerRef}
-        className="fixed top-0 right-0 h-screen w-[320px] sm:w-[450px] z-[210] bg-black/40 backdrop-blur-[40px] saturate-[1.2] border-l border-white/10 flex flex-col shadow-[-20px_0_50px_rgba(0,0,0,0.5)] overflow-hidden translate-x-full pointer-events-auto"
+        className="fixed top-0 right-0 h-screen w-[320px] sm:w-[450px] z-[210] bg-black/40 backdrop-blur-[40px] saturate-[1.2] border-l border-white/10 flex flex-col shadow-[-20px_0_50px_rgba(0,0,0,0.5)] overflow-hidden translate-x-full pointer-events-auto drawer-glow-throb"
       >
+        <button 
+          onClick={() => toggleMenu()}
+          className="absolute top-6 right-6 md:top-8 md:right-8 w-12 h-12 flex items-center justify-center rounded-full bg-white/5 border border-white/10 hover:bg-white/20 hover:border-white/30 transition-all duration-300 z-10 group backdrop-blur-md"
+        >
+          <svg className="w-5 h-5 md:w-6 md:h-6 text-white premium-cross-svg group-hover:scale-110 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+
         <div className="flex-1 py-16 px-6 sm:px-12 flex flex-col justify-center h-screen">
           <div className="font-mono text-[10px] md:text-[12px] text-white/50 tracking-[0.4em] uppercase text-center w-full mb-12 relative flex justify-center opacity-100">
             <span className="px-4 py-1.5 rounded-full border border-white/10 bg-white/5 backdrop-blur-md">NAVIGATION</span>

@@ -11,7 +11,7 @@ export default function HeroSbg() {
     useEffect(() => {
         if (!containerRef.current) return;
 
-        // Simple parallax effect instead of pinning for 4 screens
+        // Simple parallax effect
         const tl = gsap.timeline({
             scrollTrigger: {
                 trigger: containerRef.current,
@@ -36,19 +36,18 @@ export default function HeroSbg() {
     }, []);
 
     return (
-        <div
-            ref={containerRef}
-            style={{
-                position: 'absolute',
-                inset: 0,
-                width: '100%',
-                height: '100%',
-                backgroundImage: `url(${heroBgImage})`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-                backgroundRepeat: 'no-repeat',
-                backgroundColor: '#000',
-            }}
-        />
+        <div ref={containerRef} className="absolute inset-0 w-full h-full overflow-hidden bg-black">
+            <img 
+                src={heroBgImage} 
+                className="w-full h-full object-cover"
+                style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover'
+                }}
+                alt=""
+                fetchPriority="high"
+            />
+        </div>
     );
 }

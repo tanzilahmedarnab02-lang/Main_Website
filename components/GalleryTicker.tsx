@@ -20,7 +20,7 @@ const GalleryTicker: React.FC<GalleryTickerProps> = ({ onHover, activeId }) => {
           >
             <div className="relative h-[50px] overflow-hidden bg-zinc-900/50 flex items-center gap-4 rounded-sm border border-white/5">
               <div className="w-12 h-full flex-none overflow-hidden bg-zinc-800">
-                <img src={service.image} alt={service.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+                <img src={service.image} alt={service.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" loading="lazy" />
               </div>
               <div className="flex flex-col overflow-hidden">
                 <h4 className="font-impact text-xs md:text-sm tracking-widest text-white leading-none mb-1 truncate">{service.title}</h4>

@@ -93,6 +93,7 @@ const TiltedCard: React.FC<TiltedCardProps> = ({
                             height: imageHeight,
                             width: imageWidth,
                         }}
+                        loading="lazy"
                     />
                 ) : (
                     <div

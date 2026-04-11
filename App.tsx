@@ -107,7 +107,9 @@ const DynamicMainHeading = ({ text, className = '' }: { text: string, className?
                 >
                     {lineWords.map((word, wordIndex) => (
                         <React.Fragment key={`${lineIndex}-${wordIndex}`}>
-                            <span className={lineIndex === 0 ? 'text-white' : 'text-[#E0A9C5]'}>
+                            <span
+                                className={lineIndex === 0 ? 'premium-glow-text-white' : 'premium-glow-text'}
+                            >
                                 {word}
                             </span>
                             {wordIndex < lineWords.length - 1 && ' '}
@@ -1089,7 +1091,7 @@ const App: React.FC = () => {
                                 animate={{ scale: 1, opacity: 1 }}
                                 whileHover={{ scale: 1.1 }}
                                 whileTap={{ scale: 0.9 }}
-                                className="bg-[#25D366] text-white p-3 md:p-4 rounded-full shadow-2xl flex items-center justify-center group"
+                                className="bg-[#25D366] text-white p-3 md:p-4 rounded-full flex items-center justify-center group whatsapp-glow"
                                 title="Chat with us on WhatsApp"
                             >
                                 <svg className="w-5 h-5 md:w-6 md:h-6 lg:w-7 lg:h-7 fill-current" viewBox="0 0 24 24">
@@ -1103,7 +1105,7 @@ const App: React.FC = () => {
                                 animate={{ scale: 1, opacity: 1 }}
                                 whileHover={{ scale: 1.05 }}
                                 whileTap={{ scale: 0.95 }}
-                                className="relative px-4 py-2 md:px-8 md:py-4 rounded-full font-impact text-xs md:text-sm uppercase tracking-wider shadow-2xl flex items-center justify-center gap-2 overflow-hidden border border-[#E0A9C5]/50"
+                                className="relative px-4 py-2 md:px-8 md:py-4 rounded-full font-impact text-xs md:text-sm uppercase tracking-wider flex items-center justify-center gap-2 overflow-hidden border border-[#E0A9C5]/50 premium-btn-glow"
                                 style={{
                                     background: '#db72a8',
                                     color: 'white',
@@ -1136,33 +1138,34 @@ const App: React.FC = () => {
                                     className="mb-[-4vh] md:mb-[-8vh]">
                                     <div className="flex flex-col items-start px-2 sm:px-0">
                                         <div className="flex items-center gap-4 mb-4">
-                                            <span className="font-mono text-[clamp(12px,1.5vw,14px)] text-[#E0A9C5] tracking-[0.6em] uppercase font-black">{siteContent?.header?.status_label || 'SYSTEM.P41'}</span>
+                                            <span className="font-mono text-[clamp(12px,1.5vw,14px)] premium-glow-text tracking-[0.6em] uppercase font-black">{siteContent?.header?.status_label || 'SYSTEM.P41'}</span>
                                             <div className="h-[1px] w-24 sm:w-32 bg-zinc-800" />
                                         </div>
                                         <div className="relative mb-6 pl-4 md:pl-0">
-                                            <div className="absolute -left-6 md:-left-12 top-0 h-full w-[1px] bg-[#E0A9C5]/40 hidden sm:block" />
+                                            <div className="absolute -left-6 md:-left-12 top-0 h-full w-[1px] bg-[#FFC1E3]/40 hidden sm:block shadow-[0_0_15px_rgba(255,193,227,0.5)]" />
                                             <div className="max-w-full">
                                                 <DynamicMainHeading text={siteContent?.header?.main_heading || (SITE_CONTENT as any).header?.main_heading || ''} className="tracking-wide" />
                                             </div>
                                         </div>
                                         <div className="flex flex-col md:flex-row items-start md:items-center gap-6 md:gap-8 mt-4">
-                                            <div className="max-w-[280px] sm:max-w-xs"><p className="font-mono text-[clamp(12px,1.3vw,14px)] text-white/40 tracking-[0.3em] uppercase leading-relaxed">{siteContent?.header?.subtitle || (SITE_CONTENT as any).header?.subtitle || ''}</p></div>
-                                            <div className="flex flex-col font-mono text-[clamp(10px,1vw,12px)] text-[#E0A9C5] tracking-[0.4em] uppercase border-l border-[#E0A9C5]/20 pl-6 py-1"><span>{siteContent?.header?.status_label || 'IDENTITY REFINEMENT'}</span><span className="text-white/20">{siteContent?.header?.status_value || 'STATUS: OPERATIONAL'}</span></div>
+                                            <div className="max-w-[280px] sm:max-w-xs"><p className="font-mono text-[clamp(12px,1.3vw,14px)] premium-glow-text-white tracking-[0.3em] uppercase leading-relaxed text-shadow-sm">{siteContent?.header?.subtitle || (SITE_CONTENT as any).header?.subtitle || ''}</p></div>
+                                            <div className="flex flex-col font-mono text-[clamp(10px,1vw,12px)] premium-glow-text tracking-[0.4em] uppercase border-l border-[#FFC1E3]/30 pl-6 py-1"><span>{siteContent?.header?.status_label || 'IDENTITY REFINEMENT'}</span><span className="premium-glow-text-white opacity-60">{siteContent?.header?.status_value || 'STATUS: OPERATIONAL'}</span></div>
                                         </div>
                                     </div>
                                 </motion.div>
                             </div>
                         </section>
 
-                        <section id="studio-work" ref={portfolioRef} className="relative min-h-[100vh] md:h-[100vh] w-full bg-black overflow-x-auto overflow-y-auto md:overflow-y-hidden flex items-center z-50">
+                        <section id="studio-work" ref={portfolioRef} className="relative min-h-[100vh] md:h-[100vh] w-full bg-black overflow-x-auto overflow-y-auto md:overflow-y-hidden flex items-center z-50 mt-20 md:mt-32 lg:mt-48">
                             {/* Horizontal Scroll Container - Premium GSAP Animation */}
                             <div ref={sliderRef} className="studio-scroll-container w-full h-auto md:h-full overflow-x-auto overflow-y-auto md:overflow-y-hidden relative z-10">
                                 <div ref={sliderTrackRef} className="studio-scroll-track relative flex h-full items-center gap-4 sm:gap-8 md:gap-10 lg:gap-12 xl:gap-16 2xl:gap-20 pl-16 sm:pl-20 md:pl-28 lg:pl-32 xl:pl-36 2xl:pl-40 pr-8 will-change-transform scrollbar-hide ml-2 sm:ml-4 md:ml-6" style={{ zIndex: 1, touchAction: 'pan-x pan-y' }}>
                                     {gallery.map((item, index) => (
                                         <motion.div
                                             key={item.id}
-                                            className="gallery-item studio-project-card group relative w-[280px] h-[350px] sm:w-[350px] sm:h-[450px] md:w-[450px] md:h-[600px] lg:w-[500px] lg:h-[650px] xl:w-[550px] xl:h-[700px] 2xl:w-[600px] 2xl:h-[750px] shrink-0 overflow-hidden border border-zinc-800 transition-colors duration-700 hover:border-[#E0A9C5] bg-zinc-900 scroll-snap-start"
+                                            className="gallery-item studio-project-card group relative w-[280px] h-[350px] sm:w-[350px] sm:h-[450px] md:w-[450px] md:h-[600px] lg:w-[500px] lg:h-[650px] xl:w-[550px] xl:h-[700px] 2xl:w-[600px] 2xl:h-[750px] shrink-0 overflow-hidden border transition-colors duration-700 bg-zinc-900 scroll-snap-start studio-glow-pulse"
                                             data-index={index}
+                                            style={{ animationDelay: `${index * 1.5}s` }}
                                         >
                                             <div className="absolute inset-0 overflow-hidden">
                                                 <img
@@ -1226,11 +1229,13 @@ const App: React.FC = () => {
 
                                 <motion.div
                                     ref={aboutCardRef}
-                                    initial={{ opacity: 0, scale: 0.9 }}
-                                    whileInView={{ opacity: 1, scale: 1 }}
-                                    viewport={{ once: true }}
+                                    initial={{ opacity: 0, y: 400, scale: 0.9 }}
+                                    whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                                    transition={{ duration: 1.6, ease: [0.16, 1, 0.3, 1] }}
+                                    viewport={{ once: false, amount: 0.2 }}
                                     className="pointer-events-auto absolute right-2 sm:right-6 md:right-10 lg:right-16 top-1/2 -translate-y-1/2 z-[50] flex items-center"
                                 >
+                                    <div className="absolute inset-0 bg-white/30 blur-[150px] rounded-full scale-[1.8] pointer-events-none" />
                                     <TiltedCard
                                         imageSrc={siteContent?.about?.image || ""}
                                         altText={siteContent?.about?.imageText1 || ''}
@@ -1255,7 +1260,7 @@ const App: React.FC = () => {
                             </div>
                         </section>
 
-                        <section id="catalog" className="relative py-16 md:py-24 bg-black border-t border-b border-zinc-900 overflow-hidden">
+                        <section id="catalog" className="relative py-16 md:py-24 mt-20 md:mt-32 lg:mt-48 bg-black border-t border-b border-zinc-900 overflow-hidden">
                             <div className="absolute inset-0 bg-gradient-to-b from-[#050505] via-black to-[#050505] pointer-events-none" />
                             <div ref={catalogHeaderRef} className="max-w-7xl lg:mx-0 mx-auto px-6 sm:px-8 lg:pl-32 relative z-10">
                                 <div className="flex flex-col items-start mb-8 md:mb-12 gap-6">
@@ -1335,9 +1340,9 @@ const App: React.FC = () => {
                                                     const isSelected = selectedServiceIds.includes(service.id);
                                                     return (
                                                         <motion.div key={service.id} layout onClick={() => toggleService(service.id)}
-                                                            className={`catalog-item group relative bg-[#050505] border ${isSelected ? 'border-[#E0A9C5] bg-zinc-900' : 'border-zinc-800 hover:border-[#E0A9C5]/50'} p-2 md:p-3 cursor-pointer flex flex-row items-center justify-between gap-2 h-[60px] md:h-[70px]`}>
+                                                            className={`catalog-item group relative bg-[#050505] border ${isSelected ? 'border-[#E0A9C5] bg-zinc-900 shadow-[0_0_20px_rgba(224,169,197,0.4)] z-10' : 'border-zinc-800 hover:border-[#E0A9C5]/50 hover:shadow-[0_0_15px_rgba(255,193,227,0.25)] hover:z-10'} transition-all duration-300 p-2 md:p-3 cursor-pointer flex flex-row items-center justify-between gap-2 h-[60px] md:h-[70px]`}>
                                                             <div className="flex-1 min-w-0 flex flex-col justify-center">
-                                                                <h4 className={`font-impact text-xs md:text-sm uppercase truncate transition-colors ${isSelected ? 'text-[#E0A9C5]' : 'text-white group-hover:text-[#E0A9C5]'}`}>{service.title}</h4>
+                                                                <h4 className={`font-impact text-lg md:text-xl uppercase truncate transition-colors ${isSelected ? 'text-[#E0A9C5]' : 'text-white group-hover:text-[#E0A9C5]'}`}>{service.title}</h4>
                                                             </div>
                                                             <div className="w-[1px] h-8 md:h-10 bg-zinc-700 mx-1" />
                                                             <div className="flex flex-col items-end justify-center min-w-[50px] gap-1">
@@ -1370,7 +1375,7 @@ const App: React.FC = () => {
                                             </div>
                                             <button
                                                 onClick={handleBookNow}
-                                                className="group relative px-6 py-3 md:px-10 md:py-6 bg-[#db72a8] text-white font-impact text-xl md:text-2xl uppercase tracking-tighter overflow-hidden transition-all duration-500 hover:bg-white hover:text-black w-full sm:w-auto"
+                                                className="group relative px-6 py-3 md:px-10 md:py-6 bg-[#db72a8] text-white font-impact text-xl md:text-2xl uppercase tracking-tighter overflow-hidden transition-all duration-500 hover:bg-white hover:text-black w-full sm:w-auto premium-btn-glow"
                                             >
                                                 <span className="relative z-10 flex items-center justify-center gap-3 md:gap-4">
                                                     BOOK {selectedServiceIds.length} {selectedServiceIds.length === 1 ? 'SESSION' : 'SESSIONS'}

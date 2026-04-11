@@ -364,3 +364,98 @@ body {
 
     }
 }
+
+/* Premium Fluid Glow Text Animations */
+@keyframes waterGlow {
+    0% { background-position: 200% center; }
+    100% { background-position: -200% center; }
+}
+
+.premium-glow-text {
+    background: linear-gradient(90deg, #FFC1E3 0%, #FFC1E3 40%, #ffffff 50%, #FFC1E3 60%, #FFC1E3 100%);
+    background-size: 200% auto;
+    color: transparent;
+    -webkit-background-clip: text;
+    background-clip: text;
+    animation: waterGlow 4s linear infinite;
+    filter: drop-shadow(0 0 10px rgba(255, 193, 227, 0.4)) drop-shadow(0 0 25px rgba(255, 193, 227, 0.3));
+}
+
+.premium-glow-text-white {
+    background: linear-gradient(90deg, #ffffff 0%, #ffffff 40%, #FFC1E3 50%, #ffffff 60%, #ffffff 100%);
+    background-size: 200% auto;
+    color: transparent;
+    -webkit-background-clip: text;
+    background-clip: text;
+    animation: waterGlow 4s linear infinite;
+    filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.6)) drop-shadow(0 0 30px rgba(255, 255, 255, 0.3));
+}
+
+.premium-glow-text-muted {
+    background: linear-gradient(90deg, #FFC1E3 0%, #FFC1E3 45%, #ffffff 50%, #FFC1E3 55%, #FFC1E3 100%);
+    background-size: 200% auto;
+    color: transparent;
+    -webkit-background-clip: text;
+    background-clip: text;
+    animation: waterGlow 5s linear infinite;
+    filter: drop-shadow(0 0 8px rgba(255, 193, 227, 0.2));
+}
+
+/* Studio Work Wave Glow (Soft, Light Pink Water-like Ripple) */
+@keyframes waveGlow {
+    0% { box-shadow: 0 0 0px rgba(255, 193, 227, 0); border-color: rgba(63, 63, 70, 1); }
+    25% { box-shadow: 10px 0 25px rgba(255, 193, 227, 0.2); border-color: rgba(255, 193, 227, 0.3); }
+    50% { box-shadow: 0 0 40px rgba(255, 193, 227, 0.35); border-color: rgba(255, 193, 227, 0.5); }
+    75% { box-shadow: -10px 0 25px rgba(255, 193, 227, 0.2); border-color: rgba(255, 193, 227, 0.3); }
+    100% { box-shadow: 0 0 0px rgba(255, 193, 227, 0); border-color: rgba(63, 63, 70, 1); }
+}
+
+.studio-glow-pulse {
+    animation: waveGlow 12s infinite ease-in-out;
+    transition: all 0.8s ease-out;
+}
+
+.studio-glow-pulse:hover {
+    box-shadow: 0 0 50px rgba(255, 193, 227, 0.6) !important;
+    border-color: rgba(255, 193, 227, 0.9) !important;
+    transform: scale(1.02);
+}
+
+/* Premium Pink Button Glow */
+@keyframes buttonPulseGlow {
+    0% { box-shadow: 0 0 20px rgba(255, 133, 229, 0.5); }
+    50% { box-shadow: 0 0 50px rgba(255, 133, 229, 1); }
+    100% { box-shadow: 0 0 20px rgba(255, 133, 229, 0.5); }
+}
+
+.premium-btn-glow {
+    background-color: #db72a8 !important;
+    animation: buttonPulseGlow 3s ease-in-out infinite;
+    transition: all 0.4s ease-out !important;
+}
+
+.premium-btn-glow:hover {
+    background-color: white !important;
+    box-shadow: 0 0 50px rgba(255, 133, 229, 1) !important;
+    color: black !important;
+    animation: none;
+    transform: scale(1.05);
+}
+
+/* Premium WhatsApp Green Glow */
+@keyframes whatsappPulseGlow {
+    0% { box-shadow: 0 0 15px rgba(37, 211, 102, 0.4); }
+    50% { box-shadow: 0 0 40px rgba(37, 211, 102, 0.9); }
+    100% { box-shadow: 0 0 15px rgba(37, 211, 102, 0.4); }
+}
+
+.whatsapp-glow {
+    animation: whatsappPulseGlow 3.5s ease-in-out infinite;
+    transition: all 0.4s ease-out !important;
+}
+
+.whatsapp-glow:hover {
+    box-shadow: 0 0 50px rgba(37, 211, 102, 1) !important;
+    animation: none;
+    transform: scale(1.05);
+}

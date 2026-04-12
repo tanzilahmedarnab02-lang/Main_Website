@@ -89,7 +89,7 @@ const ServicePanel = ({ services, onToggle, selectedIds, onClose }: { services: 
                                     </div>
                                     <div className="flex flex-col">
                                         <div className="flex items-center gap-1 md:gap-2 mb-0.5">
-                                            <span className={`font-impact text-lg md:text-xl uppercase leading-none ${selectedIds.includes(s.id!) ? 'text-white' : 'text-white/80 group-hover:text-white'}`}>{s.title}</span>
+                                            <span className={`font-impact text-lg md:text-xl uppercase leading-none tracking-wider ${selectedIds.includes(s.id!) ? 'text-white' : 'text-white/80 group-hover:text-white'}`}>{s.title}</span>
                                             {activeCategory === 'ALL' && <span className="font-mono text-[6px] md:text-[8px] text-white/40 uppercase bg-black/20 px-1 rounded">{s.category}</span>}
                                         </div>
                                         <span className="font-mono text-[12px] md:text-[14px] text-white/60 uppercase">{s.duration ? `DURATION: ${s.duration}` : ''}</span>

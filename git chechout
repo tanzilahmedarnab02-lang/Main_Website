@@ -1,0 +1,11 @@
+[33m9c1a38f[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m Clean code and changes some ui
+[33m9bc0c81[m glow animations+header+menu bar
+[33m34b0110[m navigation bar animation and studio work image text remove
+[33m98d2cdb[m About section text and image position
+[33mb03e5ce[m catalog bg  problem
+[33m41c5bf3[m testSprite
+[33m0487d9f[m Definitive fix for Netlify secrets
+[33m099978f[m Fix Netlify secrets scanning error
+[33m48ffe8c[m netlify.toml
+[33mdf3120a[m 2nd commit
+[33md2982bd[m First commit

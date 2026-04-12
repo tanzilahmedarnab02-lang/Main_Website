@@ -129,9 +129,10 @@ ON CONFLICT (section, key_name) DO UPDATE SET value_text = EXCLUDED.value_text;
 INSERT INTO site_content (section, key_name, value_text, sort_order) VALUES
 ('about', 'heading', 'CRAFTED IN CHAOS', 1),
 ('about', 'label', '[ PHILOSOPHY.EXE ]', 2),
-('about', 'description', 'We do not just cut hair; we engineer identities. Our Parlour is a sanctuary for those who seek to bridge the gap between their vision and reality.', 3),
-('about', 'image', 'https://i.pinimg.com/736x/da/4a/71/da4a71c1e8529cb1543ca1eedfeb4653.jpg', 4),
-('about', 'imageText1', '', 5)
+('about', 'philosophy', 'We do not just cut hair; we engineer identities.', 3),
+('about', 'description', '', 4),
+('about', 'image', 'https://i.pinimg.com/736x/da/4a/71/da4a71c1e8529cb1543ca1eedfeb4653.jpg', 5),
+('about', 'imageText1', '', 6)
 ON CONFLICT (section, key_name) DO UPDATE SET value_text = EXCLUDED.value_text;
 
 -- Catalog Section

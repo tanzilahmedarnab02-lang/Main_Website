@@ -174,7 +174,7 @@ const Navigation: React.FC<NavigationProps> = ({ onMenuStateChange }) => {
         initial={{ y: -50, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 1.5, ease: [0.25, 0.1, 0.25, 1] as const }}
-        className="fixed top-4 md:top-6 left-0 right-0 mx-auto w-[calc(100%-1.5rem)] md:w-[calc(100%-3rem)] lg:w-[calc(100%-4rem)] max-w-[1600px] z-[200] px-5 py-3 md:px-8 md:py-4 flex justify-between items-center pointer-events-none bg-black/40 backdrop-blur-[25px] saturate-[1.5] border border-white/10 rounded-full shadow-[0_10px_40px_rgba(0,0,0,0.5)] nav-glow-throb">
+        className="fixed top-4 md:top-6 left-0 right-0 mx-auto w-[calc(100%-1.5rem)] md:w-[calc(100%-3rem)] lg:w-[calc(100%-4rem)] max-w-[1600px] z-[200] px-5 py-3 md:px-8 md:py-4 flex justify-between items-center pointer-events-auto bg-white/10 backdrop-blur-[25px] saturate-[1.8] border border-white/20 rounded-full shadow-[0_10px_40px_rgba(255,255,255,0.15)] nav-glow-throb">
 
         <div onClick={handleLogoClick} className="pointer-events-auto flex items-center gap-3 cursor-pointer group">
           {siteContent?.header?.logo_image && (

@@ -705,10 +705,10 @@ const App: React.FC = () => {
                                 animate={{ scale: 1, opacity: 1 }}
                                 whileHover={{ scale: 1.1 }}
                                 whileTap={{ scale: 0.9 }}
-                                className="bg-[#25D366] text-white p-3 md:p-4 rounded-full flex items-center justify-center group whatsapp-glow"
+                                className="bg-[#25D366] text-white p-3 md:p-4 rounded-full flex items-center justify-center group whatsapp-glow border-none outline-none"
                                 title="Chat with us on WhatsApp"
                             >
-                                <svg className="w-5 h-5 md:w-6 md:h-6 lg:w-7 lg:h-7 fill-current" viewBox="0 0 24 24">
+                                <svg className="w-5 h-5 md:w-6 md:h-6 lg:w-7 lg:h-7 fill-current stroke-0" viewBox="0 0 24 24">
                                     <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
                                 </svg>
                             </motion.a>
@@ -721,7 +721,7 @@ const App: React.FC = () => {
                                 whileTap={{ scale: 0.95 }}
                                 className="relative px-4 py-2 md:px-8 md:py-4 rounded-full font-impact text-xs md:text-sm uppercase tracking-wider flex items-center justify-center gap-2 overflow-hidden border border-[#E0A9C5]/50 premium-btn-glow"
                                 style={{
-                                    background: '#db72a8',
+                                    background: '#FF5499',
                                     color: 'white',
                                     textShadow: '0 2px 4px rgba(0,0,0,0.3)'
                                 }}
@@ -770,9 +770,9 @@ const App: React.FC = () => {
                             </div>
                         </section>
 
-                        <section id="studio-work" ref={portfolioRef} className="relative min-h-[100vh] md:h-[100vh] w-full bg-black overflow-x-auto overflow-y-auto md:overflow-y-hidden flex items-center z-50 mt-20 md:mt-32 lg:mt-48">
+                        <section id="studio-work" ref={portfolioRef} className="relative min-h-[100vh] md:h-screen w-full bg-black overflow-x-hidden flex flex-col items-center justify-center z-50 mt-20 md:mt-32 lg:mt-48 md:pt-[6vh]">
                             {/* Horizontal Scroll Container - Premium GSAP Animation */}
-                            <div ref={sliderRef} className="studio-scroll-container w-full h-auto md:h-full overflow-x-auto overflow-y-auto md:overflow-y-hidden relative z-10">
+                            <div ref={sliderRef} className="studio-scroll-container w-full h-auto overflow-x-auto overflow-y-hidden relative z-10 flex items-center mb-8 md:mb-12">
                                 <div ref={sliderTrackRef} className="studio-scroll-track relative flex h-full items-center gap-4 sm:gap-8 md:gap-10 lg:gap-12 xl:gap-16 2xl:gap-20 pl-16 sm:pl-20 md:pl-28 lg:pl-32 xl:pl-36 2xl:pl-40 pr-8 will-change-transform scrollbar-hide ml-2 sm:ml-4 md:ml-6" style={{ zIndex: 1, touchAction: 'pan-x pan-y' }}>
                                     {gallery.map((item, index) => (
                                         <motion.div
@@ -800,15 +800,14 @@ const App: React.FC = () => {
                                         </motion.div>
                                     ))}
                                 </div>
-
-                                {/* See All Button - Opens Gallery Modal */}
-                                <button
-                                    onClick={() => { setGalleryModalIndex(0); setIsGalleryModalOpen(true); }}
-                                    className="absolute bottom-8 left-1/2 -translate-x-1/2 z-[60] px-6 py-3 border border-[#E0A9C5] bg-[#E0A9C5]/10 hover:bg-[#E0A9C5]/20 text-[#E0A9C5] font-impact text-sm tracking-[0.2em] uppercase transition-all duration-300 cursor-pointer backdrop-blur-sm"
-                                >
-                                    See All Works
-                                </button>
                             </div>
+
+                            <button
+                                onClick={() => { setGalleryModalIndex(0); setIsGalleryModalOpen(true); }}
+                                className="absolute md:relative bottom-48 md:bottom-0 left-1/2 md:left-auto -translate-x-1/2 md:translate-x-0 z-[60] px-6 py-3 border border-[#E0A9C5] bg-[#E0A9C5]/10 hover:bg-[#E0A9C5]/20 text-[#E0A9C5] font-impact text-sm tracking-[0.2em] uppercase transition-all duration-300 cursor-pointer backdrop-blur-sm mb-4 md:mb-0"
+                            >
+                                See All Works
+                            </button>
 
                             {/* Overlays - Sidebar and accents moved after slider container for natural stacking */}
                             <div className="absolute left-0 top-0 h-full w-16 sm:w-24 md:w-32 lg:w-36 xl:w-40 2xl:w-44 border-r border-zinc-800 border-dashed flex flex-col items-center justify-between py-8 z-[70] bg-black">
@@ -838,7 +837,7 @@ const App: React.FC = () => {
                                 >
                                     <h2 className="font-impact text-[clamp(1.75rem,7.5vw,4.5rem)] md:text-[clamp(3rem,11vw,9rem)] text-white leading-[0.85] md:leading-none uppercase mb-6 md:mb-8 break-words">CRAFTED <span className="block text-[#E0A9C5]">IN CHAOS</span></h2>
                                     <p className="text-zinc-300 font-light text-[clamp(0.75rem,1.4vw,1.2rem)] leading-relaxed max-w-[180px] sm:max-w-[300px] md:max-w-[450px]">
-                                        {siteContent?.about?.description || "We don't just cut hair; we engineer identities. The Parlour is a sanctuary for those who seek to bridge the gap between their vision and reality."}
+                                        {siteContent?.about?.philosophy || siteContent?.about?.description || "We do not just cut hair; we engineer identities."}
                                     </p>
                                 </div>
 
@@ -881,7 +880,7 @@ const App: React.FC = () => {
                                 <div className="flex flex-col items-start mb-8 md:mb-12 gap-6">
                                     <div>
                                         <div className="font-mono text-[clamp(8px,1vw,10px)] text-[#E0A9C5] tracking-[0.4em] md:tracking-[0.5em] mb-2 uppercase">{siteContent?.catalog?.catalog_label || '[ ARCHIVE // SERVICES ]'}</div>
-                                        <h2 className="font-impact text-[clamp(3rem,10vw,8rem)] text-white leading-none uppercase whitespace-nowrap">{siteContent?.catalog?.heading || 'THE CATALOG'}</h2>
+                                        <h2 className="font-impact text-[clamp(3rem,10vw,8rem)] text-white leading-none uppercase whitespace-nowrap tracking-wider">{siteContent?.catalog?.heading || 'THE CATALOG'}</h2>
                                     </div>
                                     <div className="flex flex-wrap gap-2 sm:gap-3 md:gap-4 border-b border-zinc-900 pb-2 w-full">
                                         {['ALL', ...Array.from(new Set(services.map(s => s.category)))].map((cat, index, array) => (
@@ -943,7 +942,7 @@ const App: React.FC = () => {
                                         <div key={category} className="category-group">
                                             <div className="mb-4 md:mb-6">
                                                 <div className="flex items-baseline gap-3 md:gap-4">
-                                                    <h3 className="font-impact text-[clamp(2rem,6vw,4rem)] text-[#E0A9C5] uppercase leading-none tracking-tight">{category}</h3>
+                                                    <h3 className="font-impact text-[clamp(2rem,6vw,4rem)] text-[#E0A9C5] uppercase leading-none tracking-wide">{category}</h3>
                                                     <div className="flex items-center gap-2 md:gap-3">
                                                         <div className="h-[1px] w-8 md:w-12 bg-[#E0A9C5]" />
                                                         <span className="font-mono text-[clamp(8px,1.5vw,12px)] text-white/60 uppercase tracking-widest">{categoryServices.length} ITEMS</span>
@@ -957,7 +956,7 @@ const App: React.FC = () => {
                                                         <motion.div key={service.id} layout onClick={() => toggleService(service.id)}
                                                             className={`catalog-item group relative bg-[#050505] border ${isSelected ? 'border-[#E0A9C5] bg-zinc-900 shadow-[0_0_20px_rgba(224,169,197,0.4)] z-10' : 'border-zinc-800 hover:border-[#E0A9C5]/50 hover:shadow-[0_0_15px_rgba(255,193,227,0.25)] hover:z-10'} transition-all duration-300 p-2 md:p-3 cursor-pointer flex flex-row items-center justify-between gap-2 h-[60px] md:h-[70px]`}>
                                                             <div className="flex-1 min-w-0 flex flex-col justify-center">
-                                                                <h4 className={`font-impact text-lg md:text-xl uppercase truncate transition-colors ${isSelected ? 'text-[#E0A9C5]' : 'text-white group-hover:text-[#E0A9C5]'}`}>{service.title}</h4>
+                                                                <h4 className={`font-impact text-lg md:text-xl uppercase truncate tracking-wider transition-colors ${isSelected ? 'text-[#E0A9C5]' : 'text-white group-hover:text-[#E0A9C5]'}`}>{service.title}</h4>
                                                             </div>
                                                             <div className="w-[1px] h-8 md:h-10 bg-zinc-700 mx-1" />
                                                             <div className="flex flex-col items-end justify-center min-w-[50px] gap-1">
@@ -973,7 +972,8 @@ const App: React.FC = () => {
                                         </div>
                                     ))}
                                 </div>
-
+                            </div>
+                            <div className="max-w-7xl mx-auto px-6 sm:px-8 relative z-10 w-full mb-12">
                                 <AnimatePresence>
                                     {selectedServiceIds.length > 0 && (
                                         <motion.div
@@ -990,7 +990,7 @@ const App: React.FC = () => {
                                             </div>
                                             <button
                                                 onClick={handleBookNow}
-                                                className="group relative px-6 py-3 md:px-10 md:py-6 bg-[#db72a8] text-white font-impact text-xl md:text-2xl uppercase tracking-tighter overflow-hidden transition-all duration-500 hover:bg-white hover:text-black w-full sm:w-auto premium-btn-glow"
+                                                className="group relative px-6 py-3 md:px-10 md:py-6 bg-[#FF5499] text-white font-impact text-xl md:text-2xl uppercase tracking-tighter overflow-hidden transition-all duration-500 hover:bg-white hover:text-black w-full sm:w-auto premium-btn-glow"
                                             >
                                                 <span className="relative z-10 flex items-center justify-center gap-3 md:gap-4">
                                                     BOOK {selectedServiceIds.length} {selectedServiceIds.length === 1 ? 'SESSION' : 'SESSIONS'}
@@ -1008,7 +1008,7 @@ const App: React.FC = () => {
                             <div className="text-center px-6">
                                 <h2 className="text-[clamp(4rem,15vw,12rem)] font-impact leading-[0.85] tracking-tighter mb-4 uppercase">{bookNowSettings?.reserve_heading || 'RESERVE'} <br />{bookNowSettings?.reserve_heading ? '' : 'NOW'}</h2>
                                 <p className="max-w-xl mx-auto font-mono text-[clamp(10px,1.2vw,12px)] uppercase tracking-[0.3em] md:tracking-[0.4em] mb-8 md:mb-10 px-4">{bookNowSettings?.reserve_description || 'AVAILABILITY IS LIMITED. EXPERIENCE IS MANDATORY.'}</p>
-                                <motion.button onClick={handleBookNow} whileHover={{ scale: 1.05, backgroundColor: "black", color: "#db72a8" }} whileTap={{ scale: 0.95 }} className="px-8 py-3 md:px-10 md:py-3 border-2 border-black font-impact text-lg md:text-xl uppercase tracking-widest transition-colors duration-300">
+                                <motion.button onClick={handleBookNow} whileHover={{ scale: 1.05, backgroundColor: "black", color: "#FF5499" }} whileTap={{ scale: 0.95 }} className="px-8 py-3 md:px-10 md:py-3 border-2 border-black font-impact text-lg md:text-xl uppercase tracking-widest transition-colors duration-300">
                                     {selectedServiceIds.length > 0
                                         ? `Book ${selectedServiceIds.length} ${selectedServiceIds.length === 1 ? 'Session' : 'SESSIONS'}`
                                         : (bookNowSettings?.book_button_text || 'Book Appointment')}
@@ -1129,7 +1129,7 @@ const App: React.FC = () => {
                                                 </div>
                                             </div>
                                             <div className="mt-16 md:mt-24 flex flex-col items-center gap-4">
-                                                <motion.button onClick={confirmBooking} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="bg-[#db72a8] text-white px-10 md:px-16 py-4 md:py-6 flex items-center justify-center gap-4 md:gap-6 group w-full sm:w-auto">
+                                                <motion.button onClick={confirmBooking} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="bg-[#FF5499] text-white px-10 md:px-16 py-4 md:py-6 flex items-center justify-center gap-4 md:gap-6 group w-full sm:w-auto">
                                                     <span className="font-impact text-2xl md:text-4xl uppercase tracking-tighter">{bookNowSettings?.submit_button || 'START SESSION'}</span>
                                                 </motion.button>
                                                 {/* Map Section (Visible on Mobile - After Button) */}

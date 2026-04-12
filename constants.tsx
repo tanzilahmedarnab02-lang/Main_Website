@@ -55,7 +55,8 @@ export const SITE_CONTENT = {
   about: {
     heading: 'CRAFTED IN CHAOS',
     label: 'PHILOSOPHY.EXE',
-    description: 'We do not just cut hair; we engineer identities. Our Parlour is a sanctuary for those who seek to bridge the gap between their vision and reality.',
+    philosophy: 'We do not just cut hair; we engineer identities.',
+    description: '',
     image: '',
     imageText1: ''
   },

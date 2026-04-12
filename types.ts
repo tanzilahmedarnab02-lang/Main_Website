@@ -131,6 +131,7 @@ export interface FooterSettings {
     text: string;
     copyright_text?: string;
     dev_email?: string;
+    phone_number?: string;
     contact_email?: string;
     gmail?: string;
     gmail_embed?: string;
@@ -188,6 +189,7 @@ export interface SiteContentSections {
         text?: string;
         copyright_text?: string;
         dev_email?: string;
+        phone_number?: string;
         contact_email?: string;
         gmail?: string;
         gmail_embed?: string;

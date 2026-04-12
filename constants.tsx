@@ -94,6 +94,7 @@ export const SITE_CONTENT = {
     text: '',
     copyright_text: '',
     dev_email: '',
+    phone_number: '',
     contact_email: '',
     instagram: '',
     facebook: '',

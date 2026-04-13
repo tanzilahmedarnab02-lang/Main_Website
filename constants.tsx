@@ -84,8 +84,8 @@ export const SITE_CONTENT = {
     staff_value: '',
     success_label: 'SUCCESS RATE',
     success_value: '',
-    coordinate_label: 'COORDINATE',
-    coordinate_value: ''
+    coordinate_label: 'RATINGS',
+    coordinate_value: '4.9 ★'
   },
 
   // Footer

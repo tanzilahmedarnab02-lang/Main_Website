@@ -168,8 +168,8 @@ INSERT INTO site_content (section, key_name, value_text, sort_order) VALUES
 ('profile', 'staff_value', '00', 10),
 ('profile', 'success_label', 'SUCCESS RATE', 11),
 ('profile', 'success_value', '100%', 12),
-('profile', 'coordinate_label', 'COORDINATE', 13),
-('profile', 'coordinate_value', 'D-41', 14)
+('profile', 'coordinate_label', 'RATINGS', 13),
+('profile', 'coordinate_value', '4.9 ★', 14)
 ON CONFLICT (section, key_name) DO UPDATE SET value_text = EXCLUDED.value_text;
 
 -- Footer Section

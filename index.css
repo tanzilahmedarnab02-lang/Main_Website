@@ -532,3 +532,86 @@ body {
 .drawer-glow-throb {
     animation: drawerGlowThrob 8s ease-in-out infinite;
 }
+
+/* Premium Glassmorphism & Glossy Effects */
+.glass-premium {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.text-glossy {
+    background: linear-gradient(to bottom,
+            #fff 20%,
+            #FFC1E3 40%,
+            #ffffff 50%,
+            #FFC1E3 60%,
+            #fff 80%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    background-size: 100% 200%;
+    animation: gloss-shimmer 8s linear infinite;
+}
+
+@keyframes gloss-shimmer {
+    0% {
+        background-position: 0% 0%;
+    }
+
+    100% {
+        background-position: 0% 200%;
+    }
+}
+
+.grain-texture {
+    position: absolute;
+    inset: 0;
+    opacity: 0.05;
+    pointer-events: none;
+    background-image: url("https://grainy-gradients.vercel.app/noise.svg");
+    filter: contrast(150%) brightness(100%);
+    z-index: 50;
+}
+
+.glossy-beam {
+    position: absolute;
+    width: 200%;
+    height: 100%;
+    background: linear-gradient(90deg,
+            transparent 0%,
+            rgba(255, 255, 255, 0) 40%,
+            rgba(255, 255, 255, 0.2) 50%,
+            rgba(255, 255, 255, 0) 60%,
+            transparent 100%);
+    transform: rotate(-45deg);
+    pointer-events: none;
+    z-index: 10;
+}
+
+.glossy-sheen {
+    position: relative;
+    overflow: hidden;
+}
+
+.glossy-sheen::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+        45deg,
+        transparent 45%,
+        rgba(255, 255, 255, 0.1) 50%,
+        transparent 55%
+    );
+    animation: sheen-move 3s infinite;
+}
+
+@keyframes sheen-move {
+    0% { transform: translate(-30%, -30%); }
+    100% { transform: translate(30%, 30%); }
+}

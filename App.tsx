@@ -6,6 +6,7 @@ import { useGSAP } from '@gsap/react';
 import html2canvas from 'html2canvas';
 import Lenis from 'lenis';
 import IntroScribble from './components/IntroScribble';
+import PremiumIntro from './components/PremiumIntro';
 import Navigation from './components/Navigation';
 import FooterTitle from './components/FooterTitle';
 import GradientBlinds from './components/GradientBlinds';
@@ -202,6 +203,10 @@ const App: React.FC = () => {
             supabase.removeChannel(galleryChannel);
             window.removeEventListener('focus', handleFocus);
         };
+    }, []);
+
+    const onIntroComplete = React.useCallback(() => {
+        setAppState(AppState.READY);
     }, []);
 
     // Lenis smooth scroll
@@ -714,7 +719,13 @@ const App: React.FC = () => {
     return (
         <div ref={containerRef} className="relative w-full bg-[#010101] overflow-x-hidden">
             <AnimatePresence mode="wait">
-                {appState === AppState.INTRO && <IntroScribble key="intro" onComplete={() => setAppState(AppState.READY)} />}
+                {appState === AppState.INTRO && (
+                    <PremiumIntro 
+                        key="intro" 
+                        onComplete={onIntroComplete} 
+                        siteContent={siteContent}
+                    />
+                )}
                 {appState === AppState.READY && (
                     <motion.div key="main" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="relative w-full">
                         <div className="transition-wrapper"><svg className="transition-svg" viewBox="0 0 100 100" preserveAspectRatio="xMidYMin slice"><defs><linearGradient id="grad" x1="0" y1="0" x2="99" y2="99" gradientUnits="userSpaceOnUse"><stop offset="0.1" stopColor="rgba(224, 169, 197, 0.9)" /><stop offset="0.9" stopColor="rgba(255, 255, 255, 0.4)" /></linearGradient></defs><path ref={pathRef} className="path" stroke="url(#grad)" fill="url(#grad)" strokeWidth="2px" vectorEffect="non-scaling-stroke" d="M 0 100 V 100 Q 50 100 100 100 V 100 z" /></svg></div>
@@ -1148,7 +1159,7 @@ const App: React.FC = () => {
                                                 <div className="relative w-full aspect-square overflow-hidden border border-zinc-800 hidden md:block">
                                                     <label className="absolute top-2 left-2 z-10 font-mono text-[7px] md:text-[8px] text-zinc-500 uppercase tracking-widest">{bookNowSettings?.map_label || 'STRATEGIC COORDINATE'}</label>
                                                     <iframe src={siteContent?.footer?.map_embed || 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3022.1422937950147!2d-73.98731968482413!3d40.75889497932681!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c25855c6480299%3A0x55194ec5a1ae072e!2sTimes%20Square!5e0!3m2!1sen!2sus!4v1620000000000!5m2!1sen!2sus'} width="100%" height="100%" style={{ border: 0, filter: 'grayscale(100%) invert(90%) contrast(150%) brightness(0.8)' }} allowFullScreen={false} loading="lazy" title="Location Map"></iframe>
-                                                    <div className="absolute bottom-0 right-0 p-1 md:p-2 font-mono text-[6px] md:text-[7px] text-[#E0A9C5] uppercase tracking-widest bg-black/90 border-t border-l border-zinc-800">COORDS: D-41 // HQ</div>
+                                                    <div className="absolute bottom-0 right-0 p-1 md:p-2 font-mono text-[6px] md:text-[7px] text-[#E0A9C5] uppercase tracking-widest bg-black/90 border-t border-l border-zinc-800">RATING: 4.9 ★ // HQ</div>
                                                 </div>
                                             </div>
                                             <div className="mt-16 md:mt-24 flex flex-col items-center gap-4">
@@ -1159,7 +1170,7 @@ const App: React.FC = () => {
                                                 <div className="relative w-full aspect-square overflow-hidden border border-zinc-800 block md:hidden mt-8">
                                                     <label className="absolute top-2 left-2 z-10 font-mono text-[7px] text-zinc-500 uppercase tracking-widest">{bookNowSettings?.map_label || 'STRATEGIC COORDINATE'}</label>
                                                     <iframe src={siteContent?.footer?.map_embed || 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3022.1422937950147!2d-73.98731968482413!3d40.75889497932681!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c25855c6480299%3A0x55194ec5a1ae072e!2sTimes%20Square!5e0!3m2!1sen!2sus!4v1620000000000!5m2!1sen!2sus'} width="100%" height="100%" style={{ border: 0, filter: 'grayscale(100%) invert(90%) contrast(150%) brightness(0.8)' }} allowFullScreen={false} loading="lazy" title="Location Map"></iframe>
-                                                    <div className="absolute bottom-0 right-0 p-1 font-mono text-[6px] text-[#E0A9C5] uppercase tracking-widest bg-black/90 border-t border-l border-zinc-800">COORDS: D-41 // HQ</div>
+                                                    <div className="absolute bottom-0 right-0 p-1 font-mono text-[6px] text-[#E0A9C5] uppercase tracking-widest bg-black/90 border-t border-l border-zinc-800">RATING: 4.9 ★ // HQ</div>
                                                 </div>
                                                 {bookingError && (
                                                     <div className="font-mono text-[9px] md:text-[10px] text-[#E0A9C5] font-bold mt-4">
@@ -1271,7 +1282,7 @@ const App: React.FC = () => {
                                             <div className="flex flex-col"><span className="font-mono text-[10px] md:text-[12px] text-zinc-400 uppercase mb-1 md:mb-2 tracking-widest">{siteContent?.profile?.established_label || 'ESTABLISHED'}</span><span className="font-impact text-2xl md:text-3xl text-white"><CountUpText value={siteContent?.profile?.established_value || '2009'} /></span><div className="w-6 md:w-8 h-[1px] bg-[#E0A9C5] mt-2" /></div>
                                             <div className="flex flex-col"><span className="font-mono text-[10px] md:text-[12px] text-zinc-400 uppercase mb-1 md:mb-2 tracking-widest">{siteContent?.profile?.staff_label || 'STAFF COUNT'}</span><span className="font-impact text-2xl md:text-3xl text-white"><CountUpText value={siteContent?.profile?.staff_value || '14'} /></span><div className="w-6 md:w-8 h-[1px] bg-zinc-800 mt-2" /></div>
                                             <div className="flex flex-col"><span className="font-mono text-[10px] md:text-[12px] text-zinc-400 uppercase mb-1 md:mb-2 tracking-widest">{siteContent?.profile?.success_label || 'SUCCESS RATE'}</span><span className="font-impact text-2xl md:text-3xl text-white"><CountUpText value={siteContent?.profile?.success_value || '96%'} /></span><div className="w-6 md:w-8 h-[1px] bg-[#E0A9C5] mt-2" /></div>
-                                            <div className="flex flex-col"><span className="font-mono text-[10px] md:text-[12px] text-zinc-400 uppercase mb-1 md:mb-2 tracking-widest">{siteContent?.profile?.coordinate_label || 'COORDINATE'}</span><span className="font-impact text-2xl md:text-3xl text-white"><CountUpText value={siteContent?.profile?.coordinate_value || 'D-41'} /></span><div className="w-6 md:w-8 h-[1px] bg-zinc-800 mt-2" /></div>
+                                            <div className="flex flex-col"><span className="font-mono text-[10px] md:text-[12px] text-zinc-400 uppercase mb-1 md:mb-2 tracking-widest">{siteContent?.profile?.coordinate_label || 'RATINGS'}</span><span className="font-impact text-2xl md:text-3xl text-white"><CountUpText value={siteContent?.profile?.coordinate_value || '4.9 ★'} /></span><div className="w-6 md:w-8 h-[1px] bg-zinc-800 mt-2" /></div>
                                         </div>
                                     </div>
                                 </div>

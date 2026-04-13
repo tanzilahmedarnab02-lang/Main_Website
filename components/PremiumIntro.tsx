@@ -33,8 +33,13 @@ const PremiumIntro: React.FC<PremiumIntroProps> = ({ onComplete, siteContent }) 
         });
 
         // 1. Initial State
-        gsap.set([textRef.current, subtitleRef.current], { opacity: 0, y: 50, filter: 'blur(20px)' });
-        gsap.set(scannerRef.current, { x: '-10%', opacity: 0 });
+        gsap.set([textRef.current, subtitleRef.current], { 
+            opacity: 0, 
+            y: 50, 
+            filter: 'blur(20px)',
+            force3D: true 
+        });
+        gsap.set(scannerRef.current, { x: '-150%', opacity: 0, force3D: true });
         gsap.set(progressRef.current, { scaleX: 0 });
 
         // 2. Initial Subtle Reveal
@@ -48,11 +53,16 @@ const PremiumIntro: React.FC<PremiumIntroProps> = ({ onComplete, siteContent }) 
 
         // 3. Scanner Swipe (Glossy Bar)
         tl.to(scannerRef.current, {
-            x: '110%',
+            x: '130vw',
             opacity: 1,
-            duration: 2,
-            ease: "power2.inOut",
-        }, "-=1");
+            duration: 4,
+            ease: "power4.inOut",
+            force3D: true
+        }, "-=1")
+        .to(scannerRef.current, {
+            opacity: 0,
+            duration: 0.5
+        }, "-=0.5");
 
         // 4. Subtitle Reveal with Char Stagger
         tl.to(subtitleRef.current, {
@@ -85,7 +95,8 @@ const PremiumIntro: React.FC<PremiumIntroProps> = ({ onComplete, siteContent }) 
             duration: 3,
             repeat: -1,
             yoyo: true,
-            ease: "sine.inOut"
+            ease: "sine.inOut",
+            force3D: true
         });
 
         // 7. Exit Animation
@@ -132,8 +143,11 @@ const PremiumIntro: React.FC<PremiumIntroProps> = ({ onComplete, siteContent }) 
             {/* Scanning Bar (Glassmorphic) */}
             <div 
                 ref={scannerRef}
-                className="absolute top-0 bottom-0 w-32 bg-white/5 backdrop-blur-md border-x border-white/10 z-30 pointer-events-none skew-x-[-15deg]"
-                style={{ filter: 'drop-shadow(0 0 30px rgba(255,255,255,0.1))' }}
+                className="absolute top-0 bottom-0 left-0 w-48 bg-white/5 backdrop-blur-sm border-x border-white/10 z-30 pointer-events-none skew-x-[-15deg] will-change-transform"
+                style={{ 
+                    boxShadow: '0 0 50px rgba(255,255,255,0.05)',
+                    background: 'linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.05) 50%, transparent 100%)'
+                }}
             >
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent" />
             </div>
@@ -197,7 +211,7 @@ const PremiumIntro: React.FC<PremiumIntroProps> = ({ onComplete, siteContent }) 
                     ref={subtitleRef}
                     className="flex flex-col items-center gap-6"
                 >
-                    <span className="font-mono text-[10px] md:text-xs tracking-[0.8em] text-white/40 uppercase">
+                    <span className="font-mono text-xs md:text-sm tracking-[0.6em] text-white/50 uppercase">
                         {subtitleText}
                     </span>
                     
@@ -208,7 +222,7 @@ const PremiumIntro: React.FC<PremiumIntroProps> = ({ onComplete, siteContent }) 
                         className="flex items-center gap-3"
                     >
                         <div className="w-1.5 h-1.5 rounded-full bg-[#FFC1E3] animate-pulse" />
-                        <span className="font-mono text-[8px] tracking-widest text-white/30">SYSTEM.READY_MODE</span>
+                        <span className="font-mono text-[10px] tracking-widest text-white/40">SYSTEM.READY_MODE</span>
                     </motion.div>
                 </div>
             </div>
@@ -217,20 +231,20 @@ const PremiumIntro: React.FC<PremiumIntroProps> = ({ onComplete, siteContent }) 
             {[...Array(6)].map((_, i) => (
                 <motion.div
                     key={i}
-                    className="absolute w-px h-20 bg-gradient-to-b from-transparent via-[#FFC1E3]/20 to-transparent"
+                    className="absolute w-px h-20 bg-gradient-to-b from-transparent via-[#FFC1E3]/20 to-transparent will-change-transform"
                     initial={{ 
-                        x: Math.random() * 100 - 50 + '%', 
-                        y: Math.random() * 100 - 50 + '%',
+                        x: Math.random() * 100 + '%', 
+                        y: '-20%',
                         opacity: 0 
                     }}
                     animate={{ 
-                        y: ['-10%', '110%'],
+                        y: '120%',
                         opacity: [0, 1, 0]
                     }}
                     transition={{ 
-                        duration: 3 + Math.random() * 4,
+                        duration: 4 + Math.random() * 4,
                         repeat: Infinity,
-                        delay: Math.random() * 2,
+                        delay: Math.random() * 5,
                         ease: "linear"
                     }}
                 />

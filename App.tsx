@@ -862,17 +862,31 @@ const App: React.FC = () => {
                         </section>
 
                         <section id="about" className="relative z-30 w-full bg-black">
-                            <div className="relative z-10 max-w-7xl w-full mx-auto px-4 sm:px-6 md:px-8 overflow-visible flex items-center min-h-[600px] sm:min-h-[800px] md:min-h-[1000px] lg:min-h-[1200px] pt-32 sm:pt-48 md:pt-64 pb-80 sm:pb-96 md:pb-[400px] lg:pb-[500px]">
+                            <div className="relative z-10 max-w-7xl w-full mx-auto px-4 sm:px-6 md:px-8 overflow-visible flex items-start min-h-[600px] sm:min-h-[800px] md:min-h-[1000px] lg:min-h-[1200px] pt-60 sm:pt-72 md:pt-80 lg:pt-[26rem] pb-80 sm:pb-96 md:pb-[400px] lg:pb-[500px]">
                                 <TornEdge color="rgba(0,0,0,0.8)" />
 
                                 <div
                                     ref={aboutTextRef}
-                                    className="text-left pointer-events-auto flex-1 min-w-0 pr-[45%] sm:pr-[42%] md:pr-[40%] lg:pr-[38%] xl:pr-[32%] lg:pl-2 xl:pl-0 xl:-ml-16 2xl:-ml-28 translate-x-4 sm:translate-x-8 md:translate-x-0 translate-y-48 sm:translate-y-52 md:translate-y-56 lg:translate-y-80 max-w-full overflow-hidden"
+                                    className="text-left pointer-events-auto flex-1 min-w-0 pr-[45%] sm:pr-[42%] md:pr-[40%] lg:pr-[38%] xl:pr-[32%] lg:pl-2 xl:pl-0 xl:-ml-16 2xl:-ml-28 translate-x-4 sm:translate-x-8 md:translate-x-0 translate-y-0 max-w-full overflow-hidden"
                                 >
                                     <h2 className="font-impact text-[clamp(1.75rem,7.5vw,4.5rem)] md:text-[clamp(3rem,11vw,9rem)] text-white leading-[0.85] md:leading-none uppercase mb-6 md:mb-8 break-words">CRAFTED <span className="block text-[#E0A9C5]">IN CHAOS</span></h2>
                                     <p className="text-zinc-300 font-light text-[clamp(0.75rem,1.4vw,1.2rem)] leading-relaxed max-w-[180px] sm:max-w-[300px] md:max-w-[450px]">
                                         {siteContent?.about?.philosophy || siteContent?.about?.description || "We do not just cut hair; we engineer identities."}
                                     </p>
+                                    <div className="mt-3 md:mt-6 pt-3 md:pt-6 border-t border-zinc-900/30 flex flex-col sm:flex-row md:flex-col gap-2 sm:gap-6 md:gap-3">
+                                        <div className="flex flex-col">
+                                            <span className="font-mono text-[8px] md:text-[9px] text-[#E0A9C5] tracking-[0.2em] uppercase mb-0 md:mb-0.5 opacity-70">AVAILABLE // DAYS</span>
+                                            <span className="font-impact text-xs sm:text-base md:text-xl text-white tracking-wider uppercase leading-none">
+                                                {siteContent?.about?.days || "MON — SAT"}
+                                            </span>
+                                        </div>
+                                        <div className="flex flex-col">
+                                            <span className="font-mono text-[8px] md:text-[9px] text-[#E0A9C5] tracking-[0.2em] uppercase mb-0 md:mb-0.5 opacity-70">TIMING // SLOTS</span>
+                                            <span className="font-impact text-xs sm:text-base md:text-xl text-white tracking-wider uppercase leading-none">
+                                                {siteContent?.about?.hours || "10:00 AM — 11:00 PM"}
+                                            </span>
+                                        </div>
+                                    </div>
                                 </div>
 
                                 <motion.div
@@ -881,7 +895,7 @@ const App: React.FC = () => {
                                     whileInView={{ opacity: 1, scale: 1 }}
                                     transition={{ duration: 1.6, ease: [0.16, 1, 0.3, 1] }}
                                     viewport={{ once: false, amount: 0.2 }}
-                                    className="pointer-events-auto absolute right-2 sm:right-6 md:right-10 lg:right-16 top-1/2 -translate-y-1/2 z-[50] flex items-center"
+                                    className="pointer-events-auto absolute right-2 sm:right-6 md:right-10 lg:right-16 top-60 sm:top-72 md:top-80 lg:top-[26rem] z-[50] flex items-center"
                                 >
                                     <div className="absolute inset-0 bg-white/30 blur-[150px] rounded-full scale-[1.8] pointer-events-none" />
                                     <TiltedCard

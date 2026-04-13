@@ -56,6 +56,8 @@ export const SITE_CONTENT = {
     heading: 'CRAFTED IN CHAOS',
     label: 'PHILOSOPHY.EXE',
     philosophy: 'We do not just cut hair; we engineer identities.',
+    days: 'MON — SAT',
+    hours: '10:00 AM — 11:00 PM',
     description: '',
     image: '',
     imageText1: ''

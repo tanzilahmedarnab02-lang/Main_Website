@@ -160,7 +160,10 @@ export interface SiteContentSections {
     about: {
         heading?: string;
         label?: string;
+        philosophy?: string;
         description?: string;
+        days?: string;
+        hours?: string;
         image?: string;
         imageText1?: string;
     };

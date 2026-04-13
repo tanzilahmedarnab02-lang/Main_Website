@@ -55,30 +55,30 @@ const PremiumIntro: React.FC<PremiumIntroProps> = ({ onComplete, siteContent }) 
         tl.to(scannerRef.current, {
             x: '130vw',
             opacity: 1,
-            duration: 4,
-            ease: "power4.inOut",
+            duration: 6,
+            ease: "power3.inOut",
             force3D: true
         }, "-=1")
         .to(scannerRef.current, {
             opacity: 0,
-            duration: 0.5
-        }, "-=0.5");
+            duration: 0.8
+        }, "-=0.8");
 
-        // 4. Subtitle Reveal with Char Stagger
+        // 4. Subtitle Reveal with Char Stagger - Restored to original timing (approx 1.7s into timeline)
         tl.to(subtitleRef.current, {
             opacity: 0.8,
             y: 0,
             filter: 'blur(0px)',
             duration: 1,
             ease: "power3.out"
-        }, "-=0.8");
+        }, 1.7);
 
-        // 5. Progress Bar
+        // 5. Progress Bar - Restored to original timing
         tl.to(progressRef.current, {
             scaleX: 1,
             duration: 2,
             ease: "power1.inOut"
-        }, "-=1.5");
+        }, 2);
 
         // 5. Final Glossy Pulse
         tl.to(textRef.current, {

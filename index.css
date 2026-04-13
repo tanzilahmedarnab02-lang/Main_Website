@@ -188,7 +188,7 @@ body {
     overflow-y: auto;
     overflow-x: hidden;
     -webkit-overflow-scrolling: touch;
-    scroll-behavior: smooth;
+    scroll-behavior: auto;
     overscroll-behavior: contain;
     /* Enable momentum scrolling on iOS */
     -webkit-transform: translateZ(0);
@@ -199,7 +199,7 @@ body {
 .gallery-modal-scroll {
     overflow-y: auto;
     overflow-x: hidden;
-    scroll-behavior: smooth;
+    scroll-behavior: auto;
     -webkit-overflow-scrolling: touch;
     overscroll-behavior: contain;
     -webkit-transform: translateZ(0);

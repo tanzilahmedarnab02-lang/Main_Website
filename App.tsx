@@ -80,6 +80,11 @@ const App: React.FC = () => {
     const dragStartScroll = useRef(0);
     const galleryScrollRef = useRef<HTMLDivElement>(null);
     const lenisRef = useRef<Lenis | null>(null);
+    const galleryVelocityRef = useRef(0);
+    const lastGalleryYRef = useRef(0);
+    const lastGalleryTimeRef = useRef(0);
+    const modalMomentumID = useRef<number | null>(null);
+    const isDraggingRef = useRef(false);
 
     // Prevent body scroll when modal is open
     useEffect(() => {
@@ -688,6 +693,24 @@ const App: React.FC = () => {
         ? `${String(selectedDate.getDate()).padStart(2, '0')}-${String(selectedDate.getMonth() + 1).padStart(2, '0')}-${selectedDate.getFullYear()}`
         : (customDateText || "");
 
+    const applyModalMomentum = () => {
+        if (!galleryScrollRef.current || Math.abs(galleryVelocityRef.current) < 0.1) return;
+
+        let velocity = galleryVelocityRef.current * 16;
+        const momentumStep = () => {
+            if (Math.abs(velocity) < 0.1 || isDraggingRef.current) {
+                modalMomentumID.current = null;
+                return;
+            }
+            if (galleryScrollRef.current) {
+                galleryScrollRef.current.scrollTop -= velocity;
+                velocity *= 0.95; // friction
+                modalMomentumID.current = requestAnimationFrame(momentumStep);
+            }
+        };
+        modalMomentumID.current = requestAnimationFrame(momentumStep);
+    };
+
     return (
         <div ref={containerRef} className="relative w-full bg-[#010101] overflow-x-hidden">
             <AnimatePresence mode="wait">
@@ -772,7 +795,7 @@ const App: React.FC = () => {
 
                         <section id="studio-work" ref={portfolioRef} className="relative min-h-[100vh] md:h-screen w-full bg-black overflow-x-hidden flex flex-col items-center justify-center z-50 mt-20 md:mt-32 lg:mt-48 md:pt-[6vh]">
                             {/* Horizontal Scroll Container - Premium GSAP Animation */}
-                            <div ref={sliderRef} className="studio-scroll-container w-full h-auto overflow-x-auto overflow-y-hidden relative z-10 flex items-center mb-8 md:mb-12">
+                            <div ref={sliderRef} className="studio-scroll-container w-full h-auto overflow-x-auto overflow-y-hidden relative z-10 flex items-center mb-2 md:mb-12">
                                 <div ref={sliderTrackRef} className="studio-scroll-track relative flex h-full items-center gap-4 sm:gap-8 md:gap-10 lg:gap-12 xl:gap-16 2xl:gap-20 pl-16 sm:pl-20 md:pl-28 lg:pl-32 xl:pl-36 2xl:pl-40 pr-8 will-change-transform scrollbar-hide ml-2 sm:ml-4 md:ml-6" style={{ zIndex: 1, touchAction: 'pan-x pan-y' }}>
                                     {gallery.map((item, index) => (
                                         <motion.div
@@ -804,7 +827,7 @@ const App: React.FC = () => {
 
                             <button
                                 onClick={() => { setGalleryModalIndex(0); setIsGalleryModalOpen(true); }}
-                                className="absolute md:relative bottom-48 md:bottom-0 left-1/2 md:left-auto -translate-x-1/2 md:translate-x-0 z-[60] px-6 py-3 border border-[#E0A9C5] bg-[#E0A9C5]/10 hover:bg-[#E0A9C5]/20 text-[#E0A9C5] font-impact text-sm tracking-[0.2em] uppercase transition-all duration-300 cursor-pointer backdrop-blur-sm mb-4 md:mb-0"
+                                className="relative z-[60] px-6 py-3 border border-[#E0A9C5] bg-[#E0A9C5]/10 hover:bg-[#E0A9C5]/20 text-[#E0A9C5] font-impact text-sm tracking-[0.2em] uppercase transition-all duration-300 cursor-pointer backdrop-blur-sm mb-4 md:mb-0"
                             >
                                 See All Works
                             </button>
@@ -1331,7 +1354,7 @@ const App: React.FC = () => {
                             ref={galleryScrollRef}
                             className="flex-1 gallery-modal-scroll h-0 min-h-0 p-3 sm:p-4 md:p-6"
                             style={{
-                                scrollBehavior: 'smooth',
+                                scrollBehavior: 'auto',
                                 WebkitOverflowScrolling: 'touch',
                                 cursor: isDragging ? 'grabbing' : 'grab'
                             }}
@@ -1339,27 +1362,65 @@ const App: React.FC = () => {
                             onWheel={(e) => e.stopPropagation()}
                             onMouseDown={(e) => {
                                 setIsDragging(true);
+                                isDraggingRef.current = true;
                                 dragStartY.current = e.clientY;
                                 dragStartScroll.current = galleryScrollRef.current?.scrollTop || 0;
+                                galleryVelocityRef.current = 0;
+                                lastGalleryYRef.current = e.clientY;
+                                lastGalleryTimeRef.current = Date.now();
+                                if (modalMomentumID.current) cancelAnimationFrame(modalMomentumID.current);
                             }}
                             onMouseMove={(e) => {
                                 if (!isDragging) return;
-                                const deltaY = e.clientY - dragStartY.current;
+                                const deltaY = (e.clientY - dragStartY.current) * 2;
                                 if (galleryScrollRef.current) {
                                     galleryScrollRef.current.scrollTop = dragStartScroll.current - deltaY;
+
+                                    const now = Date.now();
+                                    const dt = now - lastGalleryTimeRef.current;
+                                    if (dt > 0) {
+                                        galleryVelocityRef.current = (e.clientY - lastGalleryYRef.current) / dt;
+                                    }
+                                    lastGalleryYRef.current = e.clientY;
+                                    lastGalleryTimeRef.current = now;
                                 }
                             }}
-                            onMouseUp={() => setIsDragging(false)}
-                            onMouseLeave={() => setIsDragging(false)}
+                            onMouseUp={() => {
+                                setIsDragging(false);
+                                isDraggingRef.current = false;
+                                applyModalMomentum();
+                            }}
+                            onMouseLeave={() => {
+                                if (isDragging) {
+                                    setIsDragging(false);
+                                    isDraggingRef.current = false;
+                                    applyModalMomentum();
+                                }
+                            }}
                             onTouchStart={(e) => {
                                 dragStartY.current = e.touches[0].clientY;
                                 dragStartScroll.current = galleryScrollRef.current?.scrollTop || 0;
+                                galleryVelocityRef.current = 0;
+                                lastGalleryYRef.current = e.touches[0].clientY;
+                                lastGalleryTimeRef.current = Date.now();
+                                if (modalMomentumID.current) cancelAnimationFrame(modalMomentumID.current);
                             }}
                             onTouchMove={(e) => {
-                                const deltaY = e.touches[0].clientY - dragStartY.current;
+                                const deltaY = (e.touches[0].clientY - dragStartY.current) * 1.5;
                                 if (galleryScrollRef.current) {
                                     galleryScrollRef.current.scrollTop = dragStartScroll.current - deltaY;
+
+                                    const now = Date.now();
+                                    const dt = now - lastGalleryTimeRef.current;
+                                    if (dt > 0) {
+                                        galleryVelocityRef.current = (e.touches[0].clientY - lastGalleryYRef.current) / dt;
+                                    }
+                                    lastGalleryYRef.current = e.touches[0].clientY;
+                                    lastGalleryTimeRef.current = now;
                                 }
+                            }}
+                            onTouchEnd={() => {
+                                applyModalMomentum();
                             }}
                         >
                             <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 md:gap-3">

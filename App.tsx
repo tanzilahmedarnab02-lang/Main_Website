@@ -1172,7 +1172,7 @@ const App: React.FC = () => {
                                                 {/* 3. Map Section (Visible on Desktop) */}
                                                 <div className="relative w-full aspect-square overflow-hidden border border-zinc-800 hidden md:block">
                                                     <label className="absolute top-2 left-2 z-10 font-mono text-[7px] md:text-[8px] text-zinc-500 uppercase tracking-widest">{bookNowSettings?.map_label || 'STRATEGIC COORDINATE'}</label>
-                                                    <iframe src={siteContent?.footer?.map_embed || 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3022.1422937950147!2d-73.98731968482413!3d40.75889497932681!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c25855c6480299%3A0x55194ec5a1ae072e!2sTimes%20Square!5e0!3m2!1sen!2sus!4v1620000000000!5m2!1sen!2sus'} width="100%" height="100%" style={{ border: 0, filter: 'grayscale(100%) invert(90%) contrast(150%) brightness(0.8)' }} allowFullScreen={false} loading="lazy" title="Location Map"></iframe>
+                                                    <iframe src={bookNowSettings?.map_embed || ''} width="100%" height="100%" style={{ border: 0, filter: 'grayscale(100%) invert(90%) contrast(150%) brightness(0.8)' }} allowFullScreen={false} loading="lazy" title="Location Map"></iframe>
                                                     <div className="absolute bottom-0 right-0 p-1 md:p-2 font-mono text-[6px] md:text-[7px] text-[#E0A9C5] uppercase tracking-widest bg-black/90 border-t border-l border-zinc-800">RATING: 4.9 ★ // HQ</div>
                                                 </div>
                                             </div>
@@ -1183,7 +1183,7 @@ const App: React.FC = () => {
                                                 {/* Map Section (Visible on Mobile - After Button) */}
                                                 <div className="relative w-full aspect-square overflow-hidden border border-zinc-800 block md:hidden mt-8">
                                                     <label className="absolute top-2 left-2 z-10 font-mono text-[7px] text-zinc-500 uppercase tracking-widest">{bookNowSettings?.map_label || 'STRATEGIC COORDINATE'}</label>
-                                                    <iframe src={siteContent?.footer?.map_embed || 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3022.1422937950147!2d-73.98731968482413!3d40.75889497932681!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c25855c6480299%3A0x55194ec5a1ae072e!2sTimes%20Square!5e0!3m2!1sen!2sus!4v1620000000000!5m2!1sen!2sus'} width="100%" height="100%" style={{ border: 0, filter: 'grayscale(100%) invert(90%) contrast(150%) brightness(0.8)' }} allowFullScreen={false} loading="lazy" title="Location Map"></iframe>
+                                                    <iframe src={bookNowSettings?.map_embed || ''} width="100%" height="100%" style={{ border: 0, filter: 'grayscale(100%) invert(90%) contrast(150%) brightness(0.8)' }} allowFullScreen={false} loading="lazy" title="Location Map"></iframe>
                                                     <div className="absolute bottom-0 right-0 p-1 font-mono text-[6px] text-[#E0A9C5] uppercase tracking-widest bg-black/90 border-t border-l border-zinc-800">RATING: 4.9 ★ // HQ</div>
                                                 </div>
                                                 {bookingError && (

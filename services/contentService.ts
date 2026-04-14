@@ -110,7 +110,6 @@ export interface FooterSettings {
     // Footer
     text?: string;
     copyright_text?: string;
-    dev_email?: string;
     contact_email?: string;
     gmail?: string;
     gmail_embed?: string;
@@ -289,8 +288,29 @@ export const getAllSiteContent = async (): Promise<Record<string, Record<string,
 };
 
 export const getBookNowSettings = async (): Promise<BookNowSettings> => {
-    console.log('[Supabase] getBookNowSettings called - using local constants (book_now section removed from DB)');
-    return STATIC_BOOK_NOW;
+    console.log('[Supabase] getBookNowSettings called');
+    const base: BookNowSettings = { ...STATIC_BOOK_NOW };
+
+    if (!isSupabaseConfigured() || USE_LOCAL_CONTENT_ONLY === true) {
+        return base;
+    }
+
+    // Fetch map_embed from DB (book_now section)
+    const { data, error } = await supabase
+        .from('site_content')
+        .select('key_name, value_text')
+        .eq('section', 'book_now')
+        .eq('is_active', true);
+
+    if (!error && data) {
+        data.forEach(item => {
+            if (item.value_text) {
+                (base as any)[item.key_name] = item.value_text;
+            }
+        });
+    }
+
+    return base;
 };
 
 export const createAppointmentBooking = async (booking: AppointmentBooking): Promise<{ data?: any; error?: any }> => {

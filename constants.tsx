@@ -95,14 +95,12 @@ export const SITE_CONTENT = {
   footer: {
     text: '',
     copyright_text: '',
-    dev_email: '',
     phone_number: '',
     contact_email: '',
     instagram: '',
     facebook: '',
     gmail: '',
     gmail_embed: '', // Gmail embed link (e.g., Gmail compose URL or embed code)
-    map_embed: '', // Google Maps embed URL
     whatsapp: '' // WhatsApp number with country code (no + symbol)
   },
 
@@ -143,6 +141,7 @@ export const SITE_CONTENT = {
     coms_placeholder: '+1 (000) 000-0000',
     date_label: 'DATE',
     date_placeholder: '',
+    map_embed: '', // Google Maps embed URL (fetched from DB: book_now.map_embed)
     date_calendar_label: 'CALENDAR // QUANTUM',
     map_label: 'STRATEGIC COORDINATE',
 

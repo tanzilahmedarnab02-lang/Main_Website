@@ -862,7 +862,7 @@ const App: React.FC = () => {
                         </section>
 
                         <section id="about" className="relative z-10 w-full bg-black">
-                            <div className="relative z-10 max-w-7xl w-full mx-auto px-4 sm:px-6 md:px-8 overflow-visible flex items-start min-h-[600px] sm:min-h-[800px] md:min-h-[1000px] lg:min-h-[1200px] pt-60 sm:pt-72 md:pt-80 lg:pt-[26rem] pb-80 sm:pb-96 md:pb-[400px] lg:pb-[500px]">
+                            <div className="relative z-10 max-w-7xl w-full mx-auto px-4 sm:px-6 md:px-8 overflow-visible flex items-start min-h-[600px] sm:min-h-[800px] md:min-h-[1000px] lg:min-h-[1200px] pt-60 sm:pt-72 md:pt-80 lg:pt-[26rem] pb-80 sm:pb-96 md:pb-[400px] lg:pb-[500px] -mb-[200px]">
                                 <TornEdge color="rgba(0,0,0,0.8)" />
 
                                 <div
@@ -1487,4 +1487,3 @@ const App: React.FC = () => {
 };
 
 export default App;
-

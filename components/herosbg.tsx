@@ -37,8 +37,8 @@ export default function HeroSbg() {
 
     return (
         <div ref={containerRef} className="absolute inset-0 w-full h-full overflow-hidden bg-black">
-            <img 
-                src={heroBgImage} 
+            <img
+                src={heroBgImage}
                 className="w-full h-full object-cover"
                 style={{
                     width: '100%',
@@ -46,7 +46,7 @@ export default function HeroSbg() {
                     objectFit: 'cover'
                 }}
                 alt=""
-                fetchPriority="high"
+                fetchpriority="high"
             />
         </div>
     );

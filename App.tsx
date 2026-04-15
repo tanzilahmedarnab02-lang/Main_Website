@@ -867,7 +867,7 @@ const App: React.FC = () => {
 
                                 <div
                                     ref={aboutTextRef}
-                                    className="text-left pointer-events-auto flex-1 min-w-0 pr-[45%] sm:pr-[42%] md:pr-[40%] lg:pr-[38%] xl:pr-[32%] lg:pl-2 xl:pl-0 xl:-ml-16 2xl:-ml-28 translate-x-4 sm:translate-x-8 md:translate-x-0 translate-y-0 max-w-full overflow-hidden"
+                                    className="text-left pointer-events-auto flex-1 min-w-0 pr-[45%] sm:pr-[42%] md:pr-[40%] lg:pr-[38%] xl:pr-[32%] lg:pl-2 xl:pl-0 xl:-ml-16 2xl:-ml-28 translate-x-4 sm:translate-x-8 md:translate-x-0 translate-y-0 max-w-full overflow-hidden pl-[30px]"
                                 >
                                     <h2 className="font-impact text-[clamp(1.75rem,7.5vw,4.5rem)] md:text-[clamp(3rem,11vw,9rem)] text-white leading-[0.85] md:leading-none uppercase mb-6 md:mb-8 break-words">CRAFTED <span className="block text-[#E0A9C5]">IN CHAOS</span></h2>
                                     <p className="text-zinc-300 font-light text-[clamp(0.75rem,1.4vw,1.2rem)] leading-relaxed max-w-[180px] sm:max-w-[300px] md:max-w-[450px]">

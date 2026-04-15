@@ -2,64 +2,245 @@ version: "2"
 type: frontend
 tech_stack:
   - TypeScript
-  - React
+  - React 18
   - Vite
-  - GSAP
+  - GSAP (ScrollTrigger, Draggable)
   - Framer Motion
-  - Lenis
-  - Supabase
+  - Lenis smooth scroll
+  - Supabase (Postgres, real-time subscriptions)
   - Tailwind CSS
+  - html2canvas
 routes:
   - path: /
     file: App.tsx
     auth_required: false
-    description: Main landing page with all studio content and booking system
+    description: Single-page application with all sections - intro animation, hero, studio work gallery, about, services catalog, reserve CTA, appointment booking form, booking confirmation ticket, archive/profile stats, and footer
 features:
-  - name: Interactive Brand Intro
-    description: Animated "Scribble" intro sequence
+  - name: Premium Intro Animation
+    description: Full-screen branded PremiumIntro animation plays on every page load. A scanning bar sweeps across the screen. After completion the intro unmounts and the main site fades in.
     files:
       - App.tsx
-      - components/IntroScribble.tsx
+      - components/PremiumIntro.tsx
     entry_route: /
     user_interactions:
-      - View page load animation
+      - View full-screen intro animation on page load
+      - Wait for animation to complete automatically
+      - See main site content fade in after intro
     auth_required: false
-  - name: Services Catalog
-    description: Real-time service listing with categories and pricing
+
+  - name: Navigation Bar with Drawer
+    description: Fixed glassmorphism nav bar at top. Logo on the left, hamburger MENU button on the right. Clicking hamburger opens a GSAP-animated right-side drawer with staggered nav links - HOME, STUDIO, ABOUT, CATALOG, RESERVE NOW. Clicking a link smooth-scrolls to the section and closes the drawer.
     files:
-      - App.tsx
+      - components/Navigation.tsx
       - services/contentService.ts
     entry_route: /
     user_interactions:
-      - View services grid
-      - Filter by category
+      - Click MENU hamburger button to open navigation drawer
+      - Click HOME nav link to scroll to hero section
+      - Click STUDIO nav link to scroll to studio-work section
+      - Click ABOUT nav link to scroll to about section
+      - Click CATALOG nav link to scroll to catalog section
+      - Click RESERVE NOW nav link to scroll to footer/reserve section
+      - Click X close button inside drawer to close it
+      - Click backdrop behind drawer to close it
+      - Click logo to scroll to top/hero
     api_calls:
       - method: GET
-        endpoint: supabase:services
+        endpoint: supabase:navigation
     auth_required: false
-  - name: Appointment Booking
-    description: Multi-step booking process with service selection and calendar
+
+  - name: Floating Book Now and WhatsApp Buttons
+    description: Fixed floating button group at bottom-right corner. Green WhatsApp button opens WhatsApp URL. Pink BOOK NOW button triggers wave SVG transition animation and reveals the appointment booking form below the reserve section. When services are selected, button text updates to BOOK N SESSION(S).
+    files:
+      - App.tsx
+    entry_route: /
+    user_interactions:
+      - Click WhatsApp green button to open WhatsApp link in new tab
+      - Click BOOK NOW pink button to trigger page transition and reveal booking form
+      - See button text update to BOOK N SESSIONS when N services are selected
+    auth_required: false
+
+  - name: Hero Section
+    description: Full-screen hero section with animated HeroSbg background, decorative dashed border overlay, and text content. Dynamic main heading, subtitle, and status label fetched from Supabase site_content (section header). Fade-in motion animation on load.
+    files:
+      - App.tsx
+      - components/herosbg.tsx
+      - components/DynamicMainHeading.tsx
+    entry_route: /
+    user_interactions:
+      - View main heading text rendered from Supabase header.main_heading
+      - View subtitle text rendered from Supabase header.subtitle
+      - View status label rendered from Supabase header.status_label
+    api_calls:
+      - method: GET
+        endpoint: supabase:site_content (section=header)
+    auth_required: false
+
+  - name: Studio Work Horizontal Gallery
+    description: Horizontal scrolling gallery of portfolio images fetched from Supabase gallery table (type=portfolio). Desktop uses mouse drag with spring momentum and edge bounce via native scrollLeft. Mobile uses native touch scroll with snap. Gallery cards show title at bottom, grayscale by default, color on hover. See All Works button opens a full-screen modal grid of all gallery items.
+    files:
+      - App.tsx
+    entry_route: /
+    user_interactions:
+      - Drag gallery slider horizontally on desktop with mouse
+      - Scroll gallery cards on mobile with touch gesture
+      - Click See All Works button to open full-screen gallery modal
+      - Scroll gallery modal vertically to see all images
+      - Hover gallery images in modal to see color and title overlay
+      - Click X button in modal header to close gallery modal
+      - Click backdrop/overlay area at top of modal to close it
+    api_calls:
+      - method: GET
+        endpoint: supabase:gallery (type=portfolio)
+    auth_required: false
+
+  - name: About Section
+    description: Brand philosophy section. Left side shows CRAFTED IN CHAOS heading, philosophy text, available days, and timing/hours from Supabase site_content (section about). Right side shows TiltedCard component with 3D tilt effect on hover displaying about image.
     files:
       - App.tsx
       - components/TiltedCard.tsx
     entry_route: /
     user_interactions:
-      - Click "Book Now"
-      - Select services
-      - Choose date via custom calendar
-      - Enter contact details
-      - Submit booking
+      - View philosophy heading CRAFTED IN CHAOS
+      - View philosophy description text
+      - View AVAILABLE DAYS label and days value (e.g. MON - SAT)
+      - View TIMING SLOTS label and hours value (e.g. 10:00 AM - 11:00 PM)
+      - Hover over TiltedCard image to see 3D tilt effect
     api_calls:
+      - method: GET
+        endpoint: supabase:site_content (section=about)
+    auth_required: false
+
+  - name: Services Catalog with Category Filters and Multi-Select
+    description: Full-width services catalog showing all services from Supabase grouped by category. Top has category filter buttons (ALL plus unique categories). Clicking a category shows only those services. Clicking a service card toggles selection with pink border highlight and checkmark. Multiple services can be selected. When services are selected, an encouragement message and total price appear with a BOOK N SESSIONS button.
+    files:
+      - App.tsx
+      - components/ServicePanel.tsx
+      - services/contentService.ts
+    entry_route: /
+    user_interactions:
+      - Click category filter button to filter services by category
+      - Click ALL filter to show all services
+      - Click service card to select it (highlighted with pink border and checkmark)
+      - Click selected service card again to deselect it
+      - See encouragement message when 1 or more services selected
+      - See total investment price when services selected
+      - Click BOOK N SESSIONS button to trigger booking form
+    api_calls:
+      - method: GET
+        endpoint: supabase:services
+      - method: GET
+        endpoint: supabase:site_content (section=catalog)
+    auth_required: false
+
+  - name: Appointment Booking Form
+    description: Multi-step booking form revealed after BOOK NOW. Contains Name field, Email field with format validation, Phone field (digits/+/dash only), Date field with calendar popup and manual text input, Services panel for adding/removing services with live total, and Google Maps embed (visible on desktop in grid, on mobile after submit button). Form validates all fields on submit. On success saves to Supabase appointments table. On error shows error message.
+    files:
+      - App.tsx
+      - components/SimpleCalendar.tsx
+      - components/ServicePanel.tsx
+      - components/DateInput.tsx
+      - services/contentService.ts
+    entry_route: /
+    user_interactions:
+      - Type name in Name input field
+      - Type email in Email input field
+      - Type phone number in Phone input field (only digits, +, dash, spaces)
+      - Click calendar icon to open SimpleCalendar popup
+      - Select a date in the calendar popup
+      - See date displayed in DD-MM-YYYY format after selection
+      - Click ADD SERVICES button to open ServicePanel popup
+      - Toggle services on and off in ServicePanel
+      - Remove a selected service using the X button next to it
+      - See total price update when services added or removed
+      - Click START SESSION submit button to submit the booking
+      - See validation error FILL THIS FIRST when Name is empty
+      - See validation error FILL THIS FIRST when Email is empty
+      - See validation error INVALID EMAIL FORMAT when email is invalid
+      - See validation error FILL THIS FIRST when Phone is empty
+      - See validation error SELECT DATE when date is not selected
+      - See validation error SELECT PROTOCOL when no services are selected
+      - See vibration animation on error messages
+      - See error clear when user starts typing in that field
+    api_calls:
+      - method: GET
+        endpoint: supabase:site_content (section=book_now)
       - method: POST
         endpoint: supabase:appointments
     auth_required: false
-  - name: Portfolio Studio Work
-    description: Horizontal sliding gallery of studio projects
+
+  - name: Appointment Confirmation Ticket
+    description: After successful booking submission to Supabase, a styled confirmation ticket appears showing salon name, CONFIRMED badge, booking name, email, phone, date, total investment, and list of selected services. CANCEL button resets the form. DOWNLOAD button saves the ticket as a PNG using html2canvas.
     files:
       - App.tsx
     entry_route: /
     user_interactions:
-      - Drag/scroll studio work slider
-      - Click image to open gallery modal
+      - View confirmation ticket with all booking details after successful submission
+      - Click CANCEL button to reset form and hide confirmation
+      - Click DOWNLOAD button to download ticket as PNG image file
     auth_required: false
-known_limitations: []
+
+  - name: Archive Studio Profile Section
+    description: Studio/personnel profile section below the booking area. Left column shows personnel record label, profile name, professional title, and brand quote from Supabase profile section. Right column shows mission label, mission heading, and 4 animated stat counters (ESTABLISHED, STAFF COUNT, SUCCESS RATE, RATINGS) that count up from 0 when scrolled into view using CountUpText component.
+    files:
+      - App.tsx
+      - components/CountUpText.tsx
+    entry_route: /
+    user_interactions:
+      - Scroll to archive-details section to see stats count up from 0
+      - View personnel record label and name
+      - View mission heading text
+      - View ESTABLISHED, STAFF COUNT, SUCCESS RATE, RATINGS stat values
+    api_calls:
+      - method: GET
+        endpoint: supabase:site_content (section=profile)
+    auth_required: false
+
+  - name: Reserve CTA Section
+    description: Pink (#E0A9C5) full-width call-to-action section with a large RESERVE NOW heading, booking description text, and a Book Appointment button with hover color change. All text from Supabase bookNow settings. Button triggers the same wave animation and reveals the booking form.
+    files:
+      - App.tsx
+    entry_route: /
+    user_interactions:
+      - View RESERVE NOW heading on pink background
+      - View availability description text
+      - Click Book Appointment button to trigger booking form (hover changes button to black/pink)
+      - Hover over button to see color change animation
+    api_calls:
+      - method: GET
+        endpoint: supabase:site_content (section=book_now)
+    auth_required: false
+
+  - name: Footer with Contact Links and Social Icons
+    description: White footer with copyright text on top-left, clickable phone number (tel link), clickable email (opens Gmail compose in new tab), and Instagram/Gmail/Facebook social icons with brand-color hover effects (Instagram gradient, Gmail red, Facebook blue). Large animated FooterTitle text at the bottom.
+    files:
+      - App.tsx
+      - components/FooterTitle.tsx
+    entry_route: /
+    user_interactions:
+      - Click phone number to trigger tel link (phone dialer)
+      - Click email link to open Gmail compose in new tab
+      - Click Instagram icon to open Instagram URL in new tab
+      - Hover Instagram icon to see brand gradient color
+      - Click Gmail icon to open Gmail compose in new tab
+      - Hover Gmail icon to see red color
+      - Click Facebook icon to open Facebook URL in new tab
+      - Hover Facebook icon to see blue color
+    api_calls:
+      - method: GET
+        endpoint: supabase:site_content (section=footer)
+    auth_required: false
+
+known_limitations:
+  - issue: Google Maps iframe requires a valid map_embed URL set in Supabase (site_content book_now section) to display
+    location: App.tsx
+    impact: Map shows blank if map_embed is empty string or not set in Supabase
+  - issue: Gallery drag on desktop uses native scrollLeft; GSAP Draggable is initialized but native mouse events are prioritized
+    location: App.tsx
+    impact: Spring bounce momentum may vary by browser; touch scroll always works on mobile
+  - issue: html2canvas ticket download may fail with cross-origin font resources
+    location: App.tsx
+    impact: Ticket PNG may have missing text if fonts fail to load cross-origin
+  - issue: ServicePanel and SimpleCalendar are React lazy-loaded; first open shows LOADING fallback briefly on slow connections
+    location: App.tsx
+    impact: Minor UX delay on first calendar or service panel open

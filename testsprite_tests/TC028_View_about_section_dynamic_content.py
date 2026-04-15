@@ -35,7 +35,8 @@ async def run_test():
         
         # --> Assertions to verify final state
         frame = context.pages[-1]
-        assert await frame.locator("xpath=//*[contains(., 'All services')]").nth(0).is_visible(), "The services grid should show the full set of services after selecting the all-categories option."
+        assert await frame.locator("xpath=//*[contains(., 'Our Philosophy')]").nth(0).is_visible(), "The about section should display the philosophy heading and description.",
+        assert await frame.locator("xpath=//*[contains(., 'Available days')]").nth(0).is_visible(), "The about section should show the available days and timing slots values."]}
         await asyncio.sleep(5)
 
     finally:

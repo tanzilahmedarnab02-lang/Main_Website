@@ -1,0 +1,457 @@
+{
+  "meta": {
+    "project": "Parlour Studio Website",
+    "date": "2026-04-14",
+    "prepared_by": "Generated for TestSprite Full Coverage",
+    "version": "3.0",
+    "base_url": "http://localhost:5173"
+  },
+  "product_overview": "Parlour is a premium, visually rich beauty salon / studio website built with React, GSAP, Framer Motion, Lenis, and Supabase. The site features a branded intro animation, hero section, horizontal studio work gallery, about section, services catalog with multi-select, appointment booking form with custom calendar, archive/profile section, reserve section, and an animated footer. All content is dynamically fetched from Supabase with real-time subscription support, and every interaction has micro-animations and premium motion design.",
+  "core_goals": [
+    "Deliver an animated premium intro that reveals the main site content.",
+    "Show hero section with dynamic heading, subtitle, and status labels from Supabase.",
+    "Display a horizontally-scrollable studio work gallery with drag support and a full-screen 'All Works' modal.",
+    "Showcase the About section with philosophy text, days, hours, and a tilted card image.",
+    "Provide a real-time services catalog with category filters and multi-select functionality.",
+    "Enable a complete multi-step appointment booking: select services → pick date → fill contact form → submit → get confirmation ticket.",
+    "Show archive/profile section with establishment stats, ratings, and brand mission.",
+    "Display reserve/CTA section and a footer with contact links and social icons.",
+    "All buttons, links, and interactive elements must function correctly on mobile (320px+), tablet (768px+), laptop (1024px+), and desktop (1280px+).",
+    "No broken layouts, JavaScript errors, or missing content on any viewport."
+  ],
+  "features": [
+    {
+      "name": "Premium Intro Animation",
+      "description": "On page load, a full-screen branded intro animation (PremiumIntro) plays with a scanning bar effect. After completion, the animation unmounts and the main site content fades in.",
+      "user_flows": [
+        "Navigate to / → See full-screen intro animation play → Animation completes automatically → Main site content fades in → Page becomes scrollable and interactive",
+        "Navigate to / on mobile (375px) → Intro fills the screen → Scanning animation is visible and not clipped → Main content appears after completion",
+        "Navigate to / → Intro animation starts → Animation encounters an error → Fallback static content or the intro skips to main site without breaking the page"
+      ],
+      "acceptance_criteria": [
+        "Intro animation displays on initial page load",
+        "Intro auto-completes and transitions to main content",
+        "Main site navigation and content are NOT visible during the intro",
+        "Intro is visible and not clipped on mobile, tablet, and desktop viewports",
+        "No JavaScript errors during or after intro"
+      ]
+    },
+    {
+      "name": "Navigation Bar",
+      "description": "Fixed glassmorphism navigation bar at the top with logo on the left and a hamburger menu button on the right. Clicking the hamburger opens a full-height drawer with animated nav items. Clicking a nav item smooth-scrolls to that section and closes the drawer.",
+      "user_flows": [
+        "Load page → See nav bar fixed at top with logo and MENU button → Click MENU → See drawer slide in from the right with NAVIGATION label and nav links → Click 'HOME' → Drawer closes and page smooth-scrolls to hero section",
+        "Open nav drawer → Click 'STUDIO' → Drawer closes and page scrolls to Studio Work section",
+        "Open nav drawer → Click 'ABOUT' → Drawer closes and page scrolls to About section",
+        "Open nav drawer → Click 'CATALOG' → Drawer closes and page scrolls to Services Catalog section",
+        "Open nav drawer → Click 'RESERVE NOW' → Drawer closes and page scrolls to Reserve section",
+        "Open nav drawer → Click the X (close) button in the drawer → Drawer closes without navigating",
+        "Open nav drawer → Click the backdrop (outside drawer) → Drawer closes",
+        "Click the logo in the nav bar → Page scrolls back to hero / top of page",
+        "On mobile (375px): nav bar visible, logo and menu button are properly sized → Open drawer → Drawer is 320px wide, not overflowing",
+        "On tablet (768px): nav bar visible → drawer opens properly",
+        "On desktop (1280px): nav bar visible → drawer opens with 450px width"
+      ],
+      "acceptance_criteria": [
+        "Nav bar visible and fixed on all screen sizes",
+        "Hamburger button shows 'MENU' text on sm+ screens",
+        "Drawer slides in from right with staggered nav item animations",
+        "All 5 nav links scroll to correct sections",
+        "X button and backdrop click close the drawer",
+        "Logo click scrolls to top / hero section",
+        "No layout overflow on 375px mobile",
+        "Nav bar has correct glassmorphism styling"
+      ]
+    },
+    {
+      "name": "Floating Book Now & WhatsApp Buttons",
+      "description": "A fixed floating button group in the bottom-right corner of the screen. Contains a green WhatsApp button (opens WhatsApp link) and a pink 'BOOK NOW' button. When services are selected, the BOOK NOW button updates to show 'BOOK N SESSION(S)'. Clicking the book button triggers a page transition animation and reveals the booking form.",
+      "user_flows": [
+        "Load main site → See WhatsApp (green) and BOOK NOW (pink) floating buttons at bottom-right → Hover over BOOK NOW → Button scales up slightly",
+        "Click WhatsApp button → New tab/window opens with WhatsApp chat URL",
+        "Click BOOK NOW with no services selected → Booking form section appears below the reserve section with SVG wave transition animation",
+        "Select 2 services in the catalog → Floating button updates to 'BOOK 2 SESSIONS' → Click it → Scrolls to booking form",
+        "Click BOOK NOW when booking form is already visible → Page smooth-scrolls to the booking form (does not re-open)",
+        "On mobile (375px): Both floating buttons are visible and sized appropriately (p-3 padding), not overlapping other content",
+        "On desktop: Buttons use p-4 padding and are larger (md:p-4)"
+      ],
+      "acceptance_criteria": [
+        "Both buttons visible and clickable on all viewports",
+        "WhatsApp button opens correct URL in new tab",
+        "BOOK NOW triggers wave transition and reveals booking section",
+        "Button text updates dynamically based on selected services count",
+        "Buttons scale on hover/tap",
+        "Buttons do not overlap or block critical page content"
+      ]
+    },
+    {
+      "name": "Hero Section",
+      "description": "Full-screen hero section with animated background (HeroSbg), dashed border overlay, and text content on the left side. Displays dynamic main heading, subtitle, and status label fetched from Supabase (section: 'header'). Features a diagonal decorative line and fade-in motion animation.",
+      "user_flows": [
+        "Load site → After intro → See hero section filling the full viewport height → Animated background playing → Main heading visible → Subtitle and status label visible",
+        "Supabase has header.main_heading = 'PARLOUR BEAUTY' → Hero heading shows 'PARLOUR BEAUTY' correctly",
+        "Supabase unavailable → Hero falls back to local content 'YOUR BUSINESS NAME' from constants.tsx",
+        "On mobile (375px): Hero text is clamp-sized and readable, not overflowing the viewport",
+        "On tablet (768px): Hero text is larger, decorative lines appear",
+        "On desktop (1280px): Hero shows full layout with large heading and side decorative line"
+      ],
+      "acceptance_criteria": [
+        "Hero fills 100vh on all devices",
+        "Main heading, subtitle, and status label are rendered",
+        "Dynamic content from Supabase overrides local fallback",
+        "Animated background (HeroSbg) renders without errors",
+        "Decorative dashed border overlay is visible on desktop",
+        "No horizontal overflow on mobile"
+      ]
+    },
+    {
+      "name": "Studio Work Horizontal Gallery",
+      "description": "A horizontal scrolling gallery section showing portfolio images from Supabase. On desktop: images are draggable with spring momentum and bounce at edges. On mobile/tablet: native scroll with snap. A 'See All Works' button opens a full-screen modal showing all gallery items. Section has a vertical 'STUDIO WORK' text on the left sidebar.",
+      "user_flows": [
+        "Scroll to Studio Work section → See horizontally scrollable gallery cards → On desktop: click-drag horizontally → Images scroll with momentum → Release at edge → Spring bounce back",
+        "On mobile: scroll gallery cards horizontally with touch gesture → Images snap to nearest card",
+        "Click image card → No direct action (image is not individually clickable to open modal)",
+        "Click 'See All Works' button → Full-screen modal opens with all gallery images in a grid layout",
+        "In 'See All Works' modal → Scroll down to see all images → Click the X button to close modal",
+        "In modal → Click outside any image (on the dark overlay at top) → Modal closes",
+        "In modal → Images are shown in grayscale → Hover over image → Color photo with title and category overlay appears",
+        "Gallery images load from Supabase → Images display correctly with title text at bottom",
+        "No gallery images in Supabase → Section shows empty gallery area without errors",
+        "On mobile (375px): Gallery cards are 280x350px, horizontally scrollable, 'See All Works' button is below the gallery",
+        "On desktop (1280px): Gallery cards are larger (500x650px), drag interaction works with mouse"
+      ],
+      "acceptance_criteria": [
+        "Gallery section renders without errors",
+        "Horizontal scroll/drag works on desktop and mobile",
+        "Spring momentum works on desktop drag",
+        "All gallery items from Supabase are displayed",
+        "'See All Works' button opens the gallery modal",
+        "Modal close button (X) and backdrop click close the modal",
+        "Modal is full-screen and scrollable on mobile",
+        "Grayscale-to-color hover effect works in modal",
+        "Gallery count is displayed in modal footer",
+        "Page scroll is locked when modal is open"
+      ]
+    },
+    {
+      "name": "About Section",
+      "description": "A section with left-aligned text including the brand philosophy headline 'CRAFTED IN CHAOS', philosophy description, days of operation, and hours of operation. On the right side is a TiltedCard component with a tilt-on-hover effect showing an about image from Supabase. Content is fetched from Supabase (section: 'about').",
+      "user_flows": [
+        "Scroll to About section → See 'CRAFTED IN CHAOS' heading → See philosophy text → See 'AVAILABLE // DAYS' and 'TIMING // SLOTS' labels with values → See tilted card on the right with an image",
+        "Supabase about.philosophy = 'We craft identity, not just style.' → About section displays this text",
+        "Supabase about.days = 'SUN — FRI' and about.hours = '9:00 AM — 9:00 PM' → Section displays updated days and hours",
+        "Hover over TiltedCard → Card tilts on mouse movement → Looks 3D/interactive",
+        "On mobile (375px): Tilted card is positioned within visible area, text reads correctly, philosophy text is max-width constrained",
+        "On desktop (1280px): About section shows full two-column layout with large heading and image card"
+      ],
+      "acceptance_criteria": [
+        "About section renders with heading, philosophy, days, and hours",
+        "Dynamic content from Supabase is displayed",
+        "TiltedCard renders the about image",
+        "Tilt effect works on desktop hover",
+        "Responsive layout on mobile without overflow",
+        "Days and hours labels are correctly labeled as 'AVAILABLE // DAYS' and 'TIMING // SLOTS'"
+      ]
+    },
+    {
+      "name": "Services Catalog with Category Filters",
+      "description": "A full-width catalog section showing all services fetched from Supabase, grouped by category. Category filter buttons at the top ('ALL' plus each unique category) allow filtering. Clicking a service card toggles its selection state (highlighted with pink border and checkmark). Multiple services can be selected simultaneously. When services are selected, a total price bar appears with a 'BOOK N SESSION(S)' button.",
+      "user_flows": [
+        "Scroll to Catalog section → See 'THE CATALOG' heading → See category filter buttons (ALL, HAIR, MAKEUP, etc.) → See service cards grouped by category",
+        "Click 'HAIR' category filter → Only hair services are shown, button gets white underline/active state",
+        "Click 'ALL' filter → All services from all categories are displayed again",
+        "Click a service card → Card becomes highlighted with pink border and checkmark in top-right corner → Text turns pink",
+        "Click same service card again → Card deselects, returns to default state",
+        "Select 2 services → See 'NICE CHOICE!' encouragement message appear above → See total investment amount displayed → See 'BOOK 2 SESSIONS' pink button",
+        "Select 3 services → Message updates to 'You're building an epic combo! 3 services selected' → Total price updated",
+        "Click 'BOOK 2 SESSIONS' from catalog → Wave transition animation plays → Booking form section appears",
+        "No services loaded from Supabase → Empty state with SVG icon and 'Services Loading...' text",
+        "On mobile (375px): Service cards in 1-column grid, tap to select works",
+        "On tablet (768px): 2-column grid of service cards",
+        "On desktop (1280px): 3-column grid of service cards"
+      ],
+      "acceptance_criteria": [
+        "Catalog section renders with heading and catalog label",
+        "All services from Supabase are displayed with title, duration, and price",
+        "Category filters dynamically generated from unique service categories",
+        "Active category filter shows correct visual state (white underline)",
+        "Service selection toggle works (click to select/deselect)",
+        "Selected services have pink border, checkmark, and pink text",
+        "Total price calculated correctly from selected service prices",
+        "Encouragement message appears when 1+ services selected",
+        "BOOK SESSIONS button appears and triggers booking form flow",
+        "Responsive grid: 1 col mobile, 2 col tablet, 3 col desktop"
+      ]
+    },
+    {
+      "name": "Appointment Booking Form",
+      "description": "A multi-step booking form revealed after clicking BOOK NOW. Contains: Name field, Email field (with email format validation), Phone/Coms field (numbers/+/- only), Date field with a calendar popup and manual text input option, Services panel for adding services, and a Google Maps embed (desktop only at form level, mobile after button). On submit, data is sent to Supabase 'appointments' table. On success, a confirmation ticket is shown.",
+      "user_flows": [
+        "Trigger booking form → See 'BOOK NOW' heading with 'BEGIN YOUR TRANSFORMATION' label → See 3-column form grid with Name, Email, Phone, Date, Services, Map fields",
+        "Click the calendar icon next to the date field → SimpleCalendar popup opens → Select a date → Calendar closes → Date displays in DD-MM-YYYY format in the date field",
+        "Manually type a date in the date field → Date field updates → Calendar is not triggered",
+        "Click 'ADD SERVICES' button in the services section → ServicePanel popup opens → Toggle services on/off → Selected services appear as items in the booking form",
+        "Remove a selected service by clicking the ✕ icon next to it in the booking form → Service removed, total price updated",
+        "Fill in Name, Email, Phone, select Date and Services → Click 'START SESSION' button → Button scales on hover → Form submits → Booking saved to Supabase → Confirmation ticket appears",
+        "Click 'START SESSION' with Name empty → 'FILL THIS FIRST' error message appears below Name field with vibration animation",
+        "Click 'START SESSION' with Email as 'invalidemail' → 'INVALID EMAIL FORMAT' error message appears below Email field",
+        "Click 'START SESSION' with Email empty → 'FILL THIS FIRST' error appears below Email field",
+        "Click 'START SESSION' with Phone empty → 'FILL THIS FIRST' error appears below Coms field",
+        "Click 'START SESSION' with Date empty → 'SELECT DATE' error appears",
+        "Click 'START SESSION' with no services selected → 'SELECT PROTOCOL' error appears",
+        "All fields missing → All error messages appear simultaneously with vibration animation",
+        "Start filling a field after error → Error for that field clears immediately as user types",
+        "Supabase save fails → Error message '⚠️ Failed to save appointment: [error text]' appears below the submit button",
+        "On mobile (375px): Form is 1-column layout, date field and services field are full width, Map field is hidden (appears after submit button on mobile), all form fields are tappable",
+        "On desktop (1280px): Form is 3-column grid, Google Map iframe is visible in the grid alongside other form fields"
+      ],
+      "acceptance_criteria": [
+        "Booking form appears after clicking BOOK NOW with wave animation",
+        "All 5 form fields are rendered: Name, Email, Phone, Date, Services",
+        "Calendar popup opens on calendar icon click and closes on date selection",
+        "ServicePanel popup opens on ADD SERVICES click",
+        "Selected services displayed in form with ✕ remove option",
+        "Total investment shown in services section when services selected",
+        "Form validates all required fields before submission",
+        "Correct error messages appear under each invalid field",
+        "Error messages disappear as user corrects each field",
+        "Vibration animation triggers on validation failure",
+        "Successful submission saves to Supabase and shows confirmation",
+        "Google Map visible in desktop form grid (3rd column position)",
+        "Google Map shows on mobile AFTER the START SESSION button",
+        "Supabase error shows a user-friendly error message"
+      ]
+    },
+    {
+      "name": "Appointment Confirmation Ticket",
+      "description": "After successful booking submission, a confirmation ticket is displayed showing: booking name, email, phone, date, total investment, selected services list, and a random booking ID. Two action buttons: 'CANCEL' resets the form, 'DOWNLOAD' saves the ticket as a PNG image using html2canvas.",
+      "user_flows": [
+        "Submit valid booking → Confirmation section appears → See 'PROTOCOL INITIATED' heading → See ticket with 'ESTILO BEAUTY SALON' label and 'CONFIRMED' badge → See all booking details filled in correctly → See CANCEL and DOWNLOAD buttons",
+        "Click DOWNLOAD button → Ticket is downloaded as appointment.png image file → Form resets",
+        "Click CANCEL button → Confirmation view closes → Form resets to empty state (name, email, phone, date, services all cleared)",
+        "On mobile (375px): Ticket is max-width 95% of screen, scrollable if content overflows, CANCEL and DOWNLOAD buttons are side by side",
+        "On desktop: Ticket is centered with max-width 600px"
+      ],
+      "acceptance_criteria": [
+        "Confirmation appears after successful Supabase save",
+        "All booking details are shown correctly on the ticket",
+        "'CONFIRMED' badge is visible on the ticket",
+        "CANCEL resets form and hides confirmation",
+        "DOWNLOAD creates and downloads a PNG file named 'appointment.png'",
+        "Ticket is responsive and readable on mobile"
+      ]
+    },
+    {
+      "name": "Archive / Studio Profile Section",
+      "description": "A section below the booking form area showing the studio's profile with: personnel record label, team name, professional title, and a quote on the left. On the right: mission label, mission heading, and 4 animated stat counters (Established year, Staff Count, Success Rate, Ratings). All content from Supabase (section: 'profile'). Stats animate up from 0 using CountUpText component when scrolled into view.",
+      "user_flows": [
+        "Scroll to archive-details section → See personnel record label and profile name on left → See mission heading on right → See 4 stats (ESTABLISHED, STAFF COUNT, SUCCESS RATE, RATINGS) animate counting up",
+        "Supabase profile.established_value = '2015' → Stats count up to 2015",
+        "Supabase profile.coordinate_value = '4.9 ★' → RATINGS stat shows '4.9 ★'",
+        "On mobile (375px): Profile section shows stacked layout, stats in 2-column grid",
+        "On desktop (1280px): 12-column grid, left profile and right stats side by side"
+      ],
+      "acceptance_criteria": [
+        "Profile section renders all text fields",
+        "4 stat cards are visible with correct labels and values",
+        "CountUpText animates correctly on scroll-into-view",
+        "Dynamic Supabase content used when available",
+        "Responsive layout on mobile"
+      ]
+    },
+    {
+      "name": "Reserve / CTA Section",
+      "description": "A pink (#E0A9C5) full-width CTA section with large 'RESERVE NOW' heading, description text, and a 'Book Appointment' button. All content from Supabase (bookNow settings). Clicking the button triggers the same wave transition and opens the booking form.",
+      "user_flows": [
+        "Scroll to Reserve section → See large 'RESERVE NOW' heading on pink background → See 'AVAILABILITY IS LIMITED. EXPERIENCE IS MANDATORY.' text → See 'Book Appointment' button with border",
+        "Click 'Book Appointment' → Wave transition plays → Booking form appears",
+        "When services are pre-selected, button shows 'Book N Session(s)' in reserve section",
+        "Hover over button → Button background changes to black, text changes to pink color",
+        "On mobile (375px): 'RESERVE NOW' heading is large but clamp-scaled, no overflow"
+      ],
+      "acceptance_criteria": [
+        "Reserve section has correct pink background",
+        "Heading, description, and button are visible",
+        "Button triggers booking form with wave animation",
+        "Hover state changes button colors",
+        "Dynamic text from Supabase overrides defaults"
+      ]
+    },
+    {
+      "name": "Main Footer with Social Links",
+      "description": "A white-background footer with: copyright text, clickable phone number (tel: link), clickable email (opens Gmail compose in new tab), Instagram/Gmail/Facebook social icons (with brand color hover effects), and a large animated 'FooterTitle' text at the bottom. All contact info from Supabase (section: 'footer').",
+      "user_flows": [
+        "Scroll to footer → See copyright text, phone number, and email address at top-left → See Instagram, Gmail, Facebook icons at top-right → See large animated footer title text at bottom",
+        "Click phone number link → Device/browser opens phone dialer with the number",
+        "Click email link → Opens Gmail compose in new tab with the 'to' field pre-filled",
+        "Click Instagram icon → New tab opens with Instagram URL",
+        "Hover Instagram icon → Icon changes from black to Instagram brand gradient colors",
+        "Click Gmail icon → New tab opens Gmail compose",
+        "Hover Gmail icon → Icon turns red (#EA4335)",
+        "Click Facebook icon → New tab opens Facebook URL",
+        "Hover Facebook icon → Icon turns blue (#1877F2)",
+        "On mobile (375px): Footer top row shows social icons, copyright text is readable, footer title text scales with clamp",
+        "On desktop: Footer top row has correct flex layout"
+      ],
+      "acceptance_criteria": [
+        "Copyright text visible",
+        "Phone number is a clickable tel: link",
+        "Email is a clickable mailto/Gmail compose link",
+        "Instagram, Gmail, Facebook icons are present and clickable",
+        "Hover effects apply correct brand colors to each icon",
+        "Social links open in new tab",
+        "Footer title (FooterTitle component) renders at the bottom",
+        "Responsive on mobile"
+      ]
+    },
+    {
+      "name": "Supabase Real-Time Content Sync",
+      "description": "The entire site subscribes to real-time Postgres changes from Supabase for site_content, services, and gallery tables. When the admin updates content in Supabase, the website automatically re-fetches and shows updated content without a page reload.",
+      "user_flows": [
+        "Load the website → Content is fetched from Supabase on mount → Site displays Supabase content",
+        "Tab is in background → User switches back to tab → Window focus event fires → Content re-fetched from Supabase",
+        "Supabase is unreachable → Site falls back to local constants.tsx content → No crash or blank page"
+      ],
+      "acceptance_criteria": [
+        "Site loads with Supabase content",
+        "Real-time channel subscriptions are set up for site_content, services, gallery",
+        "Window focus re-fetches content",
+        "Local fallback content shows if Supabase fails"
+      ]
+    },
+    {
+      "name": "Responsive Design - Mobile (320px - 767px)",
+      "description": "The entire website must be fully functional and visually correct on mobile devices from 375px width. All sections must stack vertically, text must be legible (clamp-sized), touch interactions must work, no horizontal overflow or scroll.",
+      "user_flows": [
+        "Open site on 375px wide viewport → Intro animation fills screen → Main site loads → Hero section fills viewport with readable text → Scroll down → Studio gallery horizontally scrollable with touch → About section stacked with philosophy text and card → Catalog services in 1-column grid → Services are tap-to-select → Reserve section visible → Booking form accessible → Footer visible with social icons",
+        "Open site on 320px wide viewport → No horizontal scrollbar → All text readable → All buttons tappable"
+      ],
+      "acceptance_criteria": [
+        "No horizontal overflow on 375px viewport",
+        "All text is readable (minimum 12px)",
+        "All buttons have minimum touch-target size (44x44px recommended)",
+        "Gallery horizontal scroll works with touch",
+        "Booking form fields are tappable and keyboard-activatable",
+        "Nav drawer is 320px wide on mobile, not overflowing",
+        "Gallery modal is full-screen and scrollable on mobile"
+      ]
+    },
+    {
+      "name": "Responsive Design - Tablet (768px - 1023px)",
+      "description": "The website adapts to tablet viewports. Two-column layouts activate for service catalog and profile section. Gallery cards scale to mid-size. Navigation remains the drawer style.",
+      "user_flows": [
+        "Open site on 768px wide viewport → Hero text is larger than mobile → Catalog services in 2-column grid → Booking form shows 2-column layout → Footer shows correct layout → Gallery card sizes at sm: breakpoint",
+        "Open site on 834px (iPad) → All layouts look correct with no overflow"
+      ],
+      "acceptance_criteria": [
+        "2-column service catalog grid on tablet",
+        "2-column booking form on tablet",
+        "Gallery modal 2-column grid on tablet",
+        "Gallery cards scale to sm: sizes (350x450px)"
+      ]
+    },
+    {
+      "name": "Responsive Design - Laptop / Desktop (1024px+)",
+      "description": "Full desktop layout with 3-column service grid, 3-column booking form grid, large gallery cards, 12-column profile section, and large hero text. Drag interactions for gallery work with mouse.",
+      "user_flows": [
+        "Open site on 1280px wide viewport → Hero has large heading (clamp up to 9rem) → Gallery cards are 500x650px → Studio gallery drag with mouse works → Catalog in 3-column grid → Booking form in 3-column grid with map visible → Profile in 12-column layout",
+        "Open site on 1920px wide viewport → All clamp-sized fonts remain bounded → No stretched or broken layouts"
+      ],
+      "acceptance_criteria": [
+        "3-column service grid on desktop (lg:grid-cols-3)",
+        "3-column booking form on desktop",
+        "Google Map visible in booking form grid on desktop",
+        "Mouse drag works for studio gallery with momentum",
+        "Profile section uses 12-column grid with correct proportions",
+        "Gallery cards use correct lg: and xl: breakpoint sizes"
+      ]
+    },
+    {
+      "name": "Error & Edge Case Handling",
+      "description": "All error states, empty states, and edge cases must be handled gracefully without crashing the page.",
+      "user_flows": [
+        "Supabase API down → All fetch calls fail → Site uses local constants.tsx fallback data → No crash, no blank sections",
+        "Gallery table is empty → Studio Work section shows an empty slider with no cards → 'See All Works' modal shows empty grid → No error",
+        "Services table is empty → Catalog shows spinning/loading SVG with 'Services Loading...' text → No catalog items shown → No error",
+        "Book appointment form submitted with all fields valid but Supabase save fails due to network error → Error message shown: '⚠️ Failed to save appointment: [error]' → Form is NOT reset → User can retry",
+        "Booking form submitted without services selected → 'SELECT PROTOCOL' error appears → Form does not submit",
+        "Invalid email submitted → 'INVALID EMAIL FORMAT' error appears, form does not submit",
+        "Gallery modal opened when there are 0 gallery items → Empty grid shown with '0 WORKS DISPLAYED' footer",
+        "Phone field does not allow letters — only digits, +, spaces, and dashes are accepted",
+        "Navigator to a section that doesn't exist via nav → Graceful fallback (scroll does not crash)"
+      ],
+      "acceptance_criteria": [
+        "Site does not crash when Supabase is unavailable",
+        "Empty gallery shows no error",
+        "Empty services shows loading state, no crash",
+        "All form validation errors are shown correctly",
+        "Supabase submission failure shows error message without resetting form",
+        "Phone field only accepts numeric characters + and dash",
+        "Error messages vibrate/animate on all fields simultaneously when submit is clicked with multiple empty fields"
+      ]
+    }
+  ],
+  "code_summary": {
+    "version": "3",
+    "type": "frontend",
+    "tech_stack": [
+      "TypeScript",
+      "React 18",
+      "Vite",
+      "GSAP (ScrollTrigger, Draggable)",
+      "Framer Motion",
+      "Lenis (smooth scroll)",
+      "Supabase (real-time DB + auth)",
+      "Tailwind CSS",
+      "html2canvas (ticket download)"
+    ],
+    "routes": [
+      {
+        "path": "/",
+        "file": "App.tsx",
+        "auth_required": false,
+        "description": "Single-page application — all sections on one route: intro, hero, studio-work, about, catalog, footer (reserve CTA), appointment form, confirmation, archive-details, and footer"
+      }
+    ],
+    "sections": [
+      { "id": "intro", "description": "PremiumIntro animation component — plays on load, then unmounts" },
+      { "id": "hero", "description": "Full-screen hero with HeroSbg background, main heading, subtitle, status label" },
+      { "id": "studio-work", "description": "Horizontal gallery with drag scroll, GSAP parallax on cards, 'See All Works' button" },
+      { "id": "about", "description": "Brand philosophy section with tilted card image, days, hours from Supabase" },
+      { "id": "catalog", "description": "Services catalog with category filters, multi-select, total price, book button" },
+      { "id": "footer (CTA)", "description": "Pink Reserve Now CTA section with book appointment button" },
+      { "id": "appointment-form", "description": "Multi-step booking form with calendar, service panel, map embed, validation" },
+      { "id": "confirmation", "description": "Booking confirmation ticket with download and cancel buttons" },
+      { "id": "archive-details", "description": "Studio profile section with animated stat counters" },
+      { "id": "footer", "description": "White footer with contact links, social icons, animated FooterTitle" }
+    ],
+    "key_components": [
+      { "file": "components/PremiumIntro.tsx", "role": "Intro animation with scanning bar" },
+      { "file": "components/Navigation.tsx", "role": "Fixed nav bar with GSAP drawer animation" },
+      { "file": "components/SimpleCalendar.tsx", "role": "Custom calendar popup for date selection (lazy loaded)" },
+      { "file": "components/ServicePanel.tsx", "role": "Service selection popup panel (lazy loaded)" },
+      { "file": "components/TiltedCard.tsx", "role": "3D tilt card for about section image" },
+      { "file": "components/FooterTitle.tsx", "role": "Animated large footer title text" },
+      { "file": "components/DynamicMainHeading.tsx", "role": "Animated hero main heading" },
+      { "file": "components/CountUpText.tsx", "role": "Count-up animation for stats" },
+      { "file": "components/DateInput.tsx", "role": "Custom date text input with validation" },
+      { "file": "services/contentService.ts", "role": "All Supabase fetch calls (footer, bookNow, services, gallery, navigation)" }
+    ],
+    "api_calls": [
+      { "method": "GET", "endpoint": "supabase:site_content (section=footer)", "description": "Fetch footer text and contact info" },
+      { "method": "GET", "endpoint": "supabase:site_content (section=book_now)", "description": "Fetch booking form settings and map embed URL" },
+      { "method": "GET", "endpoint": "supabase:site_content (all sections)", "description": "Fetch all site content (header, about, catalog, profile, studio, etc.)" },
+      { "method": "GET", "endpoint": "supabase:services", "description": "Fetch all salon services with title, category, price, duration" },
+      { "method": "GET", "endpoint": "supabase:gallery (type=portfolio)", "description": "Fetch all portfolio gallery images" },
+      { "method": "GET", "endpoint": "supabase:navigation", "description": "Fetch nav items from DB" },
+      { "method": "POST", "endpoint": "supabase:appointments", "description": "Submit appointment booking with name, email, phone, services, date, price, status" }
+    ],
+    "known_limitations": [
+      "Google Maps iframe requires a valid map_embed URL set in Supabase site_content (book_now section) to display correctly",
+      "Gallery drag uses native scrollLeft on mobile for touch support; GSAP Draggable is used on desktop only",
+      "Ticket download uses html2canvas which requires DOM access and may have cross-origin issues with external fonts",
+      "USE_LOCAL_CONTENT_ONLY in constants.tsx when set to true skips all Supabase fetches and uses local fallback",
+      "ServicePanel and SimpleCalendar are lazy-loaded; slow networks may show 'LOADING...' fallback briefly"
+    ]
+  }
+}

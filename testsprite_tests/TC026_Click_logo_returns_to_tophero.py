@@ -35,7 +35,7 @@ async def run_test():
         
         # --> Assertions to verify final state
         frame = context.pages[-1]
-        assert await frame.locator("xpath=//*[contains(., 'Studio Work')]").nth(0).is_visible(), "The previously viewed portfolio items should remain visible after closing the gallery modal"
+        assert await frame.locator("xpath=//*[contains(., 'Get started')]").nth(0).is_visible(), "The hero section should be visible after clicking the site logo."
         await asyncio.sleep(5)
 
     finally:

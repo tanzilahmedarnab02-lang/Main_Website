@@ -33,16 +33,10 @@ async def run_test():
         # -> Navigate to http://localhost:3000
         await page.goto("http://localhost:3000")
         
-        # -> Open the primary menu to verify the navigation is usable (click the menu control).
-        frame = context.pages[-1]
-        # Click element
-        elem = frame.locator('xpath=/html/body/div/div/div/nav/div[2]').nth(0)
-        await asyncio.sleep(3); await elem.click()
-        
         # --> Assertions to verify final state
         frame = context.pages[-1]
-        assert await frame.locator("xpath=//*[contains(., 'Welcome')]").nth(0).is_visible(), "The static hero should display Welcome when motion is reduced.",
-        assert await frame.locator("xpath=//*[contains(., 'Home')]").nth(0).is_visible(), "The primary navigation should display Home so the navigation remains usable after opening the menu."]}
+        assert await frame.locator("xpath=//*[contains(., 'Main Site Content')]").nth(0).is_visible(), "The main site content should be visible after the intro finishes"
+        assert await frame.locator("xpath=//*[contains(., 'Back to top')]").nth(0).is_visible(), "The page should be scrollable and show a Back to top control after the intro finishes"
         await asyncio.sleep(5)
 
     finally:

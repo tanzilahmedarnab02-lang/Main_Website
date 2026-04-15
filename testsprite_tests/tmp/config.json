@@ -2,17 +2,26 @@
   "status": "commited",
   "type": "frontend",
   "scope": "codebase",
-  "localEndpoint": "http://localhost:3001",
-  "loginUser": "tanzil",
-  "loginPassword": "Tanzil@1234#",
+  "localEndpoint": "http://localhost:3000",
   "executionArgs": {
     "projectName": "parlour website--template",
-    "projectPath": "f:\\real draft\\parlour\\project 1\\parlour website--template",
-    "testIds": [],
-    "additionalInstruction": "",
-    "serverMode": "development",
+    "projectPath": "F:\\real draft\\parlour\\project 1\\parlour website--template",
+    "testIds": [
+      "TC017",
+      "TC018",
+      "TC019",
+      "TC020",
+      "TC021",
+      "TC022",
+      "TC023",
+      "TC024"
+    ],
+    "additionalInstruction": "Batch 3 of full run. Execute only specified testIds in production mode.",
+    "serverMode": "production",
     "envs": {
-      "API_KEY": "sk-user-0Q7JagPEL6axtOzZJhbA1aEqaVsbbxFHfOPUr1zKauln5fg4bCA_hD2RLTQKQInDOXNxQM8i4y4ZsUL-A6joriGXjeoCwYRJBsN_1SWxTyg8Ypp5PJkO642E8nlmoo4U3eY"
+      "API_KEY": "sk-user-aR_uEixFDRsi1_rozQyERdMv06sQNI5PMfP1GwuNleuqmC7HPUsSPHwqw96RgoOHyHC4NA8nEfaaOaoDf4M6QyEBF2EPLuPDcYTrXVYeW3SrJC6-2iRfHIuXnQqSc8dDxpE"
     }
-  }
+  },
+  "serverPort": 60112,
+  "proxy": "http://aca8d28a-ab3c-4632-83bc-4ffb2bc0e6ae:pgJdthTA6TGAgkSi1TfXw4OgG3Zxa2Is@tun.testsprite.com:8080"
 }

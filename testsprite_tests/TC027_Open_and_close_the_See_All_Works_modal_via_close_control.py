@@ -35,9 +35,7 @@ async def run_test():
         
         # --> Assertions to verify final state
         frame = context.pages[-1]
-        assert await frame.locator("xpath=//*[contains(., 'Please select a service to continue')]").nth(0).is_visible(), "The booking flow should show a validation message that a service selection is required after attempting to continue without choosing any services"
-        current_url = await frame.evaluate("() => window.location.href")
-        assert '/services' in current_url, "The page should have navigated to the service selection step after attempting to continue without selecting a service"
+        assert not await frame.locator("xpath=//*[contains(., 'Full-screen gallery')]").nth(0).is_visible(), "The full-screen gallery modal should be closed after clicking the modal close control"
         await asyncio.sleep(5)
 
     finally:

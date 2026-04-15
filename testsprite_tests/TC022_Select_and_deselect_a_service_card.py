@@ -35,8 +35,7 @@ async def run_test():
         
         # --> Assertions to verify final state
         frame = context.pages[-1]
-        assert await frame.locator("xpath=//*[contains(., 'Select a service')]").nth(0).is_visible(), "The booking flow should open at the service selection step after initiating booking"
-        assert await frame.locator("xpath=//*[contains(., 'Selected service')]").nth(0).is_visible(), "The chosen service should be selected or reflected in the booking flow after starting booking"
+        assert await frame.locator("xpath=//*[contains(., 'No services selected')]").nth(0).is_visible(), "The catalog should show No services selected after toggling the service off so no services remain selected"
         await asyncio.sleep(5)
 
     finally:

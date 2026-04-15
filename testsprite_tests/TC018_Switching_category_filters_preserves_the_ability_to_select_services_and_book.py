@@ -33,13 +33,9 @@ async def run_test():
         # -> Navigate to http://localhost:3000
         await page.goto("http://localhost:3000")
         
-        # -> Reload the page (full navigation to /) and wait for the SPA to render, then re-check the page for interactive elements and locate the portfolio/slider section.
-        await page.goto("http://localhost:3000/")
-        
         # --> Assertions to verify final state
         frame = context.pages[-1]
-        assert await frame.locator("xpath=//*[contains(., 'Close')]").nth(0).is_visible(), "The full-screen gallery modal should be visible with a project image after clicking a slider image"
-        assert await frame.locator("xpath=//*[contains(., 'Portfolio')]").nth(0).is_visible(), "The portfolio slider should be visible and can be browsed after closing the gallery modal"
+        assert await frame.locator("xpath=//*[contains(., 'Booking form')]").nth(0).is_visible(), "The booking form should be revealed after clicking the booking call-to-action from the catalog."
         await asyncio.sleep(5)
 
     finally:

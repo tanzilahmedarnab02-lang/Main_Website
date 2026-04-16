@@ -20,7 +20,7 @@ export default function HeroSbg() {
                 scrub: true,
             },
         });
-        
+
         tl.to(containerRef.current, {
             yPercent: 30,
             ease: "none"
@@ -37,8 +37,8 @@ export default function HeroSbg() {
 
     return (
         <div ref={containerRef} className="absolute inset-0 w-full h-full overflow-hidden bg-black">
-            <img 
-                src="https://oqgzypdognvjdscujofz.supabase.co/storage/v1/object/public/about%20section/hero-bg.webp" 
+            <img
+                src="https://oqgzypdognvjdscujofz.supabase.co/storage/v1/object/public/about%20section/hero-bg.webp"
                 className="w-full h-full object-cover"
                 style={{
                     width: '100%',
@@ -46,7 +46,7 @@ export default function HeroSbg() {
                     objectFit: 'cover'
                 }}
                 alt=""
-                fetchPriority="high"
+                fetchpriority="high"
             />
         </div>
     );

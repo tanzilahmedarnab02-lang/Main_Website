@@ -2,7 +2,6 @@ import React, { useRef, useEffect } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/all';
 
-
 gsap.registerPlugin(ScrollTrigger);
 
 export default function HeroSbg() {

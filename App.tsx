@@ -886,7 +886,7 @@ const App: React.FC = () => {
               </div>
               <div
                 ref={heroContentRef}
-                className="absolute inset-0 z-20 flex items-center justify-start pointer-events-none p-6 sm:p-12 md:p-24"
+                className="absolute inset-0 z-20 flex items-center justify-start pointer-events-none px-6 py-4 sm:p-12 md:p-24"
               >
                 <motion.div
                   initial={{ opacity: 0 }}
@@ -896,18 +896,18 @@ const App: React.FC = () => {
                     delay: 0.3,
                     ease: [0.25, 0.1, 0.25, 1] as const,
                   }}
-                  className="mb-[-4vh] md:mb-[-8vh]"
+                  className="mb-[-4vh] md:mb-[-8vh] w-full"
                 >
-                  <div className="flex flex-col items-start px-2 sm:px-0">
+                  <div className="flex flex-col items-start w-full px-0">
                     <div className="flex items-center gap-4 mb-4">
-                      <span className="font-mono text-[clamp(12px,1.5vw,14px)] premium-glow-text tracking-[0.6em] uppercase font-black">
+                      <span className="font-mono text-[clamp(12px,1.5vw,14px)] text-white tracking-[0.6em] uppercase font-black">
                         {siteContent?.header?.status_label || "SYSTEM.P41"}
                       </span>
-                      <div className="h-[1px] w-24 sm:w-32 bg-zinc-800" />
+                      <div className="h-[1px] w-12 sm:w-32 bg-zinc-800" />
                     </div>
-                    <div className="relative mb-6 pl-4 md:pl-0">
+                    <div className="relative mb-6 w-full">
                       <div className="absolute -left-6 md:-left-12 top-0 h-full w-[1px] bg-[#FFC1E3]/40 hidden sm:block shadow-[0_0_15px_rgba(255,193,227,0.5)]" />
-                      <div className="max-w-full">
+                      <div className="w-full">
                         <DynamicMainHeading
                           text={
                             siteContent?.header?.main_heading ||
@@ -918,20 +918,20 @@ const App: React.FC = () => {
                         />
                       </div>
                     </div>
-                    <div className="flex flex-col md:flex-row items-start md:items-center gap-6 md:gap-8 mt-4">
-                      <div className="max-w-[280px] sm:max-w-xs">
-                        <p className="font-mono text-[clamp(12px,1.3vw,14px)] premium-glow-text-white tracking-[0.3em] uppercase leading-relaxed text-shadow-sm">
+                    <div className="flex flex-col md:flex-row items-start md:items-center gap-4 md:gap-8 mt-4">
+                      <div className="max-w-[280px] sm:max-w-xs md:border-l-0 pl-0">
+                        <p className="font-mono text-[clamp(12px,1.3vw,14px)] text-white tracking-[0.3em] uppercase leading-relaxed text-shadow-sm">
                           {siteContent?.header?.subtitle ||
                             (SITE_CONTENT as any).header?.subtitle ||
                             ""}
                         </p>
                       </div>
-                      <div className="flex flex-col font-mono text-[clamp(10px,1vw,12px)] premium-glow-text tracking-[0.4em] uppercase border-l border-[#FFC1E3]/30 pl-6 py-1">
+                      <div className="flex flex-col font-mono text-[clamp(10px,1vw,12px)] text-white tracking-[0.4em] uppercase border-l-0 md:border-l border-[#FFC1E3]/30 pl-0 md:pl-6 py-1 mt-2 md:mt-0">
                         <span>
                           {siteContent?.header?.status_label ||
                             "IDENTITY REFINEMENT"}
                         </span>
-                        <span className="premium-glow-text-white opacity-60">
+                        <span className="text-white opacity-60">
                           {siteContent?.header?.status_value ||
                             "STATUS: OPERATIONAL"}
                         </span>
@@ -1112,7 +1112,7 @@ const App: React.FC = () => {
                         {siteContent?.catalog?.heading || "THE CATALOG"}
                       </h2>
                     </div>
-                    
+
                     {/* NEW SEARCH BAR */}
                     <div className="w-full max-w-[320px] sm:max-w-[300px] lg:ml-auto relative mt-2 lg:mt-0 group lg:pb-2 xl:-mr-8 shrink-0">
                       <div className="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none lg:pb-2 z-10">

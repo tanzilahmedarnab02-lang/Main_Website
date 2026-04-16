@@ -70,7 +70,7 @@ const DynamicMainHeading = ({ text, className = '' }: { text: string, className?
 
     return (
         <motion.h1
-            className={`font-serif text-[clamp(2.5rem,6vw,6rem)] leading-[0.85] tracking-tighter uppercase ${className}`}
+            className={`font-serif text-[clamp(2rem,10vw,6rem)] lg:text-[clamp(2.5rem,6vw,6rem)] leading-[0.85] tracking-tighter uppercase w-full break-words ${className}`}
             style={{
                 wordSpacing: 'clamp(0.125rem, 0.5vw, 0.5rem)'
             }}

@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/all';
-import heroBgImage from './ui/images/xinyi-wen-qjCHPZbeXCQ-unsplash.jpg';
+
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -38,7 +38,7 @@ export default function HeroSbg() {
     return (
         <div ref={containerRef} className="absolute inset-0 w-full h-full overflow-hidden bg-black">
             <img 
-                src={heroBgImage} 
+                src="https://oqgzypdognvjdscujofz.supabase.co/storage/v1/object/public/about%20section/hero-bg.webp" 
                 className="w-full h-full object-cover"
                 style={{
                     width: '100%',

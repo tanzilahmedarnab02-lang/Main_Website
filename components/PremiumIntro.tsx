@@ -39,7 +39,7 @@ const PremiumIntro: React.FC<PremiumIntroProps> = ({ onComplete, siteContent }) 
             filter: 'blur(20px)',
             force3D: true 
         });
-        gsap.set(scannerRef.current, { x: '-150%', opacity: 0, force3D: true });
+        gsap.set(scannerRef.current, { x: '-100vw', opacity: 0, force3D: true });
         gsap.set(progressRef.current, { scaleX: 0 });
 
         // 2. Initial Subtle Reveal
@@ -53,40 +53,40 @@ const PremiumIntro: React.FC<PremiumIntroProps> = ({ onComplete, siteContent }) 
 
         // 3. Scanner Swipe (Glossy Bar)
         tl.to(scannerRef.current, {
-            x: '130vw',
+            x: '100vw',
             opacity: 1,
-            duration: 6,
-            ease: "power3.inOut",
+            duration: 3.5,
+            ease: "power2.inOut",
             force3D: true
-        }, "-=1")
+        }, 0.5)
         .to(scannerRef.current, {
             opacity: 0,
-            duration: 0.8
-        }, "-=0.8");
+            duration: 0.5
+        }, 3.5);
 
-        // 4. Subtitle Reveal with Char Stagger - Restored to original timing (approx 1.7s into timeline)
+        // 4. Subtitle Reveal with Char Stagger - Restored to original timing
         tl.to(subtitleRef.current, {
             opacity: 0.8,
             y: 0,
             filter: 'blur(0px)',
             duration: 1,
             ease: "power3.out"
-        }, 1.7);
+        }, 1.5);
 
         // 5. Progress Bar - Restored to original timing
         tl.to(progressRef.current, {
             scaleX: 1,
             duration: 2,
             ease: "power1.inOut"
-        }, 2);
+        }, 1.5);
 
         // 5. Final Glossy Pulse
         tl.to(textRef.current, {
             textShadow: '0 0 20px rgba(255, 193, 227, 0.5)',
-            duration: 1,
+            duration: 0.8,
             repeat: 1,
             yoyo: true
-        });
+        }, 2.5);
 
         // 6. Background Light Pulse
         gsap.to(lightRef.current, {
@@ -104,10 +104,9 @@ const PremiumIntro: React.FC<PremiumIntroProps> = ({ onComplete, siteContent }) 
             opacity: 0,
             scale: 1.05,
             filter: 'blur(20px)',
-            duration: 1.2,
-            ease: "power4.inOut",
-            delay: 1.5
-        });
+            duration: 1.0,
+            ease: "power4.inOut"
+        }, 4.2);
 
         return () => {
             tl.kill();
@@ -143,7 +142,7 @@ const PremiumIntro: React.FC<PremiumIntroProps> = ({ onComplete, siteContent }) 
             {/* Scanning Bar (Glassmorphic) */}
             <div 
                 ref={scannerRef}
-                className="absolute top-0 bottom-0 left-0 w-48 bg-white/5 backdrop-blur-sm border-x border-white/10 z-30 pointer-events-none skew-x-[-15deg] will-change-transform"
+                className="absolute top-0 bottom-0 left-0 w-48 bg-white/5 backdrop-blur-sm border-x border-white/10 z-30 pointer-events-none skew-x-[-15deg] will-change-transform opacity-0"
                 style={{ 
                     boxShadow: '0 0 50px rgba(255,255,255,0.05)',
                     background: 'linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.05) 50%, transparent 100%)'

@@ -39,10 +39,7 @@ import { supabase } from "./services/supabaseClient";
 gsap.registerPlugin(ScrollTrigger, Draggable);
 
 const App: React.FC = () => {
-  const [appState, setAppState] = useState<AppState>(() => {
-    const hasSeenIntro = sessionStorage.getItem("hasSeenIntro");
-    return hasSeenIntro ? AppState.READY : AppState.INTRO;
-  });
+  const [appState, setAppState] = useState<AppState>(AppState.INTRO);
   const [showAppointment, setShowAppointment] = useState(true);
   const [isConfirmed, setIsConfirmed] = useState(false);
   const [selectedServiceIds, setSelectedServiceIds] = useState<string[]>([]);
@@ -234,7 +231,6 @@ const App: React.FC = () => {
   }, []);
 
   const onIntroComplete = React.useCallback(() => {
-    sessionStorage.setItem("hasSeenIntro", "true");
     setAppState(AppState.READY);
   }, []);
 

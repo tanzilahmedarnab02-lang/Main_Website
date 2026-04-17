@@ -14,6 +14,13 @@
 #hero {
     position: relative;
     z-index: 1;
+    will-change: auto;
+    contain: layout paint;
+}
+
+#hero img {
+    will-change: auto;
+    backface-visibility: visible;
 }
 
 /* Studio Work - Remove borders from gallery items */
@@ -29,6 +36,83 @@
     object-position: center !important;
     margin: 0 !important;
     padding: 0 !important;
+}
+
+/* Premium Smooth Scrolling for Gallery Modal */
+.gallery-modal-scroll {
+    overflow-y: scroll;
+    overflow-x: hidden;
+    scroll-behavior: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #E0A9C5 transparent;
+    -webkit-overflow-scrolling: touch;
+    will-change: scroll-position;
+}
+
+/* Custom scrollbar styling for better visuals */
+.gallery-modal-scroll::-webkit-scrollbar {
+    width: 6px;
+}
+
+.gallery-modal-scroll::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.gallery-modal-scroll::-webkit-scrollbar-thumb {
+    background: #E0A9C5;
+    border-radius: 3px;
+    transition: background 0.3s ease;
+}
+
+.gallery-modal-scroll::-webkit-scrollbar-thumb:hover {
+    background: #f0c8dd;
+}
+
+/* Vibration animation for error messages */
+@keyframes vibrate {
+    0% {
+        transform: translateX(0);
+    }
+
+    10% {
+        transform: translateX(-2px);
+    }
+
+    20% {
+        transform: translateX(2px);
+    }
+
+    30% {
+        transform: translateX(-2px);
+    }
+
+    40% {
+        transform: translateX(2px);
+    }
+
+    50% {
+        transform: translateX(-2px);
+    }
+
+    60% {
+        transform: translateX(2px);
+    }
+
+    70% {
+        transform: translateX(-2px);
+    }
+
+    80% {
+        transform: translateX(2px);
+    }
+
+    90% {
+        transform: translateX(-1px);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
 }
 
 /* Vibration animation for error messages */
@@ -80,6 +164,56 @@
 
 .animate-vibrate {
     animation: vibrate 0.4s ease-in-out;
+}
+
+/* GPU Acceleration for Smooth Scrolling and Animations */
+/* Enable hardware acceleration for animated elements */
+.studio-project-card,
+.gallery-item,
+.studio-scroll-track,
+.gallery-scroll-container {
+    will-change: transform;
+    transform: translate3d(0, 0, 0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+}
+
+/* Optimize smoothness for scroll-driven animations */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Reduce reflows during animations */
+* {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+/* Performance optimization for parallax sections */
+[data-scroll-trigger] {
+    will-change: transform;
+    transform: translateZ(0);
+}
+
+/* Optimize transitions and animations */
+@media (prefers-reduced-motion: no-preference) {
+    /* Only apply smooth behavior when motion is not reduced */
+    body {
+        scroll-behavior: auto; /* Use auto for better performance with Lenis */
+    }
+}
+
+/* Disable animations for reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
 }
 
 :root {
@@ -193,18 +327,31 @@ body {
     /* Enable momentum scrolling on iOS */
     -webkit-transform: translateZ(0);
     transform: translateZ(0);
+    will-change: scroll-position;
 }
 
 /* Gallery modal grid container smooth scroll */
 .gallery-modal-scroll {
     overflow-y: auto;
     overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: auto;
+    overscroll-behavior: contain;
+    will-change: scroll-position;
+}
+
+/* Optimize slider track for smooth dragging */
+.studio-scroll-track {
     scroll-behavior: auto;
     -webkit-overflow-scrolling: touch;
-    overscroll-behavior: contain;
-    -webkit-transform: translateZ(0);
-    transform: translateZ(0);
-    backface-visibility: hidden;
+}
+
+/* Smooth scroll optimization for all scrollable containers */
+.overflow-y-auto,
+.overflow-x-auto {
+    scroll-behavior: auto;
+    -webkit-overflow-scrolling: touch;
+    will-change: scroll-position;
 }
 
 .lenis.lenis-smooth {

@@ -234,26 +234,36 @@ const App: React.FC = () => {
     setAppState(AppState.READY);
   }, []);
 
-  // Lenis smooth scroll
+  // Lenis smooth scroll - Optimized
   useEffect(() => {
     if (appState !== AppState.READY) return;
+    
     const lenis = new Lenis({
-      duration: 1.2,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      duration: 1,
+      easing: (t) => 1 - Math.pow(1 - t, 3), // Cubic easing
       orientation: "vertical",
       gestureOrientation: "vertical",
       smoothWheel: true,
       wheelMultiplier: 1,
       infinite: false,
     });
+    
     lenisRef.current = lenis;
-    (window as any).__lenis = lenis; // Store globally for ServicePanel access
-    function raf(time: number) {
+    (window as any).__lenis = lenis;
+    
+    let rafId: number;
+    
+    const raf = (time: number) => {
       lenis.raf(time);
-      requestAnimationFrame(raf);
-    }
-    requestAnimationFrame(raf);
-    return () => lenis.destroy();
+      rafId = requestAnimationFrame(raf);
+    };
+    
+    rafId = requestAnimationFrame(raf);
+    
+    return () => {
+      cancelAnimationFrame(rafId);
+      lenis.destroy();
+    };
   }, [appState]);
 
   // Panel close handler
@@ -267,8 +277,8 @@ const App: React.FC = () => {
         setActivePanel(null);
       }
     };
-    document.addEventListener("mousedown", handleClickOutside);
-    document.addEventListener("touchstart", handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside, { passive: true });
+    document.addEventListener("touchstart", handleClickOutside, { passive: true });
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
       document.removeEventListener("touchstart", handleClickOutside);
@@ -292,6 +302,7 @@ const App: React.FC = () => {
         gsap.to(card, {
           y: -20 - index * 5,
           ease: "none",
+          force3D: true,
           scrollTrigger: {
             trigger: "#studio-work",
             start: "top bottom",
@@ -304,21 +315,24 @@ const App: React.FC = () => {
     { scope: containerRef },
   );
 
-  // Sync ScrollTrigger with page height changes (Booking form, etc)
+  // Sync ScrollTrigger with page height changes (Booking form, etc) - Batch refreshes
   useEffect(() => {
-    const handleScrollRefresh = () => {
-      ScrollTrigger.refresh();
-      console.log("[App] ScrollTrigger refreshed due to layout change");
+    let refreshTimeout: NodeJS.Timeout;
+    
+    const batchRefresh = () => {
+      clearTimeout(refreshTimeout);
+      refreshTimeout = setTimeout(() => {
+        ScrollTrigger.batch(document.querySelectorAll("[data-scroll-trigger]"), {
+          onBatch: () => {
+            ScrollTrigger.refresh();
+          }
+        });
+        console.log("[App] ScrollTrigger batch refreshed");
+      }, 200); // Debounce for 200ms
     };
 
-    // Refresh twice to ensure stability
-    const timer1 = setTimeout(handleScrollRefresh, 100);
-    const timer2 = setTimeout(handleScrollRefresh, 800);
-
-    return () => {
-      clearTimeout(timer1);
-      clearTimeout(timer2);
-    };
+    batchRefresh();
+    return () => clearTimeout(refreshTimeout);
   }, [showAppointment, isConfirmed, selectedServiceIds.length, appState]);
 
   // Initialize slider for Studio Work section
@@ -414,26 +428,32 @@ const App: React.FC = () => {
           lastTime = now;
         };
 
-        // Spring momentum function - bounces back when at edges
+        // Spring momentum function - bounces back when at edges (Optimized)
         const applyMomentum = () => {
           const maxScroll = track.scrollWidth - track.clientWidth;
           let currentVelocity = velocity * 15; // Velocity multiplier
+          const friction = 0.95;
+          const minVelocity = 0.5;
+          const edgeBounce = 0.15;
 
           const momentumStep = () => {
-            if (Math.abs(currentVelocity) < 0.5) {
+            const absVelocity = Math.abs(currentVelocity);
+            
+            if (absVelocity < minVelocity) {
               // Apply spring bounce at edges
-              if (track.scrollLeft < 0) {
-                // Spring back from left edge
-                currentVelocity = -track.scrollLeft * 0.15;
+              const leftOverscroll = Math.max(0, -track.scrollLeft);
+              const rightOverscroll = Math.max(0, track.scrollLeft - maxScroll);
+              
+              if (leftOverscroll > 0) {
+                currentVelocity = -leftOverscroll * edgeBounce;
                 track.scrollLeft += currentVelocity;
                 if (track.scrollLeft >= 0) {
                   track.scrollLeft = 0;
                   momentumID = null;
                   return;
                 }
-              } else if (track.scrollLeft > maxScroll) {
-                // Spring back from right edge
-                currentVelocity = -(track.scrollLeft - maxScroll) * 0.15;
+              } else if (rightOverscroll > 0) {
+                currentVelocity = -rightOverscroll * edgeBounce;
                 track.scrollLeft += currentVelocity;
                 if (track.scrollLeft <= maxScroll) {
                   track.scrollLeft = maxScroll;
@@ -447,15 +467,15 @@ const App: React.FC = () => {
             } else {
               // Apply momentum with decay
               track.scrollLeft -= currentVelocity;
-              currentVelocity *= 0.95; // Friction
+              currentVelocity *= friction;
 
               // Bounce at edges
               if (track.scrollLeft < 0) {
                 track.scrollLeft = 0;
-                currentVelocity *= -0.3; // Bounce with energy loss
+                currentVelocity *= -0.3;
               } else if (track.scrollLeft > maxScroll) {
                 track.scrollLeft = maxScroll;
-                currentVelocity *= -0.3; // Bounce with energy loss
+                currentVelocity *= -0.3;
               }
             }
 
@@ -510,7 +530,7 @@ const App: React.FC = () => {
       clearTimeout(resizeTimer);
       resizeTimer = setTimeout(initSlider, 300);
     };
-    window.addEventListener("resize", handleResize);
+    window.addEventListener("resize", handleResize, { passive: true });
 
     // Cleanup
     return () => {
@@ -618,6 +638,7 @@ const App: React.FC = () => {
     const tl = gsap.timeline();
     tl.to(pathRef.current, {
       attr: { d: start },
+      opacity: 1,
       duration: 0.6,
       ease: "power2.in",
     }).to(pathRef.current, {
@@ -630,6 +651,7 @@ const App: React.FC = () => {
           appointmentRef.current?.scrollIntoView({ behavior: "auto" });
           gsap.to(pathRef.current, {
             attr: { d: reset },
+            opacity: 0,
             duration: 0.8,
             ease: "power2.inOut",
             delay: 0.2,
@@ -757,21 +779,34 @@ const App: React.FC = () => {
     : customDateText || "";
 
   const applyModalMomentum = () => {
-    if (!galleryScrollRef.current || Math.abs(galleryVelocityRef.current) < 0.1)
+    if (!galleryScrollRef.current || Math.abs(galleryVelocityRef.current) < 0.5)
       return;
 
-    let velocity = galleryVelocityRef.current * 16;
+    let velocity = galleryVelocityRef.current * 8; // Reduced multiplier for smoother deceleration
+    const friction = 0.90; // Slightly more friction for controlled deceleration
+    
     const momentumStep = () => {
-      if (Math.abs(velocity) < 0.1 || isDraggingRef.current) {
+      const absVelocity = Math.abs(velocity);
+      
+      if (absVelocity < 0.05 || isDraggingRef.current) {
         modalMomentumID.current = null;
         return;
       }
+
       if (galleryScrollRef.current) {
-        galleryScrollRef.current.scrollTop -= velocity;
-        velocity *= 0.95; // friction
+        const maxScroll = galleryScrollRef.current.scrollHeight - galleryScrollRef.current.clientHeight;
+        const currentScroll = galleryScrollRef.current.scrollTop;
+        const nextScroll = currentScroll - velocity;
+        
+        // Clamp scroll position to prevent overscrolling
+        galleryScrollRef.current.scrollTop = Math.max(0, Math.min(nextScroll, maxScroll));
+        
+        // Apply friction for deceleration
+        velocity *= friction;
         modalMomentumID.current = requestAnimationFrame(momentumStep);
       }
     };
+    
     modalMomentumID.current = requestAnimationFrame(momentumStep);
   };
 
@@ -821,6 +856,7 @@ const App: React.FC = () => {
                   fill="url(#grad)"
                   strokeWidth="2px"
                   vectorEffect="non-scaling-stroke"
+                  opacity="0"
                   d="M 0 100 V 100 Q 50 100 100 100 V 100 z"
                 />
               </svg>
@@ -1057,13 +1093,44 @@ const App: React.FC = () => {
 
                 <motion.div
                   ref={aboutCardRef}
-                  initial={{ opacity: 0, scale: 0.9 }}
+                  initial={{ opacity: 0, scale: 0.85 }}
                   whileInView={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 1.6, ease: [0.16, 1, 0.3, 1] }}
-                  viewport={{ once: false, amount: 0.2 }}
-                  className="pointer-events-auto absolute right-2 sm:right-6 md:right-10 lg:right-16 top-60 sm:top-72 md:top-80 lg:top-[26rem] z-[50] flex items-center"
+                  transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0 }}
+                  viewport={{ once: false, amount: 0.15, margin: "-50px" }}
+                  className="pointer-events-auto absolute right-2 sm:right-6 md:right-10 lg:right-16 top-56 sm:top-72 md:top-80 lg:top-[26rem] z-[50] flex items-center"
                 >
-                  <div className="absolute inset-0 bg-white/30 blur-[150px] rounded-full scale-[1.8] pointer-events-none" />
+                  {/* Light effect - fully behind card, no light from above */}
+                  <motion.div 
+                    initial={{ scaleY: 0, opacity: 0 }}
+                    whileInView={{ scaleY: 1, opacity: 1 }}
+                    exit={{ scaleY: 0.8, opacity: 0 }}
+                    transition={{ duration: 1.0, ease: "easeOut", delay: 0 }}
+                    viewport={{ once: false, amount: 0.15, margin: "-50px" }}
+                    className="fixed -inset-32 sm:-inset-40 md:-inset-52 lg:-inset-80 top-1/3 -bottom-40 sm:-bottom-60 md:-bottom-80 lg:-bottom-96 bg-gradient-to-b from-transparent via-white/60 via-50% to-transparent blur-[300px] sm:blur-[400px] md:blur-[550px] lg:blur-[700px] rounded-full scale-[2.6] md:scale-[3.2] lg:scale-[4] pointer-events-none z-[10]"
+                    style={{ transformOrigin: 'center center' }}
+                  />
+                  
+                  {/* Core light glow - only from center and below */}
+                  <motion.div 
+                    initial={{ scaleY: 0, opacity: 0 }}
+                    whileInView={{ scaleY: 1, opacity: 1 }}
+                    exit={{ scaleY: 0.8, opacity: 0 }}
+                    transition={{ duration: 1.1, ease: "easeOut", delay: 0 }}
+                    viewport={{ once: false, amount: 0.15, margin: "-50px" }}
+                    className="fixed inset-x-0 top-1/3 -bottom-32 sm:-bottom-48 md:-bottom-64 lg:-bottom-80 bg-gradient-to-b from-transparent from-0% via-white/55 via-50% to-transparent blur-[350px] sm:blur-[450px] md:blur-[600px] lg:blur-[750px] rounded-full pointer-events-none z-[10]"
+                    style={{ transformOrigin: 'center center' }}
+                  />
+                  
+                  {/* Premium depth shadow - fully behind */}
+                  <motion.div 
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 1.0, ease: "easeOut", delay: 0 }}
+                    viewport={{ once: false, amount: 0.15, margin: "-50px" }}
+                    className="absolute inset-0 -inset-12 sm:-inset-16 md:-inset-24 lg:-inset-32 bg-black/40 blur-[120px] sm:blur-[160px] md:blur-[220px] lg:blur-[300px] rounded-3xl pointer-events-none z-[9]" 
+                  />
+                  
                   <TiltedCard
                     imageSrc={siteContent?.about?.image || ""}
                     altText={siteContent?.about?.imageText1 || ""}
@@ -1712,24 +1779,27 @@ const App: React.FC = () => {
                         </div>
 
                         {/* 3. Map Section (Visible on Desktop) */}
-                        <div className="relative w-full aspect-square overflow-hidden border border-zinc-800 hidden md:block">
+                        <div className="relative w-full aspect-square overflow-hidden border border-zinc-800 hidden md:block" style={{ touchAction: "manipulation" }}>
                           <label className="absolute top-2 left-2 z-10 font-mono text-[7px] md:text-[8px] text-zinc-500 uppercase tracking-widest">
                             {bookNowSettings?.map_label ||
                               "STRATEGIC COORDINATE"}
                           </label>
-                          <iframe
-                            src={bookNowSettings?.map_embed || ""}
-                            width="100%"
-                            height="100%"
-                            style={{
-                              border: 0,
-                              filter:
-                                "grayscale(100%) invert(90%) contrast(150%) brightness(0.8)",
-                            }}
-                            allowFullScreen={false}
-                            loading="lazy"
-                            title="Location Map"
-                          ></iframe>
+                          <div style={{ width: "100%", height: "100%", position: "relative", pointerEvents: "auto" }}>
+                            <iframe
+                              src={bookNowSettings?.map_embed || ""}
+                              width="100%"
+                              height="100%"
+                              style={{
+                                border: 0,
+                                filter:
+                                  "grayscale(100%) invert(90%) contrast(150%) brightness(0.8)",
+                                pointerEvents: "auto",
+                              }}
+                              allowFullScreen={false}
+                              loading="lazy"
+                              title="Location Map"
+                            ></iframe>
+                          </div>
                           <div className="absolute bottom-0 right-0 p-1 md:p-2 font-mono text-[6px] md:text-[7px] text-[#E0A9C5] uppercase tracking-widest bg-black/90 border-t border-l border-zinc-800">
                             RATING: 4.9 ★ // HQ
                           </div>
@@ -1747,24 +1817,27 @@ const App: React.FC = () => {
                           </span>
                         </motion.button>
                         {/* Map Section (Visible on Mobile - After Button) */}
-                        <div className="relative w-full aspect-square overflow-hidden border border-zinc-800 block md:hidden mt-8">
+                        <div className="relative w-full aspect-square overflow-hidden border border-zinc-800 block md:hidden mt-8" style={{ touchAction: "manipulation" }}>
                           <label className="absolute top-2 left-2 z-10 font-mono text-[7px] text-zinc-500 uppercase tracking-widest">
                             {bookNowSettings?.map_label ||
                               "STRATEGIC COORDINATE"}
                           </label>
-                          <iframe
-                            src={bookNowSettings?.map_embed || ""}
-                            width="100%"
-                            height="100%"
-                            style={{
-                              border: 0,
-                              filter:
-                                "grayscale(100%) invert(90%) contrast(150%) brightness(0.8)",
-                            }}
-                            allowFullScreen={false}
-                            loading="lazy"
-                            title="Location Map"
-                          ></iframe>
+                          <div style={{ width: "100%", height: "100%", position: "relative", pointerEvents: "auto" }}>
+                            <iframe
+                              src={bookNowSettings?.map_embed || ""}
+                              width="100%"
+                              height="100%"
+                              style={{
+                                border: 0,
+                                filter:
+                                  "grayscale(100%) invert(90%) contrast(150%) brightness(0.8)",
+                                pointerEvents: "auto",
+                              }}
+                              allowFullScreen={false}
+                              loading="lazy"
+                              title="Location Map"
+                            ></iframe>
+                          </div>
                           <div className="absolute bottom-0 right-0 p-1 font-mono text-[6px] text-[#E0A9C5] uppercase tracking-widest bg-black/90 border-t border-l border-zinc-800">
                             RATING: 4.9 ★ // HQ
                           </div>
@@ -2200,16 +2273,18 @@ const App: React.FC = () => {
               }}
               onMouseMove={(e) => {
                 if (!isDragging) return;
-                const deltaY = (e.clientY - dragStartY.current) * 2;
+                // Use 1:1 mapping for precise scrolling
+                const deltaY = e.clientY - dragStartY.current;
                 if (galleryScrollRef.current) {
                   galleryScrollRef.current.scrollTop =
                     dragStartScroll.current - deltaY;
 
                   const now = Date.now();
-                  const dt = now - lastGalleryTimeRef.current;
+                  const dt = Math.max(now - lastGalleryTimeRef.current, 1); // Prevent division by zero
                   if (dt > 0) {
-                    galleryVelocityRef.current =
-                      (e.clientY - lastGalleryYRef.current) / dt;
+                    // Normalize velocity to pixels per millisecond for consistency
+                    const pixelDelta = e.clientY - lastGalleryYRef.current;
+                    galleryVelocityRef.current = pixelDelta / dt;
                   }
                   lastGalleryYRef.current = e.clientY;
                   lastGalleryTimeRef.current = now;
@@ -2238,17 +2313,18 @@ const App: React.FC = () => {
                   cancelAnimationFrame(modalMomentumID.current);
               }}
               onTouchMove={(e) => {
-                const deltaY =
-                  (e.touches[0].clientY - dragStartY.current) * 1.5;
+                // Use 1:1 mapping for consistent touch scrolling
+                const deltaY = e.touches[0].clientY - dragStartY.current;
                 if (galleryScrollRef.current) {
                   galleryScrollRef.current.scrollTop =
                     dragStartScroll.current - deltaY;
 
                   const now = Date.now();
-                  const dt = now - lastGalleryTimeRef.current;
+                  const dt = Math.max(now - lastGalleryTimeRef.current, 1); // Prevent division by zero
                   if (dt > 0) {
-                    galleryVelocityRef.current =
-                      (e.touches[0].clientY - lastGalleryYRef.current) / dt;
+                    // Normalize velocity consistently
+                    const pixelDelta = e.touches[0].clientY - lastGalleryYRef.current;
+                    galleryVelocityRef.current = pixelDelta / dt;
                   }
                   lastGalleryYRef.current = e.touches[0].clientY;
                   lastGalleryTimeRef.current = now;

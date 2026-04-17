@@ -77,8 +77,22 @@ const TiltedCard: React.FC<TiltedCardProps> = ({
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
         >
+            {/* 4-sided shadow layer - behind card */}
+            <div 
+                className="absolute inset-0 -inset-4 sm:-inset-6 md:-inset-8 lg:-inset-10 pointer-events-none z-[5] transition-all duration-500"
+                style={{
+                    boxShadow: 
+                      '0 -20px 40px rgba(0, 0, 0, 0.45), ' +  // top
+                      '0 30px 50px rgba(0, 0, 0, 0.6), ' +    // bottom
+                      '-25px 0 50px rgba(0, 0, 0, 0.4), ' +   // left
+                      '25px 0 50px rgba(0, 0, 0, 0.4)',       // right
+                    borderRadius: '20px',
+                    opacity: isHovered ? 1 : 0.85,
+                }}
+            />
+            
             <div
-                className="w-full h-full transition-transform duration-200 ease-out"
+                className="w-full h-full transition-transform duration-200 ease-out relative z-10"
                 style={{
                     transform: `rotateX(${rotation.x}deg) rotateY(${rotation.y}deg) scale(${isHovered ? scaleOnHover : 1})`,
                     transformStyle: 'preserve-3d',
@@ -88,20 +102,23 @@ const TiltedCard: React.FC<TiltedCardProps> = ({
                     <img
                         src={imageSrc}
                         alt={altText}
-                        className="w-full h-full object-cover shadow-lg rounded-lg"
+                        className="w-full h-full object-cover rounded-lg relative z-20"
                         style={{
                             height: imageHeight,
                             width: imageWidth,
+                            boxShadow: '0 0 0 1px rgba(255, 255, 255, 0.1), 0 15px 35px rgba(0, 0, 0, 0.5), 0 30px 60px rgba(0, 0, 0, 0.7), 0 50px 100px rgba(0, 0, 0, 0.85)',
+                            filter: 'drop-shadow(0 35px 80px rgba(0, 0, 0, 0.95))',
                         }}
                         loading="lazy"
                     />
                 ) : (
                     <div
-                        className="w-full h-full rounded-lg flex items-center justify-center border border-zinc-800"
+                        className="w-full h-full rounded-lg flex items-center justify-center border border-zinc-800 relative z-20"
                         style={{
                             height: imageHeight,
                             width: imageWidth,
                             background: 'linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 50%, #1a1a1a 100%)',
+                            boxShadow: '0 0 0 1px rgba(255, 255, 255, 0.1), 0 15px 35px rgba(0, 0, 0, 0.5), 0 30px 60px rgba(0, 0, 0, 0.7), 0 50px 100px rgba(0, 0, 0, 0.85)',
                         }}
                     >
                         <div className="flex flex-col items-center gap-3 opacity-40">
@@ -114,6 +131,7 @@ const TiltedCard: React.FC<TiltedCardProps> = ({
                         </div>
                     </div>
                 )}
+                
                 {displayOverlayContent && overlayContent && (
                     <div className="absolute inset-0 flex items-center justify-center bg-black/50 rounded-lg">
                         {overlayContent}

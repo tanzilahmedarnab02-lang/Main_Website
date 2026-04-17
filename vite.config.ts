@@ -9,7 +9,12 @@ export default defineConfig(({ mode }) => {
       port: 3000,
       host: '0.0.0.0',
     },
-    plugins: [react()],
+    plugins: [
+      react({
+        // Optimize React Fast Refresh for development
+        fastRefresh: true,
+      })
+    ],
     resolve: {
       alias: {
         '@': path.resolve(__dirname, '.'),
@@ -18,11 +23,16 @@ export default defineConfig(({ mode }) => {
     build: {
       // Minification is on by default, but we can ensure it's using the best option
       minify: 'terser',
+      reportCompressedSize: false,
+      sourcemap: false,
+      cssCodeSplit: true, // Split CSS into separate files for parallel loading
       terserOptions: {
         compress: {
-          drop_console: true,
-          drop_debugger: true,
+          drop_console: mode === 'production',
+          drop_debugger: mode === 'production',
+          passes: 2, // Run compression passes twice for better optimization
         },
+        mangle: true,
       },
       rollupOptions: {
         output: {
@@ -30,11 +40,22 @@ export default defineConfig(({ mode }) => {
             // Group animation libraries
             'animations': ['gsap', 'framer-motion', '@gsap/react'],
             // Group core react & vendor
-            'vendor': ['react', 'react-dom', 'lenis', '@supabase/supabase-js'],
+            'vendor': ['react', 'react-dom'],
+            // Group heavy dependencies
+            'scrolling': ['lenis'],
+            // Supabase can be lazy loaded
+            'supabase': ['@supabase/supabase-js'],
+            // UI components
+            'ui-libs': ['html2canvas'],
           },
         },
       },
       chunkSizeWarningLimit: 1000,
+    },
+    // Optimize dependency pre-bundling
+    optimizeDeps: {
+      include: ['react', 'react-dom', 'gsap', 'lenis', '@gsap/react', 'framer-motion'],
+      exclude: ['html2canvas'],
     }
   };
 });

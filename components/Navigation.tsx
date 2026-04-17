@@ -55,7 +55,7 @@ const Navigation: React.FC<NavigationProps> = ({ onMenuStateChange }) => {
 
   const { contextSafe } = useGSAP({ scope: containerRef });
 
-  const toggleMenu = contextSafe(() => {
+  const toggleMenu = () => {
     if (isAnimatingRef.current) return;
     isAnimatingRef.current = true;
 
@@ -71,31 +71,31 @@ const Navigation: React.FC<NavigationProps> = ({ onMenuStateChange }) => {
     if (willOpen) {
       document.body.style.overflow = 'hidden';
 
-      // Backdrop fade in
+      // Backdrop fade in - reduced duration
       gsap.to(backdropRef.current, {
         opacity: 1,
         pointerEvents: 'auto',
-        duration: 0.5,
+        duration: 0.3,
         ease: 'power2.out'
       });
 
-      // Drawer slide in
+      // Drawer slide in - faster
       gsap.to(drawerRef.current, {
         x: '0%',
-        duration: 0.8,
-        ease: 'power4.out',
+        duration: 0.4,
+        ease: 'power3.out',
       });
 
-      // Menu items stagger in
+      // Menu items stagger in - much faster
       gsap.fromTo(items,
-        { x: 40, opacity: 0 },
+        { x: 20, opacity: 0 },
         {
           x: 0,
           opacity: 1,
-          duration: 0.6,
-          stagger: 0.05,
-          ease: 'power3.out',
-          delay: 0.2,
+          duration: 0.35,
+          stagger: 0.03,
+          ease: 'power2.out',
+          delay: 0.1,
           onComplete: () => {
             isAnimatingRef.current = false;
           }
@@ -107,57 +107,49 @@ const Navigation: React.FC<NavigationProps> = ({ onMenuStateChange }) => {
 
       // Menu items slide out fast
       gsap.to(items, {
-        x: 20,
+        x: 15,
         opacity: 0,
-        duration: 0.3,
+        duration: 0.2,
         stagger: -0.02,
         ease: 'power2.in',
       });
 
-      // Drawer slide out
+      // Drawer slide out - faster
       gsap.to(drawerRef.current, {
         x: '100%',
-        duration: 0.6,
-        ease: 'power4.inOut',
-        delay: 0.1
+        duration: 0.35,
+        ease: 'power3.in',
+        delay: 0.05
       });
 
-      // Backdrop fade out
+      // Backdrop fade out - faster
       gsap.to(backdropRef.current, {
         opacity: 0,
         pointerEvents: 'none',
-        duration: 0.5,
-        ease: 'power2.inOut',
-        delay: 0.2,
+        duration: 0.3,
+        ease: 'power2.in',
+        delay: 0.05,
         onComplete: () => {
           isAnimatingRef.current = false;
         }
       });
     }
-  });
+  };
 
   const handleNav = (id: string) => {
+    // Navigate immediately - don't wait
+    const el = document.getElementById(id);
+    if (!el) return;
+    const lenis = (window as any).__lenis;
+    if (lenis) {
+      lenis.scrollTo(el, { offset: 0, duration: 1.2 });
+    } else {
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    // Close menu if open - without waiting
     if (isOpen && !isAnimatingRef.current) {
       toggleMenu();
-      setTimeout(() => {
-        const el = document.getElementById(id);
-        if (!el) return;
-        const lenis = (window as any).__lenis;
-        if (lenis) {
-          lenis.scrollTo(el, { offset: 0, duration: 1.2 });
-        } else {
-          el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-      }, 700); // Wait for open/close animation to finish out before scrolling
-    } else {
-      const el = document.getElementById(id);
-      if (!el) return;
-      const lenis = (window as any).__lenis;
-      if (lenis) {
-        lenis.scrollTo(el, { offset: 0, duration: 1.2 });
-      } else {
-        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
     }
   };
 
@@ -173,8 +165,8 @@ const Navigation: React.FC<NavigationProps> = ({ onMenuStateChange }) => {
       <motion.nav
         initial={{ y: -50, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 1.5, ease: [0.25, 0.1, 0.25, 1] as const }}
-        className="fixed top-4 md:top-6 left-0 right-0 mx-auto w-[calc(100%-1.5rem)] md:w-[calc(100%-3rem)] lg:w-[calc(100%-4rem)] max-w-[1600px] z-[200] px-5 py-3 md:px-8 md:py-4 flex justify-between items-center pointer-events-auto bg-white/10 backdrop-blur-[25px] saturate-[1.8] border border-white/20 rounded-full shadow-[0_10px_40px_rgba(255,255,255,0.15)] nav-glow-throb">
+        transition={{ duration: 1, ease: [0.25, 0.1, 0.25, 1] as const }}
+        className="fixed top-4 md:top-6 left-0 right-0 mx-auto w-[calc(100%-1.5rem)] md:w-[calc(100%-3rem)] lg:w-[calc(100%-4rem)] max-w-[1600px] z-[200] px-5 py-3 md:px-8 md:py-4 flex justify-between items-center pointer-events-auto bg-white/10 backdrop-blur-[12px] border border-white/20 rounded-full shadow-[0_8px_32px_rgba(255,255,255,0.1)]">
 
         <div onClick={handleLogoClick} className="pointer-events-auto flex items-center gap-3 cursor-pointer group">
           {siteContent?.header?.logo_image && (
@@ -212,13 +204,13 @@ const Navigation: React.FC<NavigationProps> = ({ onMenuStateChange }) => {
       <div
         ref={backdropRef}
         onClick={() => { if (isOpen && !isAnimatingRef.current) toggleMenu() }}
-        className="fixed inset-0 z-[205] bg-black/60 backdrop-blur-sm pointer-events-none opacity-0"
+        className="fixed inset-0 z-[205] bg-black/50 backdrop-blur-[8px] pointer-events-none opacity-0"
       />
 
       {/* GSAP Managed Drawer */}
       <div
         ref={drawerRef}
-        className="fixed top-0 right-0 h-screen w-[320px] sm:w-[450px] z-[210] bg-black/40 backdrop-blur-[40px] saturate-[1.2] border-l border-white/10 flex flex-col shadow-[-20px_0_50px_rgba(0,0,0,0.5)] overflow-hidden translate-x-full pointer-events-auto drawer-glow-throb"
+        className="fixed top-0 right-0 h-screen w-[320px] sm:w-[450px] z-[210] bg-black/50 backdrop-blur-[20px] border-l border-white/10 flex flex-col shadow-[-10px_0_30px_rgba(0,0,0,0.6)] overflow-hidden translate-x-full pointer-events-auto"
       >
         <button 
           onClick={() => toggleMenu()}
@@ -231,7 +223,7 @@ const Navigation: React.FC<NavigationProps> = ({ onMenuStateChange }) => {
 
         <div className="flex-1 py-16 px-6 sm:px-12 flex flex-col justify-center h-screen">
           <div className="font-mono text-[10px] md:text-[12px] text-white/50 tracking-[0.4em] uppercase text-center w-full mb-12 relative flex justify-center opacity-100">
-            <span className="px-4 py-1.5 rounded-full border border-white/10 bg-white/5 backdrop-blur-md">NAVIGATION</span>
+            <span className="px-4 py-1.5 rounded-full border border-white/10 bg-white/5 backdrop-blur-sm">NAVIGATION</span>
           </div>
 
           <div className="flex flex-col gap-6 sm:gap-8 items-center w-full">

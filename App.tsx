@@ -17,6 +17,7 @@ import TornEdge from "./components/TornEdge";
 import { CalendarIcon } from "./components/BookingIcons";
 import DateInput from "./components/DateInput";
 import CountUpText from "./components/CountUpText";
+import CrossingAnimation from "./components/CrossingAnimation";
 
 // Lazy load heavy components
 const SimpleCalendar = lazy(() => import("./components/SimpleCalendar"));
@@ -1484,6 +1485,18 @@ const App: React.FC = () => {
                         </span>
                       </h2>
                     </div>
+                    
+                    {/* Premium Crossing Animation */}
+                    <CrossingAnimation
+                      text="✦ PREMIUM BOOKING EXPERIENCE ✦"
+                      symbol="✦"
+                      speed={3}
+                      borderColor="#E0A9C5"
+                      textColor="#E0A9C5"
+                      interactive={true}
+                      className="mb-12 md:mb-16"
+                    />
+                    
                     <div className="relative border-t border-zinc-800 pt-10 md:pt-12 pb-20 md:pb-24">
                       <div className="absolute top-0 left-0 w-[95%] h-[2px] bg-[#E0A9C5]" />
                       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 md:gap-x-12 gap-y-12 md:gap-y-16">

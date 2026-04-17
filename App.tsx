@@ -1277,7 +1277,7 @@ const App: React.FC = () => {
                             >
                               <div className="flex-1 min-w-0 flex flex-col justify-center">
                                 <h4
-                                  className={`font-impact text-lg md:text-xl uppercase truncate tracking-wider transition-colors ${isSelected ? "text-[#E0A9C5]" : "text-white group-hover:text-[#E0A9C5]"}`}
+                                  className={`font-impact text-lg md:text-xl truncate tracking-wider transition-colors ${isSelected ? "text-[#E0A9C5]" : "text-white group-hover:text-[#E0A9C5]"}`}
                                 >
                                   {service.title}
                                 </h4>
@@ -2054,7 +2054,7 @@ const App: React.FC = () => {
                     className="opacity-100 font-bold border-t border-black/10 pt-1 normal-case text-black/90 tracking-tight hover:opacity-100 transition-all"
                   >
                     contact with us:{" "}
-                    <span className="text-[#FF5499] font-black">
+                    <span className="text-[#FF5499] font-mono font-semibold tracking-normal">
                       {siteContent?.footer?.contact_email ||
                         "info@theparlour.com"}
                     </span>

@@ -175,7 +175,8 @@ const PremiumIntro: React.FC<PremiumIntroProps> = ({ onComplete, siteContent }) 
 
                 <h1 
                     ref={textRef}
-                    className="font-serif text-[clamp(2.5rem,12vw,9rem)] uppercase leading-[0.9] tracking-tighter text-white mb-10 overflow-hidden"
+                    className="font-serif text-[clamp(2.5rem,12vw,9rem)] uppercase leading-[0.9] tracking-tighter text-white mb-10 overflow-hidden opacity-0"
+                    style={{ transform: 'translateY(50px)', filter: 'blur(20px)' }}
                 >
                     {(headingText || '').split(' ').map((word, i) => (
                         <span key={i} className="inline-block mr-[0.2em] last:mr-0">
@@ -202,13 +203,14 @@ const PremiumIntro: React.FC<PremiumIntroProps> = ({ onComplete, siteContent }) 
                 <div className="w-[80%] max-w-[400px] h-[1px] bg-white/10 relative mb-12 overflow-hidden">
                     <div 
                         ref={progressRef}
-                        className="absolute inset-0 bg-gradient-to-r from-transparent via-[#FFC1E3] to-transparent origin-left"
+                        className="absolute inset-0 bg-gradient-to-r from-transparent via-[#FFC1E3] to-transparent origin-left scale-x-0"
                     />
                 </div>
 
                 <div 
                     ref={subtitleRef}
-                    className="flex flex-col items-center gap-6"
+                    className="flex flex-col items-center gap-6 opacity-0"
+                    style={{ transform: 'translateY(50px)', filter: 'blur(20px)' }}
                 >
                     <span className="font-mono text-xs md:text-sm tracking-[0.6em] text-white/50 uppercase">
                         {subtitleText}

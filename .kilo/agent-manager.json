@@ -1,5 +1,45 @@
 {
-  "worktrees": {},
-  "sessions": {},
+  "worktrees": {
+    "wt-1776474884567-1": {
+      "branch": "gentle-sound",
+      "path": "f:\\real draft\\parlour\\project 1\\parlour website--template\\.kilo\\worktrees\\gentle-sound",
+      "parentBranch": "main",
+      "createdAt": "2026-04-18T01:14:44.567Z",
+      "remote": "origin"
+    },
+    "wt-1776474888700-2": {
+      "branch": "warm-tibia",
+      "path": "f:\\real draft\\parlour\\project 1\\parlour website--template\\.kilo\\worktrees\\warm-tibia",
+      "parentBranch": "main",
+      "createdAt": "2026-04-18T01:14:48.700Z",
+      "remote": "origin"
+    },
+    "wt-1776536432762-1": {
+      "branch": "adaptable-style",
+      "path": "f:\\real draft\\parlour\\project 1\\parlour website--template\\.kilo\\worktrees\\adaptable-style",
+      "parentBranch": "main",
+      "createdAt": "2026-04-18T18:20:32.763Z",
+      "remote": "origin"
+    }
+  },
+  "sessions": {
+    "ses_261d871beffeug5HmhukNhOSPD": {
+      "worktreeId": "wt-1776474884567-1",
+      "createdAt": "2026-04-18T01:14:46.232Z"
+    },
+    "ses_261d85f49fferPtTjNec05g3Qf": {
+      "worktreeId": "wt-1776474888700-2",
+      "createdAt": "2026-04-18T01:14:50.555Z"
+    },
+    "ses_25e2d4e2cffe34Xcwh1niRk2mq": {
+      "worktreeId": "wt-1776536432762-1",
+      "createdAt": "2026-04-18T18:20:33.429Z"
+    }
+  },
+  "worktreeOrder": [
+    "wt-1776474884567-1",
+    "wt-1776474888700-2",
+    "wt-1776536432762-1"
+  ],
   "sessionsCollapsed": true
 }

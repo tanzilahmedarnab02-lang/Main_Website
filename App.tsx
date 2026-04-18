@@ -1031,7 +1031,7 @@ const App: React.FC = () => {
               </button>
 
               {/* Overlays - Sidebar and accents moved after slider container for natural stacking */}
-              <div className="absolute left-0 top-0 h-full w-16 sm:w-24 md:w-32 lg:w-36 xl:w-40 2xl:w-44 flex flex-col items-center justify-between py-8 z-[70] bg-black" style={{ marginTop: "-8%", marginBottom: "-8%" }}>
+              <div className="absolute left-0 top-0 h-full w-16 sm:w-24 md:w-32 lg:w-36 xl:w-40 2xl:w-44 flex flex-col items-center justify-between py-8 z-[70] bg-black">
                 <div className="flex-1 flex flex-col justify-center gap-1 sm:gap-2 font-impact text-[40px] sm:text-[50px] md:text-[65px] lg:text-[75px] xl:text-[85px] 2xl:text-[95px] uppercase tracking-tighter leading-none select-none text-center">
                   <span className="text-white relative z-[55]">S</span>
                   <span className="text-white relative z-[55]">T</span>
@@ -1100,38 +1100,6 @@ const App: React.FC = () => {
                   viewport={{ once: false, amount: 0.15, margin: "-50px" }}
                   className="pointer-events-auto absolute right-2 sm:right-6 md:right-10 lg:right-16 top-56 sm:top-72 md:top-80 lg:top-[26rem] z-[50] flex items-center"
                 >
-                  {/* Light effect - fully behind card, no light from above */}
-                  <motion.div 
-                    initial={{ scaleY: 0, opacity: 0 }}
-                    whileInView={{ scaleY: 1, opacity: 1 }}
-                    exit={{ scaleY: 0.8, opacity: 0 }}
-                    transition={{ duration: 1.0, ease: "easeOut", delay: 0 }}
-                    viewport={{ once: false, amount: 0.15, margin: "-50px" }}
-                    className="fixed -inset-32 sm:-inset-40 md:-inset-52 lg:-inset-80 top-1/3 -bottom-40 sm:-bottom-60 md:-bottom-80 lg:-bottom-96 bg-gradient-to-b from-transparent via-white/60 via-50% to-transparent blur-[300px] sm:blur-[400px] md:blur-[550px] lg:blur-[700px] rounded-full scale-[2.6] md:scale-[3.2] lg:scale-[4] pointer-events-none z-[10]"
-                    style={{ transformOrigin: 'center center' }}
-                  />
-                  
-                  {/* Core light glow - only from center and below */}
-                  <motion.div 
-                    initial={{ scaleY: 0, opacity: 0 }}
-                    whileInView={{ scaleY: 1, opacity: 1 }}
-                    exit={{ scaleY: 0.8, opacity: 0 }}
-                    transition={{ duration: 1.1, ease: "easeOut", delay: 0 }}
-                    viewport={{ once: false, amount: 0.15, margin: "-50px" }}
-                    className="fixed inset-x-0 top-1/3 -bottom-32 sm:-bottom-48 md:-bottom-64 lg:-bottom-80 bg-gradient-to-b from-transparent from-0% via-white/55 via-50% to-transparent blur-[350px] sm:blur-[450px] md:blur-[600px] lg:blur-[750px] rounded-full pointer-events-none z-[10]"
-                    style={{ transformOrigin: 'center center' }}
-                  />
-                  
-                  {/* Premium depth shadow - fully behind */}
-                  <motion.div 
-                    initial={{ opacity: 0 }}
-                    whileInView={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 1.0, ease: "easeOut", delay: 0 }}
-                    viewport={{ once: false, amount: 0.15, margin: "-50px" }}
-                    className="absolute inset-0 -inset-12 sm:-inset-16 md:-inset-24 lg:-inset-32 bg-black/40 blur-[120px] sm:blur-[160px] md:blur-[220px] lg:blur-[300px] rounded-3xl pointer-events-none z-[9]" 
-                  />
-                  
                   <TiltedCard
                     imageSrc={siteContent?.about?.image || ""}
                     altText={siteContent?.about?.imageText1 || ""}

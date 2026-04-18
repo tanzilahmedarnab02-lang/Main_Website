@@ -106,7 +106,7 @@ const TiltedCard: React.FC<TiltedCardProps> = ({
                         style={{
                             height: imageHeight,
                             width: imageWidth,
-                            boxShadow: '0 0 0 1px rgba(255, 255, 255, 0.1), 0 15px 35px rgba(0, 0, 0, 0.5), 0 30px 60px rgba(0, 0, 0, 0.7), 0 50px 100px rgba(0, 0, 0, 0.85)',
+                            boxShadow: '0 15px 35px rgba(0, 0, 0, 0.5), 0 30px 60px rgba(0, 0, 0, 0.7), 0 50px 100px rgba(0, 0, 0, 0.85)',
                             filter: 'drop-shadow(0 35px 80px rgba(0, 0, 0, 0.95))',
                         }}
                         loading="lazy"
@@ -118,7 +118,7 @@ const TiltedCard: React.FC<TiltedCardProps> = ({
                             height: imageHeight,
                             width: imageWidth,
                             background: 'linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 50%, #1a1a1a 100%)',
-                            boxShadow: '0 0 0 1px rgba(255, 255, 255, 0.1), 0 15px 35px rgba(0, 0, 0, 0.5), 0 30px 60px rgba(0, 0, 0, 0.7), 0 50px 100px rgba(0, 0, 0, 0.85)',
+                            boxShadow: '0 15px 35px rgba(0, 0, 0, 0.5), 0 30px 60px rgba(0, 0, 0, 0.7), 0 50px 100px rgba(0, 0, 0, 0.85)',
                         }}
                     >
                         <div className="flex flex-col items-center gap-3 opacity-40">

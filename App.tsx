@@ -994,7 +994,7 @@ const App: React.FC = () => {
               </button>
 
               {/* Overlays - Sidebar and accents moved after slider container for natural stacking */}
-              <div className="absolute left-0 top-0 h-full w-16 sm:w-24 md:w-32 lg:w-36 xl:w-40 2xl:w-44 flex flex-col items-center justify-between py-8 z-[70] bg-black">
+              <div className="absolute left-0 top-0 h-full w-16 sm:w-24 md:w-32 lg:w-36 xl:w-40 2xl:w-44 flex flex-col items-center justify-between py-8 z-[70] bg-black" style={{ marginTop: "-8%", marginBottom: "-8%" }}>
                 <div className="flex-1 flex flex-col justify-center gap-1 sm:gap-2 font-impact text-[40px] sm:text-[50px] md:text-[65px] lg:text-[75px] xl:text-[85px] 2xl:text-[95px] uppercase tracking-tighter leading-none select-none text-center">
                   <span className="text-white relative z-[55]">S</span>
                   <span className="text-white relative z-[55]">T</span>

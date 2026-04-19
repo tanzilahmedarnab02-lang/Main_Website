@@ -978,7 +978,7 @@ const App: React.FC = () => {
             <section
               id="studio-work"
               ref={portfolioRef}
-              className="relative min-h-[100vh] md:h-screen w-full bg-black overflow-x-hidden flex flex-col items-center justify-center z-50 mt-20 md:mt-32 lg:mt-48 md:pt-[6vh]"
+              className="relative min-h-[100vh] md:h-screen w-full bg-black overflow-x-hidden flex flex-col items-center justify-center z-50 mt-0 md:mt-32 lg:mt-48 md:pt-[6vh]"
             >
               {/* Horizontal Scroll Container - Premium GSAP Animation */}
               <div
@@ -1025,13 +1025,13 @@ const App: React.FC = () => {
                   setGalleryModalIndex(0);
                   setIsGalleryModalOpen(true);
                 }}
-                className="relative z-[60] px-6 py-3 border border-[#E0A9C5] bg-[#E0A9C5]/10 hover:bg-[#E0A9C5]/20 text-[#E0A9C5] font-impact text-sm tracking-[0.2em] uppercase transition-all duration-300 cursor-pointer backdrop-blur-sm mb-4 md:mb-0"
+                className="relative z-[76] px-6 py-3 border border-[#E0A9C5] bg-[#E0A9C5]/10 hover:bg-[#E0A9C5]/20 text-[#E0A9C5] font-impact text-sm tracking-[0.2em] uppercase transition-all duration-300 cursor-pointer backdrop-blur-sm -mt-40 md:-mt-4 md:mt-0 mb-4 md:mb-0"
               >
                 See All Works
               </button>
 
               {/* Overlays - Sidebar and accents moved after slider container for natural stacking */}
-              <div className="absolute left-0 top-0 h-full w-16 sm:w-24 md:w-32 lg:w-36 xl:w-40 2xl:w-44 flex flex-col items-center justify-between py-8 z-[70] bg-black -mt-[8%] -mb-[8%]">
+              <div className="absolute left-0 top-0 h-full w-16 sm:w-24 md:w-32 lg:w-36 xl:w-40 2xl:w-44 flex flex-col items-center justify-between py-8 z-[70] bg-black -mt-[-3%] md:-mt-[10%] lg:-mt-[8%] -mb-[8%]">
                 <div className="flex-1 flex flex-col justify-center gap-1 sm:gap-2 font-impact text-[40px] sm:text-[50px] md:text-[65px] lg:text-[75px] xl:text-[85px] 2xl:text-[95px] uppercase tracking-tighter leading-none select-none text-center">
                   <span className="text-white relative z-[55]">S</span>
                   <span className="text-white relative z-[55]">T</span>
@@ -1056,12 +1056,12 @@ const App: React.FC = () => {
             </section>
 
             <section id="about" className="relative z-30 w-full bg-black">
-              <div className="relative z-10 max-w-7xl w-full mx-auto px-4 sm:px-6 md:px-8 overflow-visible flex items-start min-h-[600px] sm:min-h-[800px] md:min-h-[1000px] lg:min-h-[1200px] pt-60 sm:pt-72 md:pt-80 lg:pt-[26rem] pb-80 sm:pb-96 md:pb-[400px] lg:pb-[500px]">
+              <div className="relative z-10 max-w-7xl w-full mx-auto px-4 sm:px-6 md:px-8 overflow-visible flex items-start min-h-[300px] sm:min-h-[400px] md:min-h-[1000px] lg:min-h-[1200px] pt-12 sm:pt-16 md:pt-80 lg:pt-[26rem] pb-16 sm:pb-20 md:pb-[400px] lg:pb-[500px]">
                 <TornEdge color="rgba(0,0,0,0.8)" />
 
                 <div
                   ref={aboutTextRef}
-                  className="text-left pointer-events-auto flex-1 min-w-0 pr-[45%] sm:pr-[42%] md:pr-[40%] lg:pr-[38%] xl:pr-[32%] lg:pl-2 xl:pl-0 xl:-ml-16 2xl:-ml-28 translate-x-4 sm:translate-x-8 md:translate-x-0 translate-y-0 max-w-full overflow-hidden"
+                  className="text-left pointer-events-auto flex-1 min-w-0 pr-[45%] sm:pr-[42%] md:pr-[40%] lg:pr-[38%] xl:pr-[32%] lg:pl-2 xl:pl-0 xl:-ml-16 2xl:-ml-28 translate-x-4 sm:translate-x-8 md:translate-x-0 translate-y-40 max-w-full overflow-hidden"
                 >
                   <h2 className="font-impact text-[clamp(1.75rem,7.5vw,4.5rem)] md:text-[clamp(3rem,11vw,9rem)] text-white leading-[0.85] md:leading-none uppercase mb-6 md:mb-8 break-words">
                     CRAFTED{" "}
@@ -1098,7 +1098,7 @@ const App: React.FC = () => {
                   whileInView={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0 }}
                   viewport={{ once: false, amount: 0.15, margin: "-50px" }}
-                  className="pointer-events-auto absolute right-2 sm:right-6 md:right-10 lg:right-16 top-56 sm:top-72 md:top-80 lg:top-[26rem] z-[50] flex items-center"
+                  className="pointer-events-auto absolute right-2 sm:right-6 md:right-10 lg:right-16 top-56 sm:top-50 md:top-[28rem] lg:top-[34rem] z-[50] flex items-center"
                 >
                   <TiltedCard
                     imageSrc={siteContent?.about?.image || ""}
@@ -1126,7 +1126,7 @@ const App: React.FC = () => {
 
             <section
               id="catalog"
-              className="relative py-16 md:py-24 mt-20 md:mt-32 lg:mt-48 bg-black border-t border-b border-zinc-900 overflow-hidden"
+              className="relative py-16 md:py-24 mt-80 md:mt-64 lg:mt-72 bg-black border-t border-b border-zinc-900 overflow-hidden"
             >
               <div className="absolute inset-0 bg-gradient-to-b from-[#050505] via-black to-[#050505] pointer-events-none" />
               <div
@@ -1320,6 +1320,9 @@ const App: React.FC = () => {
                               </div>
                               <div className="w-[1px] h-8 md:h-10 bg-zinc-700 mx-1" />
                               <div className="flex flex-col items-end justify-center min-w-[50px] gap-1">
+                                <span className="font-impact text-sm md:text-lg text-white whitespace-nowrap">
+                                  {service.price}
+                                </span>
                                 {service.duration && (
                                   <div className="flex items-center gap-1">
                                     <span className="text-[#E0A9C5] text-[8px]">
@@ -1332,9 +1335,6 @@ const App: React.FC = () => {
                                     </span>
                                   </div>
                                 )}
-                                <span className="font-impact text-sm md:text-lg text-white whitespace-nowrap">
-                                  {service.price}
-                                </span>
                               </div>
                               {isSelected && (
                                 <div className="absolute top-1 right-1 w-3 h-3 md:w-4 md:h-4 bg-[#E0A9C5] flex items-center justify-center">

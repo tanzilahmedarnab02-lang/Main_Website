@@ -1051,7 +1051,6 @@ const App: React.FC = () => {
 
               {/* Progress Indicator */}
               <div className="absolute bottom-6 sm:bottom-8 right-8 sm:right-12 z-[55] flex items-center gap-2 sm:gap-3">
-                <span className="w-1.5 sm:w-2 h-1.5 sm:h-2 rounded-full bg-[#E0A9C5] animate-pulse" />
               </div>
             </section>
 
@@ -1469,7 +1468,7 @@ const App: React.FC = () => {
                       <div className="absolute top-0 left-0 w-[95%] h-[2px] bg-[#E0A9C5]" />
                       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 md:gap-x-12 gap-y-12 md:gap-y-16">
                         <div className="group border-b border-zinc-800 pb-2 relative transition-colors focus-within:border-[#E0A9C5]">
-                          <label className="block font-mono text-[clamp(11px,1.2vw,12px)] text-zinc-500 uppercase mb-1">
+                          <label className="block font-mono text-[clamp(11px,1.2vw,12px)] text-[#E0A9C5] uppercase mb-1">
                             {bookNowSettings?.subject_label || "Subject Name"}
                           </label>
                           <input
@@ -1500,7 +1499,7 @@ const App: React.FC = () => {
                           )}
                         </div>
                         <div className="group border-b border-zinc-800 pb-2 relative transition-colors focus-within:border-[#E0A9C5]">
-                          <label className="block font-mono text-[clamp(11px,1.2vw,12px)] text-zinc-500 uppercase mb-1">
+                          <label className="block font-mono text-[clamp(11px,1.2vw,12px)] text-[#E0A9C5] uppercase mb-1">
                             {bookNowSettings?.email_label || "Email Link"}
                           </label>
                           <input
@@ -1643,7 +1642,7 @@ const App: React.FC = () => {
 
                         {/* 2. Services Section (Moved to Second Position) */}
                         <div className="group relative transition-colors hover:border-[#E0A9C5]">
-                          <label className="block font-mono text-[11px] md:text-[12px] text-zinc-500 uppercase">
+                          <label className="block font-mono text-[11px] md:text-[12px] text-[#E0A9C5] uppercase">
                             {bookNowSettings?.services_label || "Services"}
                           </label>
                           <div
